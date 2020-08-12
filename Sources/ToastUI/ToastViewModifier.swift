@@ -29,12 +29,15 @@ internal struct ToastViewIsPresentedModifier<QTContent>: ViewModifier where QTCo
       }
     }
 
-    let alertAlreadyPresented = rootViewController is ToastViewHostingController<QTContent>
+    let toastAlreadyPresented = rootViewController is ToastViewHostingController<QTContent>
 
     if shouldPresent {
-      if !alertAlreadyPresented {
-        let alertViewController = ToastViewHostingController(rootView: content())
-        rootViewController?.present(alertViewController, animated: true)
+      if !toastAlreadyPresented {
+        let toastViewController = ToastViewHostingController(rootView: content())
+
+        DispatchQueue.main.async {
+          rootViewController?.present(toastViewController, animated: true)
+        }
 
         if let dismissAfter = dismissAfter {
           DispatchQueue.main.asyncAfter(deadline: .now() + dismissAfter) {
@@ -43,7 +46,7 @@ internal struct ToastViewIsPresentedModifier<QTContent>: ViewModifier where QTCo
         }
       }
     } else {
-      if alertAlreadyPresented {
+      if toastAlreadyPresented {
         rootViewController?.dismiss(animated: true, completion: onDismiss)
       }
     }
@@ -79,17 +82,20 @@ internal struct ToastViewItemModifier<Item, QTContent>: ViewModifier where Item:
       }
     }
 
-    let alertAlreadyPresented = rootViewController is ToastViewHostingController<QTContent>
+    let toastAlreadyPresented = rootViewController is ToastViewHostingController<QTContent>
 
     if shouldPresent {
-      if !alertAlreadyPresented {
+      if !toastAlreadyPresented {
         if let item = item {
-          let alertViewController = ToastViewHostingController(rootView: content(item))
-          rootViewController?.present(alertViewController, animated: true)
+          let toastViewController = ToastViewHostingController(rootView: content(item))
+
+          DispatchQueue.main.async {
+            rootViewController?.present(toastViewController, animated: true)
+          }
         }
       }
     } else {
-      if alertAlreadyPresented {
+      if toastAlreadyPresented {
         rootViewController?.dismiss(animated: true, completion: onDismiss)
       }
     }
