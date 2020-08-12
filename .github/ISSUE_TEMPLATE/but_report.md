@@ -21,19 +21,19 @@ labels: bug, help wanted
 ## Possible Solution
 
 <!--- Not obligatory, but suggest a fix/reason for the bug, -->
-<!--- or ideas as to the implementation of the addition or change -->
+<!--- or ideas as to the implementation of the addition or change. -->
 
 ## Steps to Reproduce (for bugs)
 
 <!--- Provide a set of steps to -->
-<!--- reproduce this bug. Include code, configuration or screenshots to reproduce, if relevant -->
+<!--- reproduce this bug. Include code, configuration or screenshots to reproduce, if relevant. -->
 
 
 ## Context
 
 <!--- How has this issue affected you? What are you trying to accomplish? -->
 <!--- Providing context (e.g. links to configuration settings, -->
-<!--- stack trace or log data) helps us come up with a solution that is most useful in the real world -->
+<!--- stack trace or log data) helps us come up with a solution that is most useful in the real world. -->
 
 ## Your Environment
 
