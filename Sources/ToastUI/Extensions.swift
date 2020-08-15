@@ -8,6 +8,8 @@
 import SwiftUI
 
 extension View {
+  // MARK: Presenting Toast
+
   /// Presents a toast when the given boolean binding is true.
   ///
   /// - Parameters:
@@ -15,6 +17,8 @@ extension View {
   ///   - dismissAfter: An amount of time (in seconds) to dismiss the toast.
   ///   - onDismiss: A closure executed when the toast is dismissed.
   ///   - content: A closure returning the content of the toast.
+  ///
+  /// - Returns: A modified representation of this view.
   public func toast<Content>(
     isPresented: Binding<Bool>,
     dismissAfter: Double? = nil,
@@ -42,6 +46,8 @@ extension View {
   ///     old item is dismissed. This behavior might changes in the future.
   ///   - onDismiss: A closure executed when the toast is dismissed.
   ///   - content: A closure returning the content of the toast.
+  ///
+  /// - Returns: A modified representation of this view.
   public func toast<Item, Content>(
     item: Binding<Item?>,
     onDismiss: (() -> Void)? = nil,
@@ -58,55 +64,63 @@ extension View {
 }
 
 extension View {
-  /// Sets the style for toast views in this view.
+  // MARK: Styling Toast
+
+  /// Sets the style for `ToastView` within this view.
   ///
-  /// - Parameter style: The toast view style to use for this view.
+  /// - Parameter style: The `ToastViewStyle` to use for this view.
+  ///
+  /// - Returns: A modified representation of this view.
   public func toastViewStyle<Style>(_ style: Style) -> some View where Style: ToastViewStyle {
     environment(\.toastViewStyle, AnyToastViewStyle(style))
   }
 }
 
-#if os(iOS)
 extension View {
-  /// Applies a UIBlurEffect to this view.
+  // MARK: Blur Effect
+
+  #if os(iOS)
+  /// Adds an `UIVisualEffectView` underneath this view.
   ///
   /// - Parameters:
-  ///   - blurStyle: Style of the UIBlurEffect. Default value is `systemUltraThinMaterial`.
-  ///   - vibrancyStyle: Style of the UIVibrancyEffect. Default value is `nil`.
+  ///   - blurStyle: Style of the `UIBlurEffect`. Default value is `systemMaterial`.
+  ///   - vibrancyStyle: Value of the `UIVibrancyEffectStyle`. Default value is `nil`.
   ///   - blurIntensity: Blur intensity ranging from `0.0` to `1.0`. Default value is `1.0`.
+  ///
+  /// - Returns: A modified representation of this view.
   public func cocoaBlur(
-    blurStyle: UIBlurEffect.Style = .systemUltraThinMaterial,
+    blurStyle: UIBlurEffect.Style = .systemMaterial,
     vibrancyStyle: UIVibrancyEffectStyle? = nil,
     blurIntensity: CGFloat? = 1.0
   ) -> some View {
     modifier(
-      VisualEffectBlurViewModifier(
+      VisualEffectViewModifier(
         blurStyle: blurStyle,
         vibrancyStyle: vibrancyStyle,
         blurIntensity: blurIntensity
       )
     )
   }
-}
-#endif
+  #endif
 
-#if os(tvOS)
-extension View {
-  /// Applies a UIBlurEffect to this view.
+  #if os(tvOS)
+  /// Adds an `UIVisualEffectView` underneath this view.
   ///
   /// - Parameters:
-  ///   - blurStyle: Style of the UIBlurEffect. Default value is `regular`.
+  ///   - blurStyle: Style of the `UIBlurEffect`. Default value is `regular`.
   ///   - blurIntensity: Blur intensity ranging from `0.0` to `1.0`. Default value is `1.0`.
+  ///
+  /// - Returns: A modified representation of this view.
   public func cocoaBlur(
     blurStyle: UIBlurEffect.Style = .regular,
     blurIntensity: CGFloat? = 1.0
   ) -> some View {
     modifier(
-      VisualEffectBlurViewModifier(
+      VisualEffectViewModifier(
         blurStyle: blurStyle,
         blurIntensity: blurIntensity
       )
     )
   }
+  #endif
 }
-#endif

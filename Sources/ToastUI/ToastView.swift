@@ -7,11 +7,11 @@
 
 import SwiftUI
 
-/// A view that represent a toast. Visually represented by a shadowed, rounded rectangle shape with
-/// `secondarySystemBackground` or `darkGray` background color on `iOS` or `tvOS` respectively.
-///
-/// Default style is `DefaultToastViewStyle`.
+/// A view that represents a toast, which is visually represented by a shadowed, rounded
+/// rectangle shape with an opaque background.
 public struct ToastView<Content>: View where Content: View {
+  // MARK: Properties
+
   @Environment(\.toastViewStyle) private var style: AnyToastViewStyle
 
   private var content: Content?
@@ -23,13 +23,15 @@ public struct ToastView<Content>: View where Content: View {
   }
 }
 
+// MARK: Initializers
+
 extension ToastView where Content == EmptyView {
   /// Creates an empty `ToastView`.
   public init() {}
 }
 
 extension ToastView {
-  /// Creates a `ToastView` with custom `content`.
+  /// Creates a `ToastView` with provided `content`.
   ///
   /// - Parameter content: A view builder that creates a view for the content of `ToastView`.
   public init(@ViewBuilder content: () -> Content) {
@@ -46,6 +48,7 @@ extension ToastView {
   }
 
   /// Creates a `ToastView` with custom `content` and title from a localized string.
+  ///
   /// - Parameters:
   ///   - titleKey: The key for the `ToastView`'s localized title.
   ///   - content: A view builder that creates a view for the content of `ToastView`.
@@ -63,7 +66,8 @@ extension ToastView {
     self.label = !title.isEmpty ? Text(title) : nil
   }
 
-  /// Creates a `ToastView` with custom `content` and title from a string.
+  /// Creates a `ToastView` with provided `content` and title from a string.
+  ///
   /// - Parameters:
   ///   - title: A string that describes the `ToastView`.
   ///   - content: A view builder that creates a view for the content of `ToastView`.

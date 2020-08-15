@@ -15,15 +15,16 @@ fileprivate let backgroundColor = Color(.secondarySystemBackground)
 fileprivate let backgroundColor = Color(.darkGray)
 #endif
 
-/// The default toast view style. `ToastView` by default use this style.
+/// The default `ToastViewStyle`.
 ///
-/// You have to use this style in order to make custom toast view.
+/// You have to use this style in order to make customized `ToastView`.
 public struct DefaultToastViewStyle: ToastViewStyle {
-  /// Creates a default toast view style.
+  /// Creates a default `ToastViewStyle`.
   public init() {}
 
-  /// Creates a view representing the body of a toast view.
-  /// - Parameter configuration: The properties of the toast view being created.
+  /// Creates a view representing the body of a `ToastView`.
+  ///
+  /// - Parameter configuration: The properties of the `ToastView` being created.
   public func makeBody(configuration: Configuration) -> some View {
     DefaultToastView(content: configuration.content, label: configuration.label)
   }
@@ -58,14 +59,15 @@ public struct DefaultToastViewStyle: ToastViewStyle {
   }
 }
 
-/// A toast view that visually represents as a indefinite circular progress
+/// A `ToastView` that visually represents as an indefinite circular progress
 /// indicator, also informally known as a spinner.
 public struct IndefiniteProgressToastViewStyle: ToastViewStyle {
-  /// Creates a indefinite progress toast view style.
+  /// Creates a indefinite progress `ToastViewStyle`.
   public init() {}
 
-  /// Creates a view representing the body of a toast view.
-  /// - Parameter configuration: The properties of the toast view being created.
+  /// Creates a view representing the body of a `ToastView`.
+  ///
+  /// - Parameter configuration: The properties of the `ToastView` being created.
   public func makeBody(configuration: Configuration) -> some View {
     IndefiniteProgressToastView(label: configuration.label)
   }
@@ -96,7 +98,7 @@ public struct IndefiniteProgressToastViewStyle: ToastViewStyle {
           .frame(width: iconSize, height: iconSize)
           .rotationEffect(.degrees(-90))
           .rotationEffect(isAnimating ? .degrees(360) : .degrees(0))
-          .animation(Animation.linear(duration: 1.0).repeatForever(autoreverses: false))
+          .animation(isAnimating ? Animation.linear(duration: 1.0).repeatForever(autoreverses: false) : nil)
           .onAppear { self.isAnimating = true }
           .onDisappear { self.isAnimating = false }
 
@@ -117,25 +119,27 @@ public struct IndefiniteProgressToastViewStyle: ToastViewStyle {
   }
 }
 
-/// A toast view that visually represents as a definite circular progress
+/// A `ToastView` that visually represents as a definite circular progress
 /// indicator. This style is similar to the `IndefiniteProgressToastViewStyle`,
 /// but show determinate progress instead.
 public struct DefiniteProgressToastViewStyle<Value>: ToastViewStyle where Value: BinaryFloatingPoint {
   @Binding private var value: Value
   @Binding private var total: Value
 
-  /// Creates a definite progress toast view style.
+  /// Creates a definite progress `ToastViewStyle`.
+  ///
   /// - Parameters:
   ///   - value: The currently completed amount of the task, ranging from `0.0` to `total`.
   ///   - total: The fully completed amount of the task, meaning the task is completed if
-  ///            `value` equals `total`. The default value is `1.0`.
+  ///            `value` equals `total`. Default value is `1.0`.
   public init(value: Binding<Value>, total: Binding<Value> = .constant(1.0)) {
     _value = value
     _total = total
   }
 
-  /// Creates a view representing the body of a toast view.
-  /// - Parameter configuration: The properties of the toast view being created.
+  /// Creates a view representing the body of a `ToastView`.
+  ///
+  /// - Parameter configuration: The properties of the `ToastView` being created.
   public func makeBody(configuration: Configuration) -> some View {
     DefiniteProgressToastView(label: configuration.label, value: $value, total: $total)
   }
@@ -186,13 +190,14 @@ public struct DefiniteProgressToastViewStyle<Value>: ToastViewStyle where Value:
   }
 }
 
-/// A toast view that visually represents as a success toast.
+/// A `ToastView` that visually represents as a success toast.
 public struct SuccessToastViewStyle: ToastViewStyle {
-  /// Creates a success toast view style.
+  /// Creates a success `ToastViewStyle`.
   public init() {}
 
-  /// Creates a view representing the body of a toast view.
-  /// - Parameter configuration: The properties of the toast view being created.
+  /// Creates a view representing the body of a `ToastView`.
+  ///
+  /// - Parameter configuration: The properties of the `ToastView` being created.
   public func makeBody(configuration: Configuration) -> some View {
     SuccessToastView(label: configuration.label)
   }
@@ -228,13 +233,14 @@ public struct SuccessToastViewStyle: ToastViewStyle {
   }
 }
 
-/// A toast view that visually represents as an error toast.
+/// A `ToastView` that visually represents as an error toast.
 public struct ErrorToastViewStyle: ToastViewStyle {
-  /// Creates an error toast view style.
+  /// Creates an error `ToastViewStyle`.
   public init() {}
 
-  /// Creates a view representing the body of a toast view.
-  /// - Parameter configuration: The properties of the toast view being created.
+  /// Creates a view representing the body of a `ToastView`.
+  ///
+  /// - Parameter configuration: The properties of the `ToastView` being created.
   public func makeBody(configuration: Configuration) -> some View {
     FailureToastView(label: configuration.label)
   }
@@ -271,13 +277,14 @@ public struct ErrorToastViewStyle: ToastViewStyle {
   }
 }
 
-/// A toast view that visually represents as a warning toast.
+/// A `ToastView` that visually represents as a warning toast.
 public struct WarningToastViewStyle: ToastViewStyle {
-  /// Creates a warning toast view style.
+  /// Creates a warning `ToastViewStyle`.
   public init() {}
 
-  /// Creates a view representing the body of a toast view.
-  /// - Parameter configuration: The properties of the toast view being created.
+  /// Creates a view representing the body of a `ToastView`.
+  ///
+  /// - Parameter configuration: The properties of the `ToastView` being created.
   public func makeBody(configuration: Configuration) -> some View {
     WarningToastView(label: configuration.label)
   }
@@ -314,13 +321,14 @@ public struct WarningToastViewStyle: ToastViewStyle {
   }
 }
 
-/// A toast view that visually represents as an information toast.
+/// A `ToastView` that visually represents as an information toast.
 public struct InfoToastViewStyle: ToastViewStyle {
-  /// Creates an information toast view style.
+  /// Creates an information`ToastViewStyle`.
   public init() {}
 
-  /// Creates a view representing the body of a toast view.
-  /// - Parameter configuration: The properties of the toast view being created.
+  /// Creates a view representing the body of a `ToastView`.
+  ///
+  /// - Parameter configuration: The properties of the `ToastView` being created.
   public func makeBody(configuration: Configuration) -> some View {
     InfoToastView(label: configuration.label)
   }

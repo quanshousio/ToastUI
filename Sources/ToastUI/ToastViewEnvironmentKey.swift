@@ -8,9 +8,7 @@
 import SwiftUI
 
 extension EnvironmentValues {
-  /// The preferred style of the `ToastView`.
-  ///
-  /// The default value is `DefaultToastViewStyle`.
+  /// The preferred style of the `ToastView`. Default value is `DefaultToastViewStyle`.
   public var toastViewStyle: AnyToastViewStyle {
     get { self[ToastViewEnvironmentKey] }
     set { self[ToastViewEnvironmentKey] = newValue }

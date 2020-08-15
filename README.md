@@ -67,7 +67,7 @@ struct ContentView: View {
                         .multilineTextAlignment(.center)
                     
                     Button(action: {
-                        self.presentingToast = true
+                        self.presentingToast = false
                     }) {
                         Text("OK")
                             .bold()
@@ -103,9 +103,9 @@ For app integration, add `ToastUI` to an existing Xcode project as a package dep
 2. Enter https://github.com/quanshousio/ToastUI into the package repository URL text field.
 3. Xcode should choose updates package up to the next version option by default.
 
-For package integration, add the following line to the `dependencies` parameter in your `Package.swift`.
+For package integration, add the following line to the `dependencies` parameter in your `Package.swift` .
 
-```swift
+``` swift
 dependencies: [
     .package(url: "https://github.com/quanshousio/ToastUI.git", from: "1.0.0")
 ]
@@ -120,6 +120,8 @@ pod 'ToastUI'
 ```
 
 ## Documentation
+
+*For more detailed documentation, please see [here](https://quanshousio.github.io/ToastUI/).*
 
 #### Toasting
 
@@ -183,6 +185,7 @@ Button {
 All issue reports, feature requests, pull requests and GitHub stars are welcomed and much appreciated.
 
 ## Author
+
 Quan Tran ([@quanshousio](https://quanshousio.com))
 
 ## Acknowledgements
@@ -193,4 +196,4 @@ Quan Tran ([@quanshousio](https://quanshousio.com))
 
 ## License
 
-`ToastUI` is available under the MIT license. See the LICENSE file for more info.
+`ToastUI` is available under the MIT license. See the [LICENSE](LICENSE) file for more info.
