@@ -111,13 +111,13 @@ internal struct ToastViewItemModifier<Item, QTContent>: ViewModifier where Item:
 }
 
 #if os(iOS)
-internal struct VisualEffectBlurViewModifier: ViewModifier {
+internal struct VisualEffectViewModifier: ViewModifier {
   var blurStyle: UIBlurEffect.Style
   var vibrancyStyle: UIVibrancyEffectStyle?
   var blurIntensity: CGFloat?
 
   func body(content: Content) -> some View {
-    VisualEffectBlur(blurStyle: blurStyle, vibrancyStyle: vibrancyStyle, blurIntensity: blurIntensity) {
+    VisualEffectView(blurStyle: blurStyle, vibrancyStyle: vibrancyStyle, blurIntensity: blurIntensity) {
       content
     }
     .edgesIgnoringSafeArea(.all)
@@ -127,12 +127,12 @@ internal struct VisualEffectBlurViewModifier: ViewModifier {
 #endif
 
 #if os(tvOS)
-internal struct VisualEffectBlurViewModifier: ViewModifier {
+internal struct VisualEffectViewModifier: ViewModifier {
   var blurStyle: UIBlurEffect.Style
   var blurIntensity: CGFloat?
 
   func body(content: Content) -> some View {
-    VisualEffectBlur(blurStyle: blurStyle, blurIntensity: blurIntensity) {
+    VisualEffectView(blurStyle: blurStyle, blurIntensity: blurIntensity) {
       content
     }
     .edgesIgnoringSafeArea(.all)
