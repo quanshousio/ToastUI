@@ -1,0 +1,43 @@
+custom_categories:
+  - name: Main
+    children:
+    - View
+    - ToastView
+  
+  - name: Styling Toast
+    children:
+    - ToastViewStyle
+    - DefaultToastViewStyle
+    - IndefiniteProgressToastViewStyle
+    - DefiniteProgressToastViewStyle
+    - SuccessToastViewStyle
+    - ErrorToastViewStyle
+    - WarningToastViewStyle
+    - InfoToastViewStyle
+
+  - name: Blur Effect
+    children:
+    - VisualEffectView
+    
+  - name: Miscellaneous
+    children:
+    - AnyToastViewStyle
+    - EnvironmentValues
+    - ToastViewStyleConfiguration
+  
+author: Quan Tran
+author_url: https://github.com/quanshousio
+documentation: Docs/*.md
+github_url: https://github.com/quanshousio/ToastUI
+github_file_prefix: https://github.com/quanshousio/ToastUI/tree/1.0.0
+module: ToastUI
+module_version: 1.0.0
+output: Docs
+readme: README.md
+swift_build_tool: xcodebuild
+theme: fullwidth
+xcodebuild_arguments:
+  - -sdk
+  - iphoneos
+  - -scheme
+  - ToastUI
