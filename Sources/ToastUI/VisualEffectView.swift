@@ -231,5 +231,9 @@ internal extension VisualEffectView.Representable {
       hostingController.view.setNeedsDisplay()
     }
     #endif
+
+    deinit {
+      animator.stopAnimation(true)
+    }
   }
 }
