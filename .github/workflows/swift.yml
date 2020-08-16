@@ -2,18 +2,16 @@ name: Swift
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
   build:
     runs-on: macos-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Switch Xcode
-      run: sudo xcode-select -switch /Applications/Xcode_12_beta.app
-    - name: Xcode version
-      run: /usr/bin/xcodebuild -version
     - name: Xcode build
-      run: xcodebuild clean build -sdk iphoneos -scheme MyLibrary
+      run: |
+        xcodebuild -version
+        xcodebuild clean build -sdk iphoneos -scheme ToastUI

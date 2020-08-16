@@ -1,16 +1,37 @@
 name: Jazzy
 
 on:
-  release:
-    types: [ published ]
+  push:
+    tags:
+      - '*'
 
 jobs:
-  docs:
+  build:
     runs-on: macos-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Jazzy Docs
-      uses: steven0351/publish-jazzy-docs@v1
-      with:
-        personal_access_token: ${{ secrets.ACCESS_TOKEN }}
-        config: .jazzy.yaml
+    - name: Get version
+      run: |
+        echo ::set-env name=VERSION::${GITHUB_REF/refs\/tags\//}
+    - name: Install jazzy
+      run: sudo gem install jazzy
+    - name: Run jazzy
+      run: |
+        jazzy \
+        --config ./.jazzy.yaml \
+        --module-version "$VERSION" \
+        --github-file-prefix "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/tree/$VERSION"
+    - name: Update gh-pages
+      run: |
+        git remote update
+        git fetch origin gh-pages --depth 1
+        mv docs ../
+        git checkout gh-pages
+        rm -rf ./*
+        mv ../docs/* .
+        git config user.name "$GITHUB_ACTOR"
+        git config user.email "${GITHUB_ACTOR:0:4}@${GITHUB_ACTOR:4:7}.com"
+        git add .
+        git commit -m "Update documentation for $VERSION"
+        git remote add github "https://$GITHUB_ACTOR:$GITHUB_TOKEN@github.com/$GITHUB_REPOSITORY.git"
+        git push github gh-pages
