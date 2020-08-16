@@ -38,23 +38,23 @@ struct CustomButton: View {
 
   @ViewBuilder var body: some View {
     #if os(iOS)
-      Button(action: action) {
-        Text(label)
-          .bold()
-          .foregroundColor(.white)
-          .frame(maxWidth: width, maxHeight: height)
-          .padding()
-          .background(Color.accentColor)
-          .cornerRadius(8.0)
-      }
+    Button(action: action) {
+      Text(label)
+        .bold()
+        .foregroundColor(.white)
+        .frame(maxWidth: width, maxHeight: height)
+        .padding()
+        .background(Color.accentColor)
+        .cornerRadius(8.0)
+    }
     #endif
 
     #if os(tvOS)
-      Button(action: action) {
-        Text(label)
-          .bold()
-          .foregroundColor(.white)
-      }
+    Button(action: action) {
+      Text(label)
+        .bold()
+        .foregroundColor(.white)
+    }
     #endif
   }
 }

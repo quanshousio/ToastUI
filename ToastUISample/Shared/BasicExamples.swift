@@ -116,7 +116,7 @@ struct CustomizedAlertExample: View {
     .toast(isPresented: $presentingToast) {
       ToastView {
         VStack {
-          Text("You can create custom view with ToastView.")
+          Text("You can create custom alert with ToastView")
             .padding(.bottom)
             .multilineTextAlignment(.center)
 

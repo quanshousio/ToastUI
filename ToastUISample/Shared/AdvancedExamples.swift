@@ -56,7 +56,7 @@ struct CustomizedToastWithoutToastViewExample: View {
             Spacer()
             Text(
               """
-              You can put any SwiftUI views here here without the need of ToastView,
+              You can put any SwiftUI views here here without the need of ToastView, \
               and blur the background using cocoaBlur() modifier
               """
             )
