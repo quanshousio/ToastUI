@@ -122,7 +122,9 @@ public struct IndefiniteProgressToastViewStyle: ToastViewStyle {
 /// A `ToastView` that visually represents as a definite circular progress
 /// indicator. This style is similar to the `IndefiniteProgressToastViewStyle`,
 /// but show determinate progress instead.
-public struct DefiniteProgressToastViewStyle<Value>: ToastViewStyle where Value: BinaryFloatingPoint {
+public struct DefiniteProgressToastViewStyle<Value>: ToastViewStyle
+  where Value: BinaryFloatingPoint
+{
   @Binding private var value: Value
   @Binding private var total: Value
 

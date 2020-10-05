@@ -29,7 +29,12 @@ struct CustomButton: View {
   var height: CGFloat
   var action: () -> Void
 
-  init(_ label: String, width: CGFloat = 100, height: CGFloat = 12, _ action: @escaping () -> Void) {
+  init(
+    _ label: String,
+    width: CGFloat = 100,
+    height: CGFloat = 12,
+    _ action: @escaping () -> Void
+  ) {
     self.label = label
     self.width = width
     self.height = height

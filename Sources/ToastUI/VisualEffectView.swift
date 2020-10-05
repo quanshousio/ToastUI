@@ -8,7 +8,7 @@
 import SwiftUI
 
 /// `UIVisualEffectView` wrapper for SwiftUI.
-public struct VisualEffectView<Content: View>: View {
+public struct VisualEffectView<Content>: View where Content: View {
   // MARK: Properties
 
   private var blurStyle: UIBlurEffect.Style
@@ -120,7 +120,7 @@ extension VisualEffectView where Content == EmptyView {
 // MARK: Representable
 
 internal extension VisualEffectView {
-  struct Representable<Content: View>: UIViewRepresentable {
+  struct Representable<Content>: UIViewRepresentable where Content: View {
     var blurStyle: UIBlurEffect.Style
     #if os(iOS)
     var vibrancyStyle: UIVibrancyEffectStyle?
@@ -198,13 +198,13 @@ internal extension VisualEffectView.Representable {
         vibrancyEffect = nil
       }
 
-      animator.addAnimations {
-        self.blurView.effect = blurEffect
-        self.vibrancyView.effect = vibrancyEffect
+      animator.addAnimations { [weak self] in
+        self?.blurView.effect = blurEffect
+        self?.vibrancyView.effect = vibrancyEffect
       }
 
-      DispatchQueue.main.async {
-        self.animator.fractionComplete = blurIntensity ?? 1.0
+      DispatchQueue.main.async { [weak self] in
+        self?.animator.fractionComplete = blurIntensity ?? 1.0
       }
 
       hostingController.view.setNeedsDisplay()
@@ -220,12 +220,12 @@ internal extension VisualEffectView.Representable {
       hostingController.rootView = content
 
       let blurEffect = UIBlurEffect(style: blurStyle)
-      animator.addAnimations {
-        self.blurView.effect = blurEffect
+      animator.addAnimations { [weak self] in
+        self?.blurView.effect = blurEffect
       }
 
-      DispatchQueue.main.async {
-        self.animator.fractionComplete = blurIntensity ?? 1.0
+      DispatchQueue.main.async { [weak self] in
+        self?.animator.fractionComplete = blurIntensity ?? 1.0
       }
 
       hostingController.view.setNeedsDisplay()

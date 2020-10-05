@@ -37,7 +37,8 @@ internal struct ScaledMetricProperty<Value>: DynamicProperty where Value: Binary
   // The value scaled based on the current environment.
   var wrappedValue: Value {
     let scaled = Value(
-      UIFontMetrics(forTextStyle: textStyle).scaledValue(for: CGFloat(baseValue), compatibleWith: traitCollection)
+      UIFontMetrics(forTextStyle: textStyle)
+        .scaledValue(for: CGFloat(baseValue), compatibleWith: traitCollection)
     )
     return maxValue.map { min($0, scaled) } ?? scaled
   }
@@ -116,7 +117,8 @@ internal struct ScaledMetricProperty<Value>: DynamicProperty where Value: Binary
   // The value scaled based on the current environment.
   var wrappedValue: Value {
     let scaled = Value(
-      UIFontMetrics(forTextStyle: textStyle).scaledValue(for: CGFloat(baseValue), compatibleWith: traitCollection)
+      UIFontMetrics(forTextStyle: textStyle)
+        .scaledValue(for: CGFloat(baseValue), compatibleWith: traitCollection)
     )
     return maxValue.map { min($0, scaled) } ?? scaled
   }

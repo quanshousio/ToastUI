@@ -1,19 +1,18 @@
-## Hey, I just made a Pull Request!
+#### Added
 
-<!-- Please describe what you added, and add a screenshot or example if possible. -->
+<!-- Please describe what you added. Include a screenshot or example if possible. -->
 
-#### Related issues
+#### Updated
 
-<!-- Please list any issues this PR may resolve if any -->
+<!-- Please describe what you updated. Include a screenshot or example if possible. -->
 
--
+#### Fixed
 
-#### :heavy_check_mark: Checklist
+<!-- Please describe what you fixed. Include a screenshot or example if possible. -->
+
+#### Checklist
 
 <!--- Put an `x` in all the boxes that apply: -->
 
-- [ ] All tests are passing
-- [ ] Screenshots attached (if relevant)
-- [ ] Relevant documentation updated
-- [ ] Tests added for new functionality (if relevant)
-- [ ] Regression tests added for bug fixes (if relevant)
+* [ ] Screenshots attached (if relevant).
+* [ ] Relevant documentation updated.

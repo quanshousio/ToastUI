@@ -44,6 +44,7 @@
 		337A109B24CAC99F00362CBE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		337A109D24CAC99F00362CBE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		337A10A224CAC9E900362CBE /* ToastUISample-iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "ToastUISample-iOS.entitlements"; sourceTree = "<group>"; };
+		3392DD0B2502FA3A003C7183 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; name = .swiftlint.yml; path = ../../../ios/ToastUI/ToastUISample/.swiftlint.yml; sourceTree = "<group>"; };
 		339C080524D69340004F4EF5 /* ToastUI */ = {isa = PBXFileReference; lastKnownFileType = folder; name = ToastUI; path = ..; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -70,6 +71,7 @@
 		337A102A24CAC3D200362CBE = {
 			isa = PBXGroup;
 			children = (
+				3392DD0B2502FA3A003C7183 /* .swiftlint.yml */,
 				339C080524D69340004F4EF5 /* ToastUI */,
 				337A10A124CAC9BA00362CBE /* Shared */,
 				337A108E24CAC99E00362CBE /* ToastUISample-iOS */,
@@ -175,6 +177,7 @@
 			buildConfigurationList = 337A109E24CAC99F00362CBE /* Build configuration list for PBXNativeTarget "ToastUISample-iOS" */;
 			buildPhases = (
 				337A108924CAC99E00362CBE /* Sources */,
+				3392DD0A2502F82F003C7183 /* SwiftLint */,
 				337A108A24CAC99E00362CBE /* Frameworks */,
 				337A108B24CAC99E00362CBE /* Resources */,
 			);
@@ -248,6 +251,27 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		3392DD0A2502F82F003C7183 /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		337A107324CAC97900362CBE /* Sources */ = {

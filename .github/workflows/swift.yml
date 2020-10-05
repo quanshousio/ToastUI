@@ -13,5 +13,5 @@ jobs:
     - uses: actions/checkout@v2
     - name: Xcode build
       run: |
-        xcodebuild -version
+        sudo xcode-select -s /Applications/Xcode_12.app
         xcodebuild clean build -sdk iphoneos -scheme ToastUI
