@@ -5,29 +5,29 @@ labels: bug, help wanted
 ---
 
 ## Pre-requisites:
-- [ ] Yes, I looked through both [open and closed issues](../issues?utf8=✓&q=is%3Aissue) looking for what I needed
-- [ ] No, I did not find what I was looking for
 
-<!--- Provide a general summary of the issue in the Title above -->
+* [ ] Yes, I looked through both [open and closed issues](../issues?utf8=✓&q=is%3Aissue) looking for what I needed.
+* [ ] No, I did not find what I was looking for.
+
+<!--- Provide a general summary of the issue in the Title above. -->
 
 ## Expected Behavior
 
-<!--- Tell us what should happen -->
+<!--- Tell us what should happen. -->
 
 ## Current Behavior
 
-<!--- Tell us what happens instead of the expected behavior -->
+<!--- Tell us what happens instead of the expected behavior. -->
 
 ## Possible Solution
 
 <!--- Not obligatory, but suggest a fix/reason for the bug, -->
 <!--- or ideas as to the implementation of the addition or change. -->
 
-## Steps to Reproduce (for bugs)
+## Steps to Reproduce
 
-<!--- Provide a set of steps to -->
-<!--- reproduce this bug. Include code, configuration or screenshots to reproduce, if relevant. -->
-
+<!--- Provide a set of steps to reproduce this bug. -->
+<!--- Include code, configuration or screenshots to reproduce, if relevant. -->
 
 ## Context
 
@@ -37,9 +37,9 @@ labels: bug, help wanted
 
 ## Your Environment
 
-<!--- Include as many relevant details about the environment you experienced the bug in -->
+<!--- Include as many relevant details about the environment you experienced the bug in. -->
 
-- Swift Version:
-- Xcode Version: 
-- Operating System and Version:
-- Device or Simulator:
+* Swift Version:
+* Xcode Version: 
+* Operating System Version:
+* Device or Simulator:
