@@ -16,5 +16,5 @@ extension EnvironmentValues {
 }
 
 internal struct ToastViewEnvironmentKey: EnvironmentKey {
-  static var defaultValue: AnyToastViewStyle = AnyToastViewStyle(DefaultToastViewStyle())
+  static var defaultValue = AnyToastViewStyle(DefaultToastViewStyle())
 }

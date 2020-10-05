@@ -8,7 +8,7 @@
 import SwiftUI
 
 /// `UIVisualEffectView` wrapper for SwiftUI.
-public struct VisualEffectView<Content: View>: View {
+public struct VisualEffectView<Content>: View where Content: View {
   // MARK: Properties
 
   private var blurStyle: UIBlurEffect.Style
@@ -120,7 +120,7 @@ extension VisualEffectView where Content == EmptyView {
 // MARK: Representable
 
 internal extension VisualEffectView {
-  struct Representable<Content: View>: UIViewRepresentable {
+  struct Representable<Content>: UIViewRepresentable where Content: View {
     var blurStyle: UIBlurEffect.Style
     #if os(iOS)
     var vibrancyStyle: UIVibrancyEffectStyle?

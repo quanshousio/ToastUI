@@ -1,5 +1,5 @@
 //
-//  Extensions.swift
+//  ToastUI.swift
 //  ToastUI
 //
 //  Created by Quan Tran on 7/17/20.
@@ -26,7 +26,7 @@ extension View {
     @ViewBuilder content: @escaping () -> Content
   ) -> some View where Content: View {
     modifier(
-      ToastViewIsPresentedModifier(
+      ToastViewIsPresentedModifier<Content>(
         isPresented: isPresented,
         dismissAfter: dismissAfter,
         onDismiss: onDismiss,
@@ -54,7 +54,7 @@ extension View {
     @ViewBuilder content: @escaping (Item) -> Content
   ) -> some View where Item: Identifiable, Content: View {
     modifier(
-      ToastViewItemModifier(
+      ToastViewItemModifier<Item, Content>(
         item: item,
         onDismiss: onDismiss,
         content: content
@@ -80,7 +80,7 @@ extension View {
   // MARK: Blur Effect
 
   #if os(iOS)
-  /// Adds an `UIVisualEffectView` underneath this view.
+  /// Sets `UIVisualEffectView` as a background of this view.
   ///
   /// - Parameters:
   ///   - blurStyle: Style of the `UIBlurEffect`. Default value is `systemMaterial`.
@@ -104,7 +104,7 @@ extension View {
   #endif
 
   #if os(tvOS)
-  /// Adds an `UIVisualEffectView` underneath this view.
+  /// Sets `UIVisualEffectView` as a background of this view.
   ///
   /// - Parameters:
   ///   - blurStyle: Style of the `UIBlurEffect`. Default value is `regular`.
