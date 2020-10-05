@@ -8,7 +8,7 @@
 import SwiftUI
 
 internal final class ToastViewHostingController<Content>: UIHostingController<Content>
-  where Content: View
+where Content: View
 {
   override init(rootView: Content) {
     super.init(rootView: rootView)

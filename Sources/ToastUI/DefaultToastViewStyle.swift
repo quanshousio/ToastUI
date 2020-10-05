@@ -8,11 +8,11 @@
 import SwiftUI
 
 #if os(iOS)
-fileprivate let backgroundColor = Color(.secondarySystemBackground)
+private let backgroundColor = Color(.secondarySystemBackground)
 #endif
 
 #if os(tvOS)
-fileprivate let backgroundColor = Color(.darkGray)
+private let backgroundColor = Color(.darkGray)
 #endif
 
 /// The default `ToastViewStyle`.
@@ -123,7 +123,7 @@ public struct IndefiniteProgressToastViewStyle: ToastViewStyle {
 /// indicator. This style is similar to the `IndefiniteProgressToastViewStyle`,
 /// but show determinate progress instead.
 public struct DefiniteProgressToastViewStyle<Value>: ToastViewStyle
-  where Value: BinaryFloatingPoint
+where Value: BinaryFloatingPoint
 {
   @Binding private var value: Value
   @Binding private var total: Value

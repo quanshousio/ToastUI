@@ -8,6 +8,7 @@
 import SwiftUI
 import ToastUI
 
+// swiftlint:disable identifier_name
 struct ToastItem: Identifiable, Equatable {
   let id = UUID()
   var title: String
