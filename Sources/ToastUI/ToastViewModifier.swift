@@ -13,9 +13,12 @@ internal struct ToastViewIsPresentedModifier<QTContent>: ViewModifier where QTCo
   let onDismiss: (() -> Void)?
   let content: () -> QTContent
 
+  @State private var keyWindow: UIWindow?
+
   private func present(_ shouldPresent: Bool) {
-    // TODO: Find the correct active window when there are multiple foreground active scenes
-    let keyWindow = UIApplication.shared.windows.first { $0.isKeyWindow }
+    if keyWindow == nil {
+      keyWindow = UIApplication.shared.windows.first(where: \.isKeyWindow)
+    }
     var rootViewController = keyWindow?.rootViewController
     while true {
       if let presented = rootViewController?.presentedViewController {
@@ -68,9 +71,12 @@ where Item: Identifiable, QTContent: View
   let onDismiss: (() -> Void)?
   let content: (Item) -> QTContent
 
+  @State private var keyWindow: UIWindow?
+
   private func present(_ shouldPresent: Bool) {
-    // TODO: Find the correct active window when there are multiple foreground active scenes
-    let keyWindow = UIApplication.shared.windows.first { $0.isKeyWindow }
+    if keyWindow == nil {
+      keyWindow = UIApplication.shared.windows.first(where: \.isKeyWindow)
+    }
     var rootViewController = keyWindow?.rootViewController
     while true {
       if let presented = rootViewController?.presentedViewController {
