@@ -31,28 +31,17 @@ import SwiftUI
 /// +-----------------------------+
 /// ```
 public struct ToastView<Background, Label, Content>: View
-where Background: View, Label: View, Content: View
-{
+where Background: View, Label: View, Content: View {
   // MARK: Properties
 
   @Environment(\.toastViewStyle) private var style
 
   private var configuration: ToastViewStyleConfiguration
 
-  #if os(iOS)
   private let backgroundView = VisualEffectView(
-    blurStyle: .systemUltraThinMaterial,
-    vibrancyStyle: nil,
+    blurStyle: .prominent,
     blurIntensity: 0.13
   )
-  #endif
-
-  #if os(tvOS)
-  private let backgroundView = VisualEffectView(
-    blurStyle: .extraLight,
-    blurIntensity: 0.13
-  )
-  #endif
 
   /// The content and behavior of the view.
   public var body: some View {
@@ -65,8 +54,7 @@ where Background: View, Label: View, Content: View
 extension ToastView {
   /// Creates an empty `ToastView`.
   public init()
-  where Background == EmptyView, Label == EmptyView, Content == EmptyView
-  {
+  where Background == EmptyView, Label == EmptyView, Content == EmptyView {
     self.configuration = ToastViewStyleConfiguration(
       background: AnyView(backgroundView)
     )
@@ -76,8 +64,7 @@ extension ToastView {
   ///
   /// - Parameter configuration: A `ToastView` style configuration.
   public init(_ configuration: ToastViewStyleConfiguration)
-  where Background == EmptyView, Label == EmptyView, Content == EmptyView
-  {
+  where Background == EmptyView, Label == EmptyView, Content == EmptyView {
     self.configuration = configuration
   }
 
@@ -85,8 +72,7 @@ extension ToastView {
   ///
   /// - Parameter titleKey: The key for the `ToastView`'s localized title.
   public init(_ titleKey: LocalizedStringKey)
-  where Background == EmptyView, Label == Text, Content == EmptyView
-  {
+  where Background == EmptyView, Label == Text, Content == EmptyView {
     self.configuration = ToastViewStyleConfiguration(
       background: AnyView(backgroundView),
       label: AnyView(Text(titleKey))
@@ -98,8 +84,7 @@ extension ToastView {
   /// - Parameter title: A string that describes the `ToastView`.
   @_disfavoredOverload
   public init<S>(_ title: S)
-  where S: StringProtocol, Background == EmptyView, Label == Text, Content == EmptyView
-  {
+  where S: StringProtocol, Background == EmptyView, Label == Text, Content == EmptyView {
     self.configuration = ToastViewStyleConfiguration(
       background: AnyView(backgroundView),
       label: AnyView(Text(title))
@@ -114,8 +99,7 @@ extension ToastView {
   ///   - titleKey: The key used to look up the localized title for the label.
   ///   - content: A view builder that creates a view for the content of `ToastView`.
   public init(_ titleKey: LocalizedStringKey, @ViewBuilder content: () -> Content)
-  where Background == EmptyView, Label == Text
-  {
+  where Background == EmptyView, Label == Text {
     self.configuration = ToastViewStyleConfiguration(
       background: AnyView(backgroundView),
       label: AnyView(Text(titleKey)),
@@ -130,8 +114,7 @@ extension ToastView {
   ///   - content: A view builder that creates a view for the content of `ToastView`.
   @_disfavoredOverload
   public init<S>(_ title: S, @ViewBuilder content: () -> Content)
-  where S: StringProtocol, Background == EmptyView, Label == Text
-  {
+  where S: StringProtocol, Background == EmptyView, Label == Text {
     self.configuration = ToastViewStyleConfiguration(
       background: AnyView(backgroundView),
       label: AnyView(Text(title)),
@@ -186,8 +169,7 @@ extension ToastView {
   ///
   /// - Parameter content: A view builder that creates a view for the content of `ToastView`.
   public init(@ViewBuilder content: () -> Content)
-  where Background == EmptyView, Label == EmptyView
-  {
+  where Background == EmptyView, Label == EmptyView {
     self.configuration = ToastViewStyleConfiguration(
       background: AnyView(backgroundView),
       content: AnyView(content())
