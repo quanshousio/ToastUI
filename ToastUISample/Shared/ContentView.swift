@@ -98,6 +98,10 @@ struct ContentView: View {
             description: "Customized alert"
           )
           ExampleItem(
+            destination: ToastViewWithCustomBackgroundExample(),
+            description: "ToastView with custom background"
+          )
+          ExampleItem(
             destination: CocoaBlurModifierExample(),
             description: "cocoaBlur() view modifier"
           )

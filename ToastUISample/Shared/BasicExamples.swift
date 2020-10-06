@@ -106,6 +106,47 @@ struct InformationToastExample: View {
   }
 }
 
+struct ToastViewWithCustomBackgroundExample: View {
+  @State private var presntingToast: Bool = false
+  @State private var withoutBackground: Bool = false
+
+  private let gradient = AngularGradient(
+    gradient: Gradient(colors: [.red, .yellow, .green, .blue, .purple, .red]),
+    center: .center,
+    startAngle: .zero,
+    endAngle: .degrees(360)
+  )
+
+  var body: some View {
+    VStack {
+      Toggle("Without the background", isOn: $withoutBackground)
+
+      CustomButton("Tap me") {
+        presntingToast = true
+      }
+      .toast(isPresented: $presntingToast, dismissAfter: 2.0) {
+        ToastView {
+          Image(systemName: "timelapse")
+            .resizable()
+            .frame(width: 36, height: 36)
+            .foregroundColor(.accentColor)
+        } label: {
+          Text("Hello from ToastUI")
+        } background: {
+          if !withoutBackground {
+            Rectangle()
+              .fill(gradient)
+              .opacity(0.3)
+          } else {
+            // EmptyView() or blank is fine
+          }
+        }
+      }
+    }
+    .padding()
+  }
+}
+
 struct CustomizedAlertExample: View {
   @State private var presentingToast: Bool = false
 
