@@ -10,9 +10,10 @@ jobs:
     runs-on: macos-latest
     steps:
     - uses: actions/checkout@v2
+    - name: Xcode select
+      run: sudo xcode-select -s /Applications/Xcode_12.app
     - name: Get version
-      run: |
-        echo ::set-env name=VERSION::${GITHUB_REF/refs\/tags\//}
+      run: echo ::set-env name=VERSION::${GITHUB_REF/refs\/tags\//}
     - name: Install jazzy
       run: sudo gem install jazzy
     - name: Run jazzy

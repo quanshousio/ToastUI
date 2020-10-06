@@ -4,35 +4,47 @@ All notable changes to this project will be documented in this file. `ToastUI` a
 
 #### 1.x Releases
 
-* `1.1.x` Releases - [1.1.0](#110)
+* `1.1.x` Releases - [1.1.0](#110) | [1.1.1](#111)
 * `1.0.x` Releases - [1.0.0](#100) | [1.0.1](#101) | [1.0.2](#102)
 
 ---
 
-## [1.1.0](https://github.com/quanshousio/ToastUI/releases/tag/1.0.0)
+## [1.1.1](https://github.com/quanshousio/ToastUI/releases/tag/1.1.1)
+
+Released on 2020-10-05.
+
+#### Updated
+
+* Minor code formatting and SwiftLint rules.
+  + Updated by [Quan Tran](https://github.com/quanshousio) in Pull Request [#10](https://github.com/quanshousio/ToastUI/pull/10).
+
+#### Fixed
+
+* Use Xcode 12 explicitly on GitHub virtual environement.
+  + Fixed by [Quan Tran](https://github.com/quanshousio) in Pull Request [#10](https://github.com/quanshousio/ToastUI/pull/10).
+
+## [1.1.0](https://github.com/quanshousio/ToastUI/releases/tag/1.1.0)
 
 Released on 2020-10-05.
 
 #### Added
 
 * SwiftLint to enforce Swift conventions.
-  + Added by [Quan Tran](https://github.com/quanshousio) in Pull Request [#8](https://github.com/quanshousio/ToastUI/pull/8).
+  + Added by [Quan Tran](https://github.com/quanshousio) in Pull Request [#9](https://github.com/quanshousio/ToastUI/pull/9).
 
 #### Updated
 
 * Minimum required version for Swift is 5.3.
-  + Updated by [Quan Tran](https://github.com/quanshousio) in Pull Request [#8](https://github.com/quanshousio/ToastUI/pull/8).
-
-* Minor code formatting and filename changes.
-  + Updated by [Quan Tran](https://github.com/quanshousio) in Pull Request [#8](https://github.com/quanshousio/ToastUI/pull/8).
-
+  + Updated by [Quan Tran](https://github.com/quanshousio) in Pull Request [#9](https://github.com/quanshousio/ToastUI/pull/9).
+* Minor code formatting, GitHub actions and filename changes.
+  + Updated by [Quan Tran](https://github.com/quanshousio) in Pull Request [#9](https://github.com/quanshousio/ToastUI/pull/9).
 * Remove redundant unit tests.
-  + Updated by [Quan Tran](https://github.com/quanshousio) in Pull Request [#8](https://github.com/quanshousio/ToastUI/pull/8).
+  + Updated by [Quan Tran](https://github.com/quanshousio) in Pull Request [#9](https://github.com/quanshousio/ToastUI/pull/9).
 
 #### Fixed
 
 * Memory leak due to improper asynchronous usage of `UIViewPropertyAnimator` in `VisualEffectView` .
-  + Fixed by [Quan Tran](https://github.com/quanshousio) in Pull Request [#8](https://github.com/quanshousio/ToastUI/pull/8).
+  + Fixed by [Quan Tran](https://github.com/quanshousio) in Pull Request [#9](https://github.com/quanshousio/ToastUI/pull/9).
 
 ---
 
@@ -47,9 +59,8 @@ Released on 2020-08-16.
 
 #### Updated
 
-* Rename `VisualEffectBlur` to `VisualEffectView`.
+* Rename `VisualEffectBlur` to `VisualEffectView` .
   + Updated by [Quan Tran](https://github.com/quanshousio) in Pull Request [#7](https://github.com/quanshousio/ToastUI/pull/7).
-
 * Documentation and README.
   + Updated by [Quan Tran](https://github.com/quanshousio) in Pull Request [#7](https://github.com/quanshousio/ToastUI/pull/7).
 
@@ -57,7 +68,6 @@ Released on 2020-08-16.
 
 * Typos and formatting in ToastUISample.
   + Fixed by [Quan Tran](https://github.com/quanshousio) in Pull Request [#7](https://github.com/quanshousio/ToastUI/pull/7).
-
 * Exception when property animator is not properly released.
   + Fixed by [Quan Tran](https://github.com/quanshousio) in Pull Request [#7](https://github.com/quanshousio/ToastUI/pull/7).
 

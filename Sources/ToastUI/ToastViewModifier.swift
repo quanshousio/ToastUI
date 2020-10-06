@@ -61,8 +61,8 @@ internal struct ToastViewIsPresentedModifier<QTContent>: ViewModifier where QTCo
   }
 }
 
-internal struct ToastViewItemModifier<Item, QTContent>: ViewModifier where Item: Identifiable,
-  QTContent: View
+internal struct ToastViewItemModifier<Item, QTContent>: ViewModifier
+where Item: Identifiable, QTContent: View
 {
   @Binding var item: Item?
   let onDismiss: (() -> Void)?

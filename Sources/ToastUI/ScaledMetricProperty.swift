@@ -30,7 +30,7 @@ internal struct ScaledMetricProperty<Value>: DynamicProperty where Value: Binary
     UITraitCollection(traitsFrom: [
       UITraitCollection(horizontalSizeClass: horizontalSizeClass?.uiKit ?? .unspecified),
       UITraitCollection(verticalSizeClass: verticalSizeClass?.uiKit ?? .unspecified),
-      UITraitCollection(preferredContentSizeCategory: contentSize.uiKit),
+      UITraitCollection(preferredContentSizeCategory: contentSize.uiKit)
     ])
   }
 
@@ -80,14 +80,14 @@ private extension Font.TextStyle {
     case .body: return .body
     case .callout: return .callout
     case .caption: return .caption1
-//    case .caption2: return .caption2
+    case .caption2: return .caption2
     case .footnote: return .footnote
     case .headline: return .headline
     case .largeTitle: return .largeTitle
     case .subheadline: return .subheadline
     case .title: return .title1
-//    case .title2: return .title2
-//    case .title3: return .title3
+    case .title2: return .title2
+    case .title3: return .title3
     default: return .body
     }
   }
@@ -150,14 +150,14 @@ private extension Font.TextStyle {
     case .body: return .body
     case .callout: return .callout
     case .caption: return .caption1
-    //    case .caption2: return .caption2
+    case .caption2: return .caption2
     case .footnote: return .footnote
     case .headline: return .headline
     case .largeTitle: return .title1
     case .subheadline: return .subheadline
     case .title: return .title1
-    //    case .title2: return .title2
-    //    case .title3: return .title3
+    case .title2: return .title2
+    case .title3: return .title3
     default: return .body
     }
   }

@@ -9,11 +9,11 @@ let package = Package(
     .library(
       name: "ToastUI",
       targets: ["ToastUI"]
-    ),
+    )
   ],
   targets: [
     .target(
       name: "ToastUI"
-    ),
+    )
   ]
 )
