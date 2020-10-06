@@ -124,12 +124,17 @@ internal struct VisualEffectViewModifier: ViewModifier {
   var vibrancyStyle: UIVibrancyEffectStyle?
   var blurIntensity: CGFloat?
 
-  func body(content: Content) -> some View {
-    VisualEffectView(blurStyle: blurStyle, vibrancyStyle: vibrancyStyle, blurIntensity: blurIntensity) {
-      content
-    }
-    .edgesIgnoringSafeArea(.all)
-    .frame(maxWidth: .infinity, maxHeight: .infinity)
+  internal func body(content: Content) -> some View {
+    content
+      .frame(maxWidth: .infinity, maxHeight: .infinity)
+      .background(
+        VisualEffectView(
+          blurStyle: blurStyle,
+          vibrancyStyle: vibrancyStyle,
+          blurIntensity: blurIntensity
+        )
+        .edgesIgnoringSafeArea(.all)
+      )
   }
 }
 #endif
@@ -139,12 +144,16 @@ internal struct VisualEffectViewModifier: ViewModifier {
   var blurStyle: UIBlurEffect.Style
   var blurIntensity: CGFloat?
 
-  func body(content: Content) -> some View {
-    VisualEffectView(blurStyle: blurStyle, blurIntensity: blurIntensity) {
-      content
-    }
-    .edgesIgnoringSafeArea(.all)
-    .frame(maxWidth: .infinity, maxHeight: .infinity)
+  internal func body(content: Content) -> some View {
+    content
+      .frame(maxWidth: .infinity, maxHeight: .infinity)
+      .background(
+        VisualEffectView(
+          blurStyle: blurStyle,
+          blurIntensity: blurIntensity
+        )
+        .edgesIgnoringSafeArea(.all)
+      )
   }
 }
 #endif
