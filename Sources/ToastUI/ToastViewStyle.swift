@@ -9,11 +9,14 @@ import SwiftUI
 
 /// The properties of a `ToastView` instance.
 public struct ToastViewStyleConfiguration {
-  /// Content of the `ToastView`.
-  public let content: AnyView?
+  /// A type-erased view describes the background of `ToastView`.
+  public var background: AnyView?
 
-  /// A label describes the `ToastView`.
-  public let label: Text?
+  /// A type-erased view describes the label of `ToastView`.
+  public var label: AnyView?
+
+  /// A type-erased view describes the content of `ToastView`.
+  public var content: AnyView?
 }
 
 /// A type that applies standard interaction behavior to all `ToastView`s
