@@ -11,7 +11,6 @@ import ToastUI
 // swiftlint:disable identifier_name
 struct ToastItem: Identifiable, Equatable {
   let id = UUID()
-  var title: String
   var content: AnyView
 
   static func == (lhs: ToastItem, rhs: ToastItem) -> Bool {
@@ -23,53 +22,45 @@ struct CustomizedToastWithoutToastViewExample: View {
   @State private var presentingToast: Bool = false
   @State private var blurBackground: Bool = true
 
+  struct ContentView: View {
+    var text: String
+
+    var body: some View {
+      VStack {
+        Spacer()
+        Text(text)
+          .bold()
+          .foregroundColor(.white)
+          .padding()
+          .background(Color.green)
+          .cornerRadius(8.0)
+          .shadow(radius: 4)
+          .padding()
+      }
+    }
+  }
+
   var body: some View {
     VStack {
       Toggle("Blur the background", isOn: $blurBackground)
 
-      if !blurBackground {
-        CustomButton("Tap me") {
-          self.presentingToast = true
-        }
-        .toast(isPresented: $presentingToast, dismissAfter: 2.0, onDismiss: {
-          print("toast dismissed")
-        }) {
-          VStack {
-            Spacer()
-            Text("You can put any SwiftUI views here without the need of ToastView")
-              .bold()
-              .foregroundColor(.white)
-              .padding()
-              .background(Color.green)
-              .cornerRadius(8.0)
-              .shadow(radius: 4)
-              .padding()
-          }
-        }
-      } else {
-        CustomButton("Tap me") {
-          self.presentingToast = true
-        }
-        .toast(isPresented: $presentingToast, dismissAfter: 2.0, onDismiss: {
-          print("Toast dismissed")
-        }) {
-          VStack {
-            Spacer()
-            Text(
-              """
-              You can put any SwiftUI views here here without the need of ToastView, \
-              and blur the background using cocoaBlur() modifier
-              """
-            )
-            .bold()
-            .foregroundColor(.white)
-            .padding()
-            .background(Color.green)
-            .cornerRadius(8.0)
-            .shadow(radius: 4)
-            .padding()
-          }
+      CustomButton("Tap me") {
+        presentingToast = true
+      }
+      .toast(isPresented: $presentingToast, dismissAfter: 2.0) {
+        print("Toast dismissed")
+      } content: {
+        if blurBackground {
+          ContentView(
+            text:
+            """
+            You can put any SwiftUI views here without using ToastView, \
+            and blur the background using cocoaBlur() modifier
+            """
+          )
           .cocoaBlur()
+        } else {
+          ContentView(text: "You can put any SwiftUI views here without using ToastView")
         }
       }
     }
@@ -89,29 +80,23 @@ struct CustomizedToastUsingItemExample: View {
     VStack {
       Picker("", selection: $selectedToast) {
         ForEach(0 ..< toastItems.count) {
-          Text(self.toastItems[$0])
+          Text(toastItems[$0])
         }
       }
       .pickerStyle(SegmentedPickerStyle())
       .padding()
 
       CustomButton("Tap me") {
-        if self.selectedToast == 0 {
-          self.toastItem = ToastItem(
-            title: "Alert",
-            content: AnyView(self.firstToastView)
-          )
+        if selectedToast == 0 {
+          toastItem = ToastItem(content: AnyView(firstToastView))
         } else {
-          self.toastItem = ToastItem(
-            title: "",
-            content: AnyView(self.secondToastView)
-          )
+          toastItem = ToastItem(content: AnyView(secondToastView))
         }
       }
-      .toast(item: $toastItem, onDismiss: {
+      .toast(item: $toastItem) {
         print("Toast dismissed")
-      }) { item in
-        ToastView(item.title) {
+      } content: { item in
+        ToastView {
           item.content
         }
       }
@@ -126,7 +111,7 @@ struct CustomizedToastUsingItemExample: View {
         .multilineTextAlignment(.center)
 
       CustomButton("OK", width: .infinity) {
-        self.toastItem = nil
+        toastItem = nil
       }
     }
     .frame(maxWidth: 300)
@@ -140,12 +125,18 @@ struct CustomizedToastUsingItemExample: View {
         .frame(height: 44)
         .textFieldStyle(PlainTextFieldStyle())
         .padding([.leading, .trailing], 12)
-        .background(RoundedRectangle(cornerRadius: 8.0).stroke(Color(.systemGray3)).foregroundColor(.clear))
+        .background(
+          RoundedRectangle(cornerRadius: 8.0).stroke(Color(.systemGray3))
+            .foregroundColor(.clear)
+        )
       TextField("Email", text: $email)
         .frame(height: 44)
         .textFieldStyle(PlainTextFieldStyle())
         .padding([.leading, .trailing], 12)
-        .background(RoundedRectangle(cornerRadius: 8.0).stroke(Color(.systemGray3)).foregroundColor(.clear))
+        .background(
+          RoundedRectangle(cornerRadius: 8.0).stroke(Color(.systemGray3))
+            .foregroundColor(.clear)
+        )
       #endif
 
       #if os(tvOS)
@@ -161,13 +152,13 @@ struct CustomizedToastUsingItemExample: View {
 
       HStack {
         CustomButton("Cancel", width: .infinity) {
-          self.toastItem = nil
+          toastItem = nil
         }
         CustomButton("OK", width: .infinity) {
-          print("username: \(self.username), email: \(self.email)")
-          self.toastItem = nil
-          self.username = ""
-          self.email = ""
+          print("username: \(username), email: \(email)")
+          toastItem = nil
+          username = ""
+          email = ""
         }
       }
     }
@@ -182,25 +173,26 @@ struct ShowSuccessToastAfterCompletedExample: View {
 
   var body: some View {
     CustomButton("Tap me") {
-      self.presentingProgressView = true
+      presentingProgressView = true
 
-      Timer.scheduledTimer(withTimeInterval: Double.random(in: 0.3 ... 0.7), repeats: true) { timer in
-        if self.value >= 100 {
-          timer.invalidate()
-          DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            self.presentingProgressView = false
+      Timer
+        .scheduledTimer(withTimeInterval: Double.random(in: 0.3 ... 0.7), repeats: true) { timer in
+          if value >= 100 {
+            timer.invalidate()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+              presentingProgressView = false
+            }
+          } else {
+            value += Double.random(in: 10 ... 25)
           }
-        } else {
-          self.value += Double.random(in: 10 ... 25)
         }
-      }
     }
-    .toast(isPresented: $presentingProgressView, onDismiss: {
-      self.presentingSuccessView = true
-      self.value = 0
-    }) {
+    .toast(isPresented: $presentingProgressView) {
+      presentingSuccessView = true
+      value = 0
+    } content: {
       ToastView("Loading...")
-        .toastViewStyle(DefiniteProgressToastViewStyle(value: self.$value, total: .constant(100)))
+        .toastViewStyle(DefiniteProgressToastViewStyle(value: $value, total: .constant(100)))
     }
     .toast(isPresented: $presentingSuccessView, dismissAfter: 2.0) {
       ToastView("Success")

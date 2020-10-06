@@ -10,14 +10,12 @@ import ToastUI
 
 struct ExampleItem<Destination>: View where Destination: View {
   var destination: Destination
-  var description: String?
+  var description: String
 
   var body: some View {
     NavigationLink(destination: destination) {
       VStack(alignment: .leading) {
-        if description != nil { // let description = description
-          Text(description!).lineLimit(20)
-        }
+        Text(description).lineLimit(20)
       }
     }
   }

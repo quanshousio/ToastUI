@@ -13,7 +13,7 @@ struct IndefiniteProgressIndicatorExample: View {
 
   var body: some View {
     CustomButton("Tap me") {
-      self.presentingToast = true
+      presentingToast = true
     }
     .toast(isPresented: $presentingToast, dismissAfter: 2.0) {
       ToastView("Loading...")
@@ -28,24 +28,25 @@ struct DefiniteProgressIndicatorExample: View {
 
   var body: some View {
     CustomButton("Tap me") {
-      self.presentingToast = true
+      presentingToast = true
 
-      Timer.scheduledTimer(withTimeInterval: Double.random(in: 0.3 ... 0.7), repeats: true) { timer in
-        if self.value >= 100 {
-          timer.invalidate()
-          DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-            self.presentingToast = false
+      Timer
+        .scheduledTimer(withTimeInterval: Double.random(in: 0.3 ... 0.7), repeats: true) { timer in
+          if value >= 100 {
+            timer.invalidate()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+              presentingToast = false
+            }
+          } else {
+            value += Double.random(in: 10 ... 25)
           }
-        } else {
-          self.value += Double.random(in: 10 ... 25)
         }
-      }
     }
-    .toast(isPresented: $presentingToast, onDismiss: {
-      self.value = 0
-    }) {
+    .toast(isPresented: $presentingToast) {
+      value = 0
+    } content: {
       ToastView("Loading...")
-        .toastViewStyle(DefiniteProgressToastViewStyle(value: self.$value, total: .constant(100)))
+        .toastViewStyle(DefiniteProgressToastViewStyle(value: $value, total: .constant(100)))
     }
   }
 }
@@ -55,7 +56,7 @@ struct SuccessToastExample: View {
 
   var body: some View {
     CustomButton("Tap me") {
-      self.presentingToast = true
+      presentingToast = true
     }
     .toast(isPresented: $presentingToast, dismissAfter: 2.0) {
       ToastView("Success")
@@ -69,7 +70,7 @@ struct ErrorToastExample: View {
 
   var body: some View {
     CustomButton("Tap me") {
-      self.presentingToast = true
+      presentingToast = true
     }
     .toast(isPresented: $presentingToast, dismissAfter: 2.0) {
       ToastView("Error")
@@ -83,7 +84,7 @@ struct WarningToastExample: View {
 
   var body: some View {
     CustomButton("Tap me") {
-      self.presentingToast = true
+      presentingToast = true
     }
     .toast(isPresented: $presentingToast, dismissAfter: 2.0) {
       ToastView("Warning")
@@ -97,7 +98,7 @@ struct InformationToastExample: View {
 
   var body: some View {
     CustomButton("Tap me") {
-      self.presentingToast = true
+      presentingToast = true
     }
     .toast(isPresented: $presentingToast, dismissAfter: 2.0) {
       ToastView("Information")
@@ -152,7 +153,7 @@ struct CustomizedAlertExample: View {
 
   var body: some View {
     CustomButton("Tap me") {
-      self.presentingToast = true
+      presentingToast = true
     }
     .toast(isPresented: $presentingToast) {
       ToastView {
@@ -162,7 +163,7 @@ struct CustomizedAlertExample: View {
             .multilineTextAlignment(.center)
 
           CustomButton("OK", width: .infinity) {
-            self.presentingToast = false
+            presentingToast = false
           }
         }
         .frame(maxWidth: 300)

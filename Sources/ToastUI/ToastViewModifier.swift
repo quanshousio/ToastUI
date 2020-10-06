@@ -44,7 +44,7 @@ internal struct ToastViewIsPresentedModifier<QTContent>: ViewModifier where QTCo
 
         if let dismissAfter = dismissAfter {
           DispatchQueue.main.asyncAfter(deadline: .now() + dismissAfter) {
-            self.isPresented = false
+            isPresented = false
           }
         }
       }
@@ -59,7 +59,7 @@ internal struct ToastViewIsPresentedModifier<QTContent>: ViewModifier where QTCo
     content
       .preference(key: ToastViewPreferenceKey.self, value: isPresented)
       .onPreferenceChange(ToastViewPreferenceKey.self) {
-        self.present($0)
+        present($0)
       }
   }
 }
@@ -113,7 +113,7 @@ where Item: Identifiable, QTContent: View
     content
       .preference(key: ToastViewPreferenceKey.self, value: item != nil)
       .onPreferenceChange(ToastViewPreferenceKey.self) {
-        self.present($0)
+        present($0)
       }
   }
 }

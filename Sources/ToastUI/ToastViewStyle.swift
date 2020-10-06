@@ -43,12 +43,12 @@ extension ToastViewStyle {
   }
 }
 
-/// A type-erased `ToastViewStyle`.
+/// A concrete, type-erased `ToastViewStyle`.
 public struct AnyToastViewStyle: ToastViewStyle {
   private let _makeBody: (Configuration) -> AnyView
 
-  /// Creates a type-erased `ToastViewStyle`.
-  public init<Style: ToastViewStyle>(_ style: Style) {
+  /// Creates a concrete, type-erased `ToastViewStyle`.
+  public init<Style>(_ style: Style) where Style: ToastViewStyle {
     self._makeBody = style.eraseToAnyView
   }
 
