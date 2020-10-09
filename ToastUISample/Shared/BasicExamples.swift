@@ -108,7 +108,7 @@ struct InformationToastExample: View {
 }
 
 struct ToastViewWithCustomBackgroundExample: View {
-  @State private var presntingToast: Bool = false
+  @State private var presentingToast: Bool = false
   @State private var withoutBackground: Bool = false
 
   private let gradient = AngularGradient(
@@ -123,9 +123,9 @@ struct ToastViewWithCustomBackgroundExample: View {
       Toggle("Without the background", isOn: $withoutBackground)
 
       CustomButton("Tap me") {
-        presntingToast = true
+        presentingToast = true
       }
-      .toast(isPresented: $presntingToast, dismissAfter: 2.0) {
+      .toast(isPresented: $presentingToast, dismissAfter: 2.0) {
         ToastView {
           Image(systemName: "timelapse")
             .resizable()
