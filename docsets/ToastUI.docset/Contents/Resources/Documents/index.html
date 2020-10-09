@@ -20,7 +20,7 @@
     <header class="header">
       <p class="header-col header-col--primary">
         <a class="header-link" href="index.html">
-          ToastUI 1.1.1 Docs
+          ToastUI 1.2.0 Docs
         </a>
          (100% documented)
       </p>
@@ -118,42 +118,80 @@
         <section class="section">
           <div class="section-content top-matter">
             
-            <h1 id='toastui' class='heading'>ToastUI</h1>
+            <h1 align="center">
+  <img src="ToastUI.svg" alt="ToastUI logo" style="width: 50%">
+</h1>
 
-<p><a href="#swift-package-manager"><img src="https://img.shields.io/badge/SwiftPM-compatible-informational" alt="SwiftPM compatible"></a>
-<a href="#cocoapods"><img src="https://img.shields.io/cocoapods/v/ToastUI" alt="CocoaPods compatible"></a>
-<a href="#requirements"><img src="https://img.shields.io/cocoapods/p/ToastUI" alt="Platform"></a>
-<a href="#license"><img src="https://img.shields.io/cocoapods/l/ToastUI" alt="License"></a></p>
+<h3 align="center">
+  A simple way to show toast in SwiftUI
+</h3>
+
+<p align="center">
+  <strong><a href="https://quanshousio.github.io/ToastUI/">Documentation</a></strong>
+  •
+  <strong><a href="#getting-started">Example</a></strong>
+  •
+  <strong><a href="CHANGELOG.md">Change Log</a></strong>
+</p>
+
+<p align="center">
+  <a href="#swift-package-manager">
+    <img src="https://img.shields.io/badge/SwiftPM-compatible-informational" alt="Swift Package Manager">
+  </a>
+  <a href="#cocoapods">
+    <img src="https://img.shields.io/cocoapods/v/ToastUI" alt="CocoaPods">
+  </a>
+  <a href="#requirements">
+    <img src="https://img.shields.io/cocoapods/p/ToastUI" alt="Platform">
+  </a>
+  <a href="#license">
+    <img src="https://img.shields.io/cocoapods/l/ToastUI" alt="License">
+  </a>
+</p>
+
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/29722055/89260921-d4f74c00-d5f2-11ea-8a5d-31be17671139.gif" alt="demo" style="width: 42%">
+</p>
+<h2 id='overview' class='heading'>Overview</h2>
 
 <p><code>ToastUI</code> provides you a simple way to present toast, head-up display (HUD), custom alert, or any SwiftUI views on top of everything in SwiftUI.</p>
 
-<p><img src="https://user-images.githubusercontent.com/29722055/89260921-d4f74c00-d5f2-11ea-8a5d-31be17671139.gif"/></p>
+<ul>
+<li><a href="#getting-started">Getting started</a></li>
+<li><a href="#requirements">Requirements</a></li>
+<li><a href="#installation">Installation</a></li>
+<li><a href="#documentation">Documentation</a></li>
+<li><a href="#contributing">Contributing</a></li>
+<li><a href="#author">Author</a></li>
+<li><a href="#acknowledgements">Acknowledgements</a></li>
+<li><a href="#license">License</a></li>
+</ul>
 <h2 id='getting-started' class='heading'>Getting started</h2>
 
-<p>Here is a example to present an indefinite progress indicator HUD and dismiss it after 2 seconds.</p>
+<p>Here is an example to present an indefinite progress indicator HUD and dismiss it after 2 seconds.</p>
 
 <p><img src="https://user-images.githubusercontent.com/29722055/89260980-e4769500-d5f2-11ea-9f1f-7368ce738fd4.gif"/></p>
 <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">ContentView</span><span class="p">:</span> <span class="kt">View</span> <span class="p">{</span>
-    <span class="kd">@State</span> <span class="kd">private</span> <span class="k">var</span> <span class="nv">presentingToast</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span>
+  <span class="kd">@State</span> <span class="kd">private</span> <span class="k">var</span> <span class="nv">presentingToast</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span>
 
-    <span class="k">var</span> <span class="nv">body</span><span class="p">:</span> <span class="n">some</span> <span class="kt">View</span> <span class="p">{</span>
-        <span class="kt">Button</span><span class="p">(</span><span class="nv">action</span><span class="p">:</span> <span class="p">{</span>
-            <span class="k">self</span><span class="o">.</span><span class="n">presentingToast</span> <span class="o">=</span> <span class="kc">true</span>
-        <span class="p">})</span> <span class="p">{</span>
-            <span class="kt">Text</span><span class="p">(</span><span class="s">"Tap me"</span><span class="p">)</span>
-                <span class="o">.</span><span class="nf">bold</span><span class="p">()</span>
-                <span class="o">.</span><span class="nf">foregroundColor</span><span class="p">(</span><span class="o">.</span><span class="n">white</span><span class="p">)</span>
-                <span class="o">.</span><span class="nf">padding</span><span class="p">()</span>
-                <span class="o">.</span><span class="nf">background</span><span class="p">(</span><span class="kt">Color</span><span class="o">.</span><span class="n">accentColor</span><span class="p">)</span>
-                <span class="o">.</span><span class="nf">cornerRadius</span><span class="p">(</span><span class="mf">8.0</span><span class="p">)</span>
-        <span class="p">}</span>
-        <span class="o">.</span><span class="nf">toast</span><span class="p">(</span><span class="nv">isPresented</span><span class="p">:</span> <span class="err">$</span><span class="n">presentingToast</span><span class="p">,</span> <span class="nv">dismissAfter</span><span class="p">:</span> <span class="mf">2.0</span><span class="p">,</span> <span class="nv">onDismiss</span><span class="p">:</span> <span class="p">{</span>
-            <span class="nf">print</span><span class="p">(</span><span class="s">"Toast dismissed"</span><span class="p">)</span>
-        <span class="p">})</span> <span class="p">{</span>
-            <span class="kt">ToastView</span><span class="p">(</span><span class="s">"Loading..."</span><span class="p">)</span>
-                <span class="o">.</span><span class="nf">toastViewStyle</span><span class="p">(</span><span class="kt">IndefiniteProgressToastViewStyle</span><span class="p">())</span>
-        <span class="p">}</span>
+  <span class="k">var</span> <span class="nv">body</span><span class="p">:</span> <span class="n">some</span> <span class="kt">View</span> <span class="p">{</span>
+    <span class="kt">Button</span> <span class="p">{</span>
+      <span class="n">presentingToast</span> <span class="o">=</span> <span class="kc">true</span>
+    <span class="p">}</span> <span class="nv">label</span><span class="p">:</span> <span class="p">{</span>
+      <span class="kt">Text</span><span class="p">(</span><span class="s">"Tap me"</span><span class="p">)</span>
+        <span class="o">.</span><span class="nf">bold</span><span class="p">()</span>
+        <span class="o">.</span><span class="nf">foregroundColor</span><span class="p">(</span><span class="o">.</span><span class="n">white</span><span class="p">)</span>
+        <span class="o">.</span><span class="nf">padding</span><span class="p">()</span>
+        <span class="o">.</span><span class="nf">background</span><span class="p">(</span><span class="kt">Color</span><span class="o">.</span><span class="n">accentColor</span><span class="p">)</span>
+        <span class="o">.</span><span class="nf">cornerRadius</span><span class="p">(</span><span class="mf">8.0</span><span class="p">)</span>
     <span class="p">}</span>
+    <span class="o">.</span><span class="nf">toast</span><span class="p">(</span><span class="nv">isPresented</span><span class="p">:</span> <span class="err">$</span><span class="n">presentingToast</span><span class="p">,</span> <span class="nv">dismissAfter</span><span class="p">:</span> <span class="mf">2.0</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nf">print</span><span class="p">(</span><span class="s">"Toast dismissed"</span><span class="p">)</span>
+    <span class="p">}</span> <span class="nv">content</span><span class="p">:</span> <span class="p">{</span>
+      <span class="kt">ToastView</span><span class="p">(</span><span class="s">"Loading..."</span><span class="p">)</span>
+        <span class="o">.</span><span class="nf">toastViewStyle</span><span class="p">(</span><span class="kt">IndefiniteProgressToastViewStyle</span><span class="p">())</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
 <span class="p">}</span>
 </code></pre>
 
@@ -161,50 +199,50 @@
 
 <p><img src="https://user-images.githubusercontent.com/29722055/89261021-f6583800-d5f2-11ea-9354-8d67ba5cdad6.gif"/></p>
 <pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">ContentView</span><span class="p">:</span> <span class="kt">View</span> <span class="p">{</span>
-    <span class="kd">@State</span> <span class="kd">private</span> <span class="k">var</span> <span class="nv">presentingToast</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span>
+  <span class="kd">@State</span> <span class="kd">private</span> <span class="k">var</span> <span class="nv">presentingToast</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span>
 
-    <span class="k">var</span> <span class="nv">body</span><span class="p">:</span> <span class="n">some</span> <span class="kt">View</span> <span class="p">{</span>
-        <span class="kt">Button</span><span class="p">(</span><span class="nv">action</span><span class="p">:</span> <span class="p">{</span>
-            <span class="k">self</span><span class="o">.</span><span class="n">presentingToast</span> <span class="o">=</span> <span class="kc">true</span>
-        <span class="p">})</span> <span class="p">{</span>
-            <span class="kt">Text</span><span class="p">(</span><span class="s">"Tap me"</span><span class="p">)</span>
-                <span class="o">.</span><span class="nf">bold</span><span class="p">()</span>
-                <span class="o">.</span><span class="nf">foregroundColor</span><span class="p">(</span><span class="o">.</span><span class="n">white</span><span class="p">)</span>
-                <span class="o">.</span><span class="nf">padding</span><span class="p">()</span>
-                <span class="o">.</span><span class="nf">background</span><span class="p">(</span><span class="kt">Color</span><span class="o">.</span><span class="n">accentColor</span><span class="p">)</span>
-                <span class="o">.</span><span class="nf">cornerRadius</span><span class="p">(</span><span class="mf">8.0</span><span class="p">)</span>
-        <span class="p">}</span>
-        <span class="o">.</span><span class="nf">toast</span><span class="p">(</span><span class="nv">isPresented</span><span class="p">:</span> <span class="err">$</span><span class="n">presentingToast</span><span class="p">)</span> <span class="p">{</span>
-            <span class="kt">ToastView</span> <span class="p">{</span>
-                <span class="kt">VStack</span> <span class="p">{</span>
-                    <span class="kt">Text</span><span class="p">(</span><span class="s">"Hello from ToastUI"</span><span class="p">)</span>
-                        <span class="o">.</span><span class="nf">padding</span><span class="p">(</span><span class="o">.</span><span class="n">bottom</span><span class="p">)</span>
-                        <span class="o">.</span><span class="nf">multilineTextAlignment</span><span class="p">(</span><span class="o">.</span><span class="n">center</span><span class="p">)</span>
-
-                    <span class="kt">Button</span><span class="p">(</span><span class="nv">action</span><span class="p">:</span> <span class="p">{</span>
-                        <span class="k">self</span><span class="o">.</span><span class="n">presentingToast</span> <span class="o">=</span> <span class="kc">false</span>
-                    <span class="p">})</span> <span class="p">{</span>
-                        <span class="kt">Text</span><span class="p">(</span><span class="s">"OK"</span><span class="p">)</span>
-                            <span class="o">.</span><span class="nf">bold</span><span class="p">()</span>
-                            <span class="o">.</span><span class="nf">foregroundColor</span><span class="p">(</span><span class="o">.</span><span class="n">white</span><span class="p">)</span>
-                            <span class="o">.</span><span class="nf">padding</span><span class="p">(</span><span class="o">.</span><span class="n">horizontal</span><span class="p">)</span>
-                            <span class="o">.</span><span class="nf">padding</span><span class="p">(</span><span class="o">.</span><span class="n">vertical</span><span class="p">,</span> <span class="mi">12</span><span class="p">)</span>
-                            <span class="o">.</span><span class="nf">background</span><span class="p">(</span><span class="kt">Color</span><span class="o">.</span><span class="n">accentColor</span><span class="p">)</span>
-                            <span class="o">.</span><span class="nf">cornerRadius</span><span class="p">(</span><span class="mf">8.0</span><span class="p">)</span>
-                    <span class="p">}</span>
-                <span class="p">}</span>
-            <span class="p">}</span>
-        <span class="p">}</span>
+  <span class="k">var</span> <span class="nv">body</span><span class="p">:</span> <span class="n">some</span> <span class="kt">View</span> <span class="p">{</span>
+    <span class="kt">Button</span> <span class="p">{</span>
+      <span class="n">presentingToast</span> <span class="o">=</span> <span class="kc">true</span>
+    <span class="p">}</span> <span class="nv">label</span><span class="p">:</span> <span class="p">{</span>
+      <span class="kt">Text</span><span class="p">(</span><span class="s">"Tap me"</span><span class="p">)</span>
+        <span class="o">.</span><span class="nf">bold</span><span class="p">()</span>
+        <span class="o">.</span><span class="nf">foregroundColor</span><span class="p">(</span><span class="o">.</span><span class="n">white</span><span class="p">)</span>
+        <span class="o">.</span><span class="nf">padding</span><span class="p">()</span>
+        <span class="o">.</span><span class="nf">background</span><span class="p">(</span><span class="kt">Color</span><span class="o">.</span><span class="n">accentColor</span><span class="p">)</span>
+        <span class="o">.</span><span class="nf">cornerRadius</span><span class="p">(</span><span class="mf">8.0</span><span class="p">)</span>
     <span class="p">}</span>
+    <span class="o">.</span><span class="nf">toast</span><span class="p">(</span><span class="nv">isPresented</span><span class="p">:</span> <span class="err">$</span><span class="n">presentingToast</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kt">ToastView</span> <span class="p">{</span>
+        <span class="kt">VStack</span> <span class="p">{</span>
+          <span class="kt">Text</span><span class="p">(</span><span class="s">"Hello from ToastUI"</span><span class="p">)</span>
+            <span class="o">.</span><span class="nf">padding</span><span class="p">(</span><span class="o">.</span><span class="n">bottom</span><span class="p">)</span>
+            <span class="o">.</span><span class="nf">multilineTextAlignment</span><span class="p">(</span><span class="o">.</span><span class="n">center</span><span class="p">)</span>
+
+          <span class="kt">Button</span> <span class="p">{</span>
+            <span class="n">presentingToast</span> <span class="o">=</span> <span class="kc">false</span>
+          <span class="p">}</span> <span class="nv">label</span><span class="p">:</span> <span class="p">{</span>
+            <span class="kt">Text</span><span class="p">(</span><span class="s">"OK"</span><span class="p">)</span>
+              <span class="o">.</span><span class="nf">bold</span><span class="p">()</span>
+              <span class="o">.</span><span class="nf">foregroundColor</span><span class="p">(</span><span class="o">.</span><span class="n">white</span><span class="p">)</span>
+              <span class="o">.</span><span class="nf">padding</span><span class="p">(</span><span class="o">.</span><span class="n">horizontal</span><span class="p">)</span>
+              <span class="o">.</span><span class="nf">padding</span><span class="p">(</span><span class="o">.</span><span class="n">vertical</span><span class="p">,</span> <span class="mf">12.0</span><span class="p">)</span>
+              <span class="o">.</span><span class="nf">background</span><span class="p">(</span><span class="kt">Color</span><span class="o">.</span><span class="n">accentColor</span><span class="p">)</span>
+              <span class="o">.</span><span class="nf">cornerRadius</span><span class="p">(</span><span class="mf">8.0</span><span class="p">)</span>
+          <span class="p">}</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
 <span class="p">}</span>
 </code></pre>
 
-<p>Have a look at the <code>ToastUISample</code> project for more examples and also check out the <a href="#documentation">Documentation</a> below.</p>
+<p>Have a look at the <a href="ToastUISample"> <code>ToastUISample</code> </a> project for more examples and also check out the <a href="#documentation">Documentation</a> below.</p>
 <h2 id='requirements' class='heading'>Requirements</h2>
 
 <ul>
 <li>iOS 13.0+ | tvOS 13.0+</li>
-<li>Xcode 11.0+ | Swift 5.1+</li>
+<li>Xcode 12.0+ | Swift 5.3+</li>
 </ul>
 <h2 id='installation' class='heading'>Installation</h2>
 <h4 id='swift-package-manager' class='heading'>Swift Package Manager</h4>
@@ -231,32 +269,81 @@
 </code></pre>
 <h2 id='documentation' class='heading'>Documentation</h2>
 
-<p><em>For more detailed documentation, please see <a href="https://quanshousio.github.io/ToastUI/">here</a>.</em></p>
-<h4 id='toasting' class='heading'>Toasting</h4>
+<p>For more detailed documentation, please see <strong><a href="https://quanshousio.github.io/ToastUI/">here</a></strong>.</p>
+<h4 id='presenting' class='heading'>Presenting</h4>
 
-<p><code>ToastUI</code> supports presenting any SwiftUI views from anywhere. You just need to add <code>toast()</code> view modifier and provide your views to the <code>content</code> closure, much like using <code>alert()</code> or <code>sheet()</code> .</p>
+<p><code>ToastUI</code> supports presenting any SwiftUI views from anywhere. You just need to add <code>toast()</code> view modifier and provide your views, much like using <code>alert()</code> or <code>sheet()</code> .</p>
 <pre class="highlight swift"><code><span class="o">.</span><span class="nf">toast</span><span class="p">(</span><span class="nv">isPresented</span><span class="p">:</span> <span class="err">$</span><span class="n">presentingToast</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kt">ToastView</span> <span class="p">{</span>
-        <span class="c1">// your SwiftUI views here</span>
-    <span class="p">}</span>
+  <span class="c1">// your SwiftUI views here</span>
 <span class="p">}</span>
 </code></pre>
 
-<p><code><a href="Structs/ToastView.html">ToastView</a></code> is just a rounded rectangle shape that represents the background of your provided views and blurs underneath views. You can remove it and provide your views directly.</p>
-<pre class="highlight swift"><code><span class="o">.</span><span class="nf">toast</span><span class="p">(</span><span class="nv">isPresented</span><span class="p">:</span> <span class="err">$</span><span class="n">presentingToast</span><span class="p">)</span> <span class="p">{</span>
-    <span class="c1">// your SwiftUI views here</span>
-<span class="p">}</span>
-</code></pre>
-
-<p>There are two types of <code>toast()</code> view modifier:</p>
+<p>There are two types of <code>toast()</code> view modifier. For more usage information, check out the <a href="ToastUISample">examples</a>.</p>
 
 <ul>
 <li><code>toast(isPresented:dismissAfter:onDismiss:content:)</code> – presents a toast when the given boolean binding is true.</li>
 <li><code>toast(item:onDismiss:content:)</code> – presents a toast using the given item as a data source for the toast&rsquo;s content.</li>
 </ul>
+<h4 id='toastview' class='heading'>ToastView</h4>
+
+<p><code>ToastUI</code> comes with <code><a href="Structs/ToastView.html">ToastView</a></code> , which visually represented as a rounded rectangle shape that contains your provided views and has a default thin blurred background.</p>
+<pre class="highlight swift"><code><span class="o">.</span><span class="nf">toast</span><span class="p">(</span><span class="nv">isPresented</span><span class="p">:</span> <span class="err">$</span><span class="n">presentingToast</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kt">ToastView</span><span class="p">(</span><span class="s">"Hello from ToastUI"</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre>
+
+<p>Layout of <code><a href="Structs/ToastView.html">ToastView</a></code> is demonstrated in this figure below.</p>
+<pre class="highlight swift"><code><span class="o">+-----------------------------+</span>
+<span class="o">|</span>                             <span class="o">|</span>
+<span class="o">|</span>  <span class="o">&lt;</span><span class="kt">Background</span><span class="o">&gt;</span>               <span class="o">|</span>
+<span class="o">|</span>                             <span class="o">|</span>
+<span class="o">|</span>        <span class="o">+-----------+</span>        <span class="o">|</span>
+<span class="o">|</span>        <span class="o">|</span>           <span class="o">|</span>        <span class="o">|</span>
+<span class="o">|</span>        <span class="o">|</span> <span class="o">&lt;</span><span class="kt">Content</span><span class="o">&gt;</span> <span class="o">|</span>        <span class="o">|</span>
+<span class="o">|</span>        <span class="o">|</span>           <span class="o">|</span>        <span class="o">|</span>
+<span class="o">|</span>        <span class="o">|</span>           <span class="o">|</span>        <span class="o">|</span>
+<span class="o">|</span>        <span class="o">|</span>  <span class="o">&lt;</span><span class="kt">Label</span><span class="o">&gt;</span>  <span class="o">|</span>        <span class="o">|</span>
+<span class="o">|</span>        <span class="o">+-----------+</span>        <span class="o">|</span>
+<span class="o">|</span>                             <span class="o">|</span>
+<span class="o">|</span>                             <span class="o">|</span>
+<span class="o">|</span>                             <span class="o">|</span>
+<span class="o">+-----------------------------+</span>
+
+<span class="kt">ToastView</span><span class="p">(</span><span class="o">&lt;</span><span class="kt">Label</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">{</span>
+  <span class="o">&lt;</span><span class="kt">Content</span><span class="o">&gt;</span>
+<span class="p">}</span> <span class="nv">background</span><span class="p">:</span> <span class="p">{</span>
+  <span class="o">&lt;</span><span class="kt">Background</span><span class="o">&gt;</span>
+<span class="p">}</span>
+</code></pre>
+
+<p><code><a href="Structs/ToastView.html">ToastView</a></code> with custom content views and custom background views.</p>
+<pre class="highlight swift"><code><span class="o">.</span><span class="nf">toast</span><span class="p">(</span><span class="nv">isPresented</span><span class="p">:</span> <span class="err">$</span><span class="n">presentingToast</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kt">ToastView</span><span class="p">(</span><span class="s">"Saved!"</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// custom content views</span>
+    <span class="kt">Image</span><span class="p">(</span><span class="nv">systemName</span><span class="p">:</span> <span class="s">"arrow.down.doc.fill"</span><span class="p">)</span>
+      <span class="o">.</span><span class="nf">font</span><span class="p">(</span><span class="o">.</span><span class="nf">system</span><span class="p">(</span><span class="nv">size</span><span class="p">:</span> <span class="mi">48</span><span class="p">))</span>
+      <span class="o">.</span><span class="nf">foregroundColor</span><span class="p">(</span><span class="o">.</span><span class="n">green</span><span class="p">)</span>
+      <span class="o">.</span><span class="nf">padding</span><span class="p">()</span>
+  <span class="p">}</span> <span class="nv">background</span><span class="p">:</span> <span class="p">{</span>
+    <span class="c1">// custom background views</span>
+    <span class="kt">Color</span><span class="o">.</span><span class="n">green</span><span class="o">.</span><span class="nf">opacity</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+
+<p><code><a href="Structs/ToastView.html">ToastView</a></code> using <a href="#styling">built-in styles</a> and without background.</p>
+<pre class="highlight swift"><code><span class="o">.</span><span class="nf">toast</span><span class="p">(</span><span class="nv">isPresented</span><span class="p">:</span> <span class="err">$</span><span class="n">presentingToast</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kt">ToastView</span><span class="p">(</span><span class="s">"Loading..."</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// EmptyView()</span>
+  <span class="p">}</span> <span class="nv">background</span><span class="p">:</span> <span class="p">{</span>
+    <span class="c1">// EmptyView()</span>
+  <span class="p">}</span>
+  <span class="o">.</span><span class="nf">toastViewStyle</span><span class="p">(</span><span class="kt">IndefiniteProgressToastViewStyle</span><span class="p">())</span>
+<span class="p">}</span>
+</code></pre>
 <h4 id='styling' class='heading'>Styling</h4>
 
-<p><code>ToastUI</code> supports seven different <code><a href="Structs/ToastView.html">ToastView</a></code> styles out-of-the-box. You have to use <code><a href="Structs/ToastView.html">ToastView</a></code> and set the style accordingly by using <code>toastViewStyle(_:)</code> modifier.</p>
+<p><code>ToastUI</code> supports seven different <code><a href="Protocols/ToastViewStyle.html">ToastViewStyle</a></code> s out-of-the-box. You have to use <code><a href="Structs/ToastView.html">ToastView</a></code> and set the style accordingly by using <code>toastViewStyle(_:)</code> modifier. All styles have native support for dynamic type for accessbility.</p>
 
 <ul>
 <li><code>DefaultProgressToastViewStyle()</code> – shows an empty toast if user does not provide anything. <code><a href="Structs/ToastView.html">ToastView</a></code> uses this style by default.</li>
@@ -268,22 +355,12 @@
 <li><code>InfoToastViewStyle()</code> – shows an information toast.</li>
 </ul>
 
-<p><code>ToastUI</code> also includes a <code>UIVisualEffectView</code> wrapper through <code>cocoaBlur()</code> view modifier, which is more flexible than <a href="https://developer.apple.com/documentation/swiftui/view/blur(radius:opaque:)"> <code>blur(radius:opaque:)</code> </a> included in SwiftUI.</p>
-<h4 id='swift-5-3' class='heading'>Swift 5.3+</h4>
+<p><code>ToastUI</code> includes a <code>UIVisualEffectView</code> wrapper through <code>cocoaBlur()</code> view modifier, which is more flexible than existing <a href="https://developer.apple.com/documentation/swiftui/view/blur(radius:opaque:)"> <code>blur(radius:opaque:)</code> </a> in SwiftUI.</p>
 
-<p>If you are using Xcode 12.0+/Swift 5.3+, the syntax will be much cleaner thanks to support of <a href="https://github.com/apple/swift-evolution/blob/master/proposals/0279-multiple-trailing-closures.md">multiple trailing closures</a> and <a href="https://github.com/apple/swift-evolution/blob/master/proposals/0269-implicit-self-explicit-capture.md">implicit <code>self</code> in <code>@escaping</code> closures</a>.</p>
-<pre class="highlight swift"><code><span class="kt">Button</span> <span class="p">{</span>
-    <span class="n">presentingToast</span> <span class="o">=</span> <span class="kc">true</span>
-<span class="p">}</span> <span class="nv">label</span><span class="p">:</span> <span class="p">{</span>
-    <span class="kt">Text</span><span class="p">(</span><span class="s">"Tap me"</span><span class="p">)</span>
-<span class="p">}</span>
-<span class="o">.</span><span class="nf">toast</span><span class="p">(</span><span class="nv">isPresented</span><span class="p">:</span> <span class="err">$</span><span class="n">presentingToast</span><span class="p">,</span> <span class="nv">dismissAfter</span><span class="p">:</span> <span class="mf">2.0</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nf">print</span><span class="p">(</span><span class="s">"Toast dismissed"</span><span class="p">)</span>
-<span class="p">}</span> <span class="nv">content</span><span class="p">:</span> <span class="p">{</span>
-    <span class="kt">ToastView</span><span class="p">(</span><span class="s">"Loading..."</span><span class="p">)</span>
-        <span class="o">.</span><span class="nf">toastViewStyle</span><span class="p">(</span><span class="kt">IndefiniteProgressToastViewStyle</span><span class="p">())</span>
-<span class="p">}</span>
-</code></pre>
+<ul>
+<li><code>cocoaBlur(blurStyle:vibrancyStyle:blurIntensity:)</code> - for iOS.</li>
+<li><code>cocoaBlur(blurStyle:blurIntensity:)</code> - for tvOS.</li>
+</ul>
 <h2 id='contributing' class='heading'>Contributing</h2>
 
 <p>All issue reports, feature requests, pull requests and GitHub stars are welcomed and much appreciated.</p>
@@ -293,9 +370,11 @@
 <h2 id='acknowledgements' class='heading'>Acknowledgements</h2>
 
 <ul>
-<li><a href="https://github.com/SVProgressHUD/SVProgressHUD">SVProgressHUD</a> - original design of the circular progress HUD.</li>
-<li><a href="https://gist.github.com/apptekstudios/e5f282a67beaa85dc725d1d98ec74191">ScaledMetricOniOS13</a> - <code>@ScaledMetric</code> property wrapper for iOS 13.</li>
 <li><a href="https://developer.apple.com/documentation/app_clips/fruta_building_a_feature-rich_app_with_swiftui">Fruta</a> - <code>UIVisualEffectView</code> wrapper for SwiftUI written by Apple.</li>
+<li><a href="https://stackoverflow.com/a/62523475">OnChangeOniOS13</a> - <code>onChange</code> view modifier for iOS 13.</li>
+<li><a href="https://gist.github.com/apptekstudios/e5f282a67beaa85dc725d1d98ec74191">ScaledMetricOniOS13</a> - <code>ScaledMetric</code> property wrapper for iOS 13.</li>
+<li><a href="https://github.com/SVProgressHUD/SVProgressHUD">SVProgressHUD</a> - original design of the circular progress HUD.</li>
+<li><a href="https://swiftui-lab.com/custom-styling">SwiftUI Custom Styling</a> - an informative article about SwiftUI custom styling.</li>
 </ul>
 <h2 id='license' class='heading'>License</h2>
 
@@ -308,7 +387,7 @@
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2020 <a class="link" href="https://github.com/quanshousio" target="_blank" rel="external">Quan Tran</a>. All rights reserved. (Last updated: 2020-10-06)</p>
+      <p>&copy; 2020 <a class="link" href="https://github.com/quanshousio" target="_blank" rel="external">Quan Tran</a>. All rights reserved. (Last updated: 2020-10-09)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>

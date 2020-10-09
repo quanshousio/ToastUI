@@ -21,7 +21,7 @@
     <header class="header">
       <p class="header-col header-col--primary">
         <a class="header-link" href="../index.html">
-          ToastUI 1.1.1 Docs
+          ToastUI 1.2.0 Docs
         </a>
          (100% documented)
       </p>
@@ -122,15 +122,35 @@
               <div class="declaration">
                 <div class="language">
                   
-                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">ToastView</span><span class="o">&lt;</span><span class="kt">Content</span><span class="o">&gt;</span> <span class="p">:</span> <span class="kt">View</span> <span class="k">where</span> <span class="kt">Content</span> <span class="p">:</span> <span class="kt">View</span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">ToastView</span><span class="o">&lt;</span><span class="kt">Background</span><span class="p">,</span> <span class="kt">Label</span><span class="p">,</span> <span class="kt">Content</span><span class="o">&gt;</span><span class="p">:</span> <span class="kt">View</span>
+<span class="k">where</span> <span class="kt">Background</span><span class="p">:</span> <span class="kt">View</span><span class="p">,</span> <span class="kt">Label</span><span class="p">:</span> <span class="kt">View</span><span class="p">,</span> <span class="kt">Content</span><span class="p">:</span> <span class="kt">View</span></code></pre>
 
                 </div>
               </div>
             <p>A view that represents a toast, which is visually represented by a shadowed, rounded
-rectangle shape with an opaque background.</p>
+rectangle shape with a thin blurred background fit to screen by default.</p>
+
+<p>This view supports styling by using <code>toastViewStyle(_:)</code>. Layout of this view is demonstrated
+in the figure below.</p>
+<pre class="highlight swift"><code><span class="o">+-----------------------------+</span>
+<span class="o">|</span>                             <span class="o">|</span>
+<span class="o">|</span>  <span class="o">&lt;</span><span class="kt">Background</span><span class="o">&gt;</span>               <span class="o">|</span>
+<span class="o">|</span>                             <span class="o">|</span>
+<span class="o">|</span>        <span class="o">+-----------+</span>        <span class="o">|</span>
+<span class="o">|</span>        <span class="o">|</span>           <span class="o">|</span>        <span class="o">|</span>
+<span class="o">|</span>        <span class="o">|</span> <span class="o">&lt;</span><span class="kt">Content</span><span class="o">&gt;</span> <span class="o">|</span>        <span class="o">|</span>
+<span class="o">|</span>        <span class="o">|</span>           <span class="o">|</span>        <span class="o">|</span>
+<span class="o">|</span>        <span class="o">|</span>           <span class="o">|</span>        <span class="o">|</span>
+<span class="o">|</span>        <span class="o">|</span>  <span class="o">&lt;</span><span class="kt">Label</span><span class="o">&gt;</span>  <span class="o">|</span>        <span class="o">|</span>
+<span class="o">|</span>        <span class="o">+-----------+</span>        <span class="o">|</span>
+<span class="o">|</span>                             <span class="o">|</span>
+<span class="o">|</span>                             <span class="o">|</span>
+<span class="o">|</span>                             <span class="o">|</span>
+<span class="o">+-----------------------------+</span>
+</code></pre>
 
               <div class="slightly-smaller">
-                <a href="https://github.com/quanshousio/ToastUI/tree/1.1.1/Sources/ToastUI/ToastView.swift#L12-L24">Show on GitHub</a>
+                <a href="https://github.com/quanshousio/ToastUI/tree/1.2.0/Sources/ToastUI/ToastView.swift#L33-L50">Show on GitHub</a>
               </div>
           </div>
         </section>
@@ -173,7 +193,7 @@ rectangle shape with an opaque background.</p>
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/quanshousio/ToastUI/tree/1.1.1/Sources/ToastUI/ToastView.swift#L21-L23">Show on GitHub</a>
+                        <a href="https://github.com/quanshousio/ToastUI/tree/1.2.0/Sources/ToastUI/ToastView.swift#L47-L49">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -194,291 +214,9 @@ rectangle shape with an opaque background.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:7ToastUI0A4ViewV7contentACyxGxyXE_tcfc"></a>
-                    <a name="//apple_ref/swift/Method/init(content:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:7ToastUI0A4ViewV7contentACyxGxyXE_tcfc">init(content:<wbr>)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Creates a <code>ToastView</code> with provided <code>content</code>.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="kd">@ViewBuilder</span> <span class="nv">content</span><span class="p">:</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Content</span><span class="p">)</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>content</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>A view builder that creates a view for the content of <code>ToastView</code>.</p>
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/quanshousio/ToastUI/tree/1.1.1/Sources/ToastUI/ToastView.swift#L37-L39">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:7ToastUI0A4ViewVyACyxG05SwiftB018LocalizedStringKeyVcfc"></a>
-                    <a name="//apple_ref/swift/Method/init(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:7ToastUI0A4ViewVyACyxG05SwiftB018LocalizedStringKeyVcfc">init(_:<wbr>)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Creates an empty <code>ToastView</code> with title from a localized string.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="n">_</span> <span class="nv">titleKey</span><span class="p">:</span> <span class="kt">LocalizedStringKey</span><span class="p">)</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>titleKey</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The key for the <code>ToastView</code>&lsquo;s localized title.</p>
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/quanshousio/ToastUI/tree/1.1.1/Sources/ToastUI/ToastView.swift#L46-L48">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:7ToastUI0A4ViewV_7contentACyxG05SwiftB018LocalizedStringKeyV_xyXEtcfc"></a>
-                    <a name="//apple_ref/swift/Method/init(_:content:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:7ToastUI0A4ViewV_7contentACyxG05SwiftB018LocalizedStringKeyV_xyXEtcfc">init(_:<wbr>content:<wbr>)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Creates a <code>ToastView</code> with custom <code>content</code> and title from a localized string.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="n">_</span> <span class="nv">titleKey</span><span class="p">:</span> <span class="kt">LocalizedStringKey</span><span class="p">,</span> <span class="kd">@ViewBuilder</span> <span class="nv">content</span><span class="p">:</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Content</span><span class="p">)</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>titleKey</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The key for the <code>ToastView</code>&lsquo;s localized title.</p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>content</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>A view builder that creates a view for the content of <code>ToastView</code>.</p>
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/quanshousio/ToastUI/tree/1.1.1/Sources/ToastUI/ToastView.swift#L55-L58">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:7ToastUI0A4ViewVyACy05SwiftB005EmptyC0VGqd__cAFRszSyRd__lufc"></a>
-                    <a name="//apple_ref/swift/Method/init(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:7ToastUI0A4ViewVyACy05SwiftB005EmptyC0VGqd__cAFRszSyRd__lufc">init(_:<wbr>)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Creates an empty <code>ToastView</code> with title from a string.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">init</span><span class="o">&lt;</span><span class="kt">S</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">title</span><span class="p">:</span> <span class="kt">S</span><span class="p">)</span> <span class="k">where</span> <span class="kt">Content</span> <span class="o">==</span> <span class="kt">EmptyView</span><span class="p">,</span> <span class="kt">S</span> <span class="p">:</span> <span class="kt">StringProtocol</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>title</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>A string that describes the <code>ToastView</code>.</p>
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/quanshousio/ToastUI/tree/1.1.1/Sources/ToastUI/ToastView.swift#L65-L67">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:7ToastUI0A4ViewV_7contentACyxGqd___xyXEtcSyRd__lufc"></a>
-                    <a name="//apple_ref/swift/Method/init(_:content:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:7ToastUI0A4ViewV_7contentACyxGqd___xyXEtcSyRd__lufc">init(_:<wbr>content:<wbr>)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Creates a <code>ToastView</code> with provided <code>content</code> and title from a string.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">init</span><span class="o">&lt;</span><span class="kt">S</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">title</span><span class="p">:</span> <span class="kt">S</span><span class="p">,</span> <span class="kd">@ViewBuilder</span> <span class="nv">content</span><span class="p">:</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Content</span><span class="p">)</span> <span class="k">where</span> <span class="kt">S</span> <span class="p">:</span> <span class="kt">StringProtocol</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>title</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>A string that describes the <code>ToastView</code>.</p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>content</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>A view builder that creates a view for the content of <code>ToastView</code>.</p>
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div class="slightly-smaller">
-                        <a href="https://github.com/quanshousio/ToastUI/tree/1.1.1/Sources/ToastUI/ToastView.swift#L74-L77">Show on GitHub</a>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <div class="task-name-container">
-                <a name="/Available%20where%20%60Content%60%20%3D%3D%20%60EmptyView%60"></a>
-                <a name="//apple_ref/swift/Section/Available where `Content` == `EmptyView`" class="dashAnchor"></a>
-                <div class="section-name-container">
-                  <a class="section-name-link" href="#/Available%20where%20%60Content%60%20%3D%3D%20%60EmptyView%60"></a>
-                  <h3 class="section-name"><p>Available where <code>Content</code> == <code>EmptyView</code></p>
-</h3>
-                </div>
-              </div>
-              <ul class="item-container">
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:7ToastUI0A4ViewVAA05SwiftB005EmptyC0VRszrlEACyAFGycfc"></a>
+                    <a name="/s:7ToastUI0A4ViewVACy05SwiftB005EmptyC0VA2FGycAFRszAFRs_AFRs0_rlufc"></a>
                     <a name="//apple_ref/swift/Method/init()" class="dashAnchor"></a>
-                    <a class="token" href="#/s:7ToastUI0A4ViewVAA05SwiftB005EmptyC0VRszrlEACyAFGycfc">init()</a>
+                    <a class="token" href="#/s:7ToastUI0A4ViewVACy05SwiftB005EmptyC0VA2FGycAFRszAFRs_AFRs0_rlufc">init()</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -493,12 +231,701 @@ rectangle shape with an opaque background.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">()</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">()</span>
+<span class="k">where</span> <span class="kt">Background</span> <span class="o">==</span> <span class="kt">EmptyView</span><span class="p">,</span> <span class="kt">Label</span> <span class="o">==</span> <span class="kt">EmptyView</span><span class="p">,</span> <span class="kt">Content</span> <span class="o">==</span> <span class="kt">EmptyView</span></code></pre>
 
                         </div>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/quanshousio/ToastUI/tree/1.1.1/Sources/ToastUI/ToastView.swift#L30">Show on GitHub</a>
+                        <a href="https://github.com/quanshousio/ToastUI/tree/1.2.0/Sources/ToastUI/ToastView.swift#L56-L61">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:7ToastUI0A4ViewVyACy05SwiftB005EmptyC0VA2FGAA0aC18StyleConfigurationVcAFRszAFRs_AFRs0_rlufc"></a>
+                    <a name="//apple_ref/swift/Method/init(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:7ToastUI0A4ViewVyACy05SwiftB005EmptyC0VA2FGAA0aC18StyleConfigurationVcAFRszAFRs_AFRs0_rlufc">init(_:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a <code>ToastView</code> based on a style configuration.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="n">_</span> <span class="nv">configuration</span><span class="p">:</span> <span class="kt"><a href="../Structs/ToastViewStyleConfiguration.html">ToastViewStyleConfiguration</a></span><span class="p">)</span>
+<span class="k">where</span> <span class="kt">Background</span> <span class="o">==</span> <span class="kt">EmptyView</span><span class="p">,</span> <span class="kt">Label</span> <span class="o">==</span> <span class="kt">EmptyView</span><span class="p">,</span> <span class="kt">Content</span> <span class="o">==</span> <span class="kt">EmptyView</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>configuration</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A <code>ToastView</code> style configuration.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/quanshousio/ToastUI/tree/1.2.0/Sources/ToastUI/ToastView.swift#L66-L69">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:7ToastUI0A4ViewVyACy05SwiftB005EmptyC0VAD4TextVAFGAD18LocalizedStringKeyVcAFRszAHRs_AFRs0_rlufc"></a>
+                    <a name="//apple_ref/swift/Method/init(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:7ToastUI0A4ViewVyACy05SwiftB005EmptyC0VAD4TextVAFGAD18LocalizedStringKeyVcAFRszAHRs_AFRs0_rlufc">init(_:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates an empty <code>ToastView</code> with text label from a localized string.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="n">_</span> <span class="nv">titleKey</span><span class="p">:</span> <span class="kt">LocalizedStringKey</span><span class="p">)</span>
+<span class="k">where</span> <span class="kt">Background</span> <span class="o">==</span> <span class="kt">EmptyView</span><span class="p">,</span> <span class="kt">Label</span> <span class="o">==</span> <span class="kt">Text</span><span class="p">,</span> <span class="kt">Content</span> <span class="o">==</span> <span class="kt">EmptyView</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>titleKey</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The key for the <code>ToastView</code>&lsquo;s localized title.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/quanshousio/ToastUI/tree/1.2.0/Sources/ToastUI/ToastView.swift#L74-L80">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:7ToastUI0A4ViewVyACy05SwiftB005EmptyC0VAD4TextVAFGqd__cAFRszAHRs_AFRs0_SyRd__lufc"></a>
+                    <a name="//apple_ref/swift/Method/init(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:7ToastUI0A4ViewVyACy05SwiftB005EmptyC0VAD4TextVAFGqd__cAFRszAHRs_AFRs0_SyRd__lufc">init(_:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates an empty <code>ToastView</code> with text label from a string.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@_disfavoredOverload</span>
+<span class="kd">public</span> <span class="kd">init</span><span class="o">&lt;</span><span class="kt">S</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">title</span><span class="p">:</span> <span class="kt">S</span><span class="p">)</span>
+<span class="k">where</span> <span class="kt">S</span><span class="p">:</span> <span class="kt">StringProtocol</span><span class="p">,</span> <span class="kt">Background</span> <span class="o">==</span> <span class="kt">EmptyView</span><span class="p">,</span> <span class="kt">Label</span> <span class="o">==</span> <span class="kt">Text</span><span class="p">,</span> <span class="kt">Content</span> <span class="o">==</span> <span class="kt">EmptyView</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>title</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A string that describes the <code>ToastView</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/quanshousio/ToastUI/tree/1.2.0/Sources/ToastUI/ToastView.swift#L86-L92">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:7ToastUI0A4ViewV_7contentACy05SwiftB005EmptyC0VAE4TextVq0_GAE18LocalizedStringKeyV_q0_yXEtcAGRszAIRs_rlufc"></a>
+                    <a name="//apple_ref/swift/Method/init(_:content:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:7ToastUI0A4ViewV_7contentACy05SwiftB005EmptyC0VAE4TextVq0_GAE18LocalizedStringKeyV_q0_yXEtcAGRszAIRs_rlufc">init(_:<wbr>content:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a <code>ToastView</code> with custom <code>content</code> view and text label from a localized string.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="n">_</span> <span class="nv">titleKey</span><span class="p">:</span> <span class="kt">LocalizedStringKey</span><span class="p">,</span> <span class="kd">@ViewBuilder</span> <span class="nv">content</span><span class="p">:</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Content</span><span class="p">)</span>
+<span class="k">where</span> <span class="kt">Background</span> <span class="o">==</span> <span class="kt">EmptyView</span><span class="p">,</span> <span class="kt">Label</span> <span class="o">==</span> <span class="kt">Text</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>titleKey</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The key used to look up the localized title for the label.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>content</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A view builder that creates a view for the content of <code>ToastView</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/quanshousio/ToastUI/tree/1.2.0/Sources/ToastUI/ToastView.swift#L101-L108">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:7ToastUI0A4ViewV_7contentACy05SwiftB005EmptyC0VAE4TextVq0_Gqd___q0_yXEtcAGRszAIRs_SyRd__lufc"></a>
+                    <a name="//apple_ref/swift/Method/init(_:content:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:7ToastUI0A4ViewV_7contentACy05SwiftB005EmptyC0VAE4TextVq0_Gqd___q0_yXEtcAGRszAIRs_SyRd__lufc">init(_:<wbr>content:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a <code>ToastView</code> with custom <code>content</code> view and text label from a string.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@_disfavoredOverload</span>
+<span class="kd">public</span> <span class="kd">init</span><span class="o">&lt;</span><span class="kt">S</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">title</span><span class="p">:</span> <span class="kt">S</span><span class="p">,</span> <span class="kd">@ViewBuilder</span> <span class="nv">content</span><span class="p">:</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Content</span><span class="p">)</span>
+<span class="k">where</span> <span class="kt">S</span><span class="p">:</span> <span class="kt">StringProtocol</span><span class="p">,</span> <span class="kt">Background</span> <span class="o">==</span> <span class="kt">EmptyView</span><span class="p">,</span> <span class="kt">Label</span> <span class="o">==</span> <span class="kt">Text</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>title</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A string that describes the text label.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>content</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A view builder that creates a view for the content of <code>ToastView</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/quanshousio/ToastUI/tree/1.2.0/Sources/ToastUI/ToastView.swift#L116-L123">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:7ToastUI0A4ViewV_7content10backgroundACyx05SwiftB04TextVq0_GAF18LocalizedStringKeyV_q0_yXExyXEtcAHRs_rlufc"></a>
+                    <a name="//apple_ref/swift/Method/init(_:content:background:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:7ToastUI0A4ViewV_7content10backgroundACyx05SwiftB04TextVq0_GAF18LocalizedStringKeyV_q0_yXExyXEtcAHRs_rlufc">init(_:<wbr>content:<wbr>background:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a <code>ToastView</code> with custom <code>content</code> and <code>background</code> views,
+and text label from a localized string.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span>
+  <span class="n">_</span> <span class="nv">titleKey</span><span class="p">:</span> <span class="kt">LocalizedStringKey</span><span class="p">,</span>
+  <span class="kd">@ViewBuilder</span> <span class="nv">content</span><span class="p">:</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Content</span><span class="p">,</span>
+  <span class="kd">@ViewBuilder</span> <span class="nv">background</span><span class="p">:</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Background</span>
+<span class="p">)</span> <span class="k">where</span> <span class="kt">Label</span> <span class="o">==</span> <span class="kt">Text</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>titleKey</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The key used to look up the localized title for the label.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>content</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A view builder that creates a view for the content of <code>ToastView</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>background</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A view builder that creates a view for the background of <code>ToastView</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/quanshousio/ToastUI/tree/1.2.0/Sources/ToastUI/ToastView.swift#L134-L144">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:7ToastUI0A4ViewV_7content10backgroundACyx05SwiftB04TextVq0_Gqd___q0_yXExyXEtcAHRs_SyRd__lufc"></a>
+                    <a name="//apple_ref/swift/Method/init(_:content:background:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:7ToastUI0A4ViewV_7content10backgroundACyx05SwiftB04TextVq0_Gqd___q0_yXExyXEtcAHRs_SyRd__lufc">init(_:<wbr>content:<wbr>background:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a <code>ToastView</code> with custom <code>content</code> and <code>background</code> views,
+and text label from a string.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@_disfavoredOverload</span>
+<span class="kd">public</span> <span class="kd">init</span><span class="o">&lt;</span><span class="kt">S</span><span class="o">&gt;</span><span class="p">(</span>
+  <span class="n">_</span> <span class="nv">title</span><span class="p">:</span> <span class="kt">S</span><span class="p">,</span>
+  <span class="kd">@ViewBuilder</span> <span class="nv">content</span><span class="p">:</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Content</span><span class="p">,</span>
+  <span class="kd">@ViewBuilder</span> <span class="nv">background</span><span class="p">:</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Background</span>
+<span class="p">)</span> <span class="k">where</span> <span class="kt">S</span><span class="p">:</span> <span class="kt">StringProtocol</span><span class="p">,</span> <span class="kt">Label</span> <span class="o">==</span> <span class="kt">Text</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>title</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A string that describes the text label.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>content</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A view builder that creates a view for the content of <code>ToastView</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>background</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A view builder that creates a view for the background of <code>ToastView</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/quanshousio/ToastUI/tree/1.2.0/Sources/ToastUI/ToastView.swift#L154-L164">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:7ToastUI0A4ViewV7contentACy05SwiftB005EmptyC0VAGq0_Gq0_yXE_tcAGRszAGRs_rlufc"></a>
+                    <a name="//apple_ref/swift/Method/init(content:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:7ToastUI0A4ViewV7contentACy05SwiftB005EmptyC0VAGq0_Gq0_yXE_tcAGRszAGRs_rlufc">init(content:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a <code>ToastView</code> with custom <code>content</code> view.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="kd">@ViewBuilder</span> <span class="nv">content</span><span class="p">:</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Content</span><span class="p">)</span>
+<span class="k">where</span> <span class="kt">Background</span> <span class="o">==</span> <span class="kt">EmptyView</span><span class="p">,</span> <span class="kt">Label</span> <span class="o">==</span> <span class="kt">EmptyView</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>content</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A view builder that creates a view for the content of <code>ToastView</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/quanshousio/ToastUI/tree/1.2.0/Sources/ToastUI/ToastView.swift#L171-L177">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:7ToastUI0A4ViewV7content5labelACy05SwiftB005EmptyC0Vq_q0_Gq0_yXE_q_yXEtcAHRszrlufc"></a>
+                    <a name="//apple_ref/swift/Method/init(content:label:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:7ToastUI0A4ViewV7content5labelACy05SwiftB005EmptyC0Vq_q0_Gq0_yXE_q_yXEtcAHRszrlufc">init(content:<wbr>label:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a <code>ToastView</code> with custom <code>content</code> and <code>label</code> views.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span>
+  <span class="kd">@ViewBuilder</span> <span class="nv">content</span><span class="p">:</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Content</span><span class="p">,</span>
+  <span class="kd">@ViewBuilder</span> <span class="nv">label</span><span class="p">:</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Label</span>
+<span class="p">)</span> <span class="k">where</span> <span class="kt">Background</span> <span class="o">==</span> <span class="kt">EmptyView</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>content</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A view builder that creates a view for the content of <code>ToastView</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>label</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A view builder that creates a view for the label of <code>ToastView</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/quanshousio/ToastUI/tree/1.2.0/Sources/ToastUI/ToastView.swift#L186-L195">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:7ToastUI0A4ViewV7content10backgroundACyx05SwiftB005EmptyC0Vq0_Gq0_yXE_xyXEtcAHRs_rlufc"></a>
+                    <a name="//apple_ref/swift/Method/init(content:background:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:7ToastUI0A4ViewV7content10backgroundACyx05SwiftB005EmptyC0Vq0_Gq0_yXE_xyXEtcAHRs_rlufc">init(content:<wbr>background:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a <code>ToastView</code> with custom <code>content</code> and <code>background</code> views.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span>
+  <span class="kd">@ViewBuilder</span> <span class="nv">content</span><span class="p">:</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Content</span><span class="p">,</span>
+  <span class="kd">@ViewBuilder</span> <span class="nv">background</span><span class="p">:</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Background</span>
+<span class="p">)</span> <span class="k">where</span> <span class="kt">Label</span> <span class="o">==</span> <span class="kt">EmptyView</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>content</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A view builder that creates a view for the content of <code>ToastView</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>background</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A view builder that creates a view for the background of <code>ToastView</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/quanshousio/ToastUI/tree/1.2.0/Sources/ToastUI/ToastView.swift#L202-L210">Show on GitHub</a>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:7ToastUI0A4ViewV7content5label10backgroundACyxq_q0_Gq0_yXE_q_yXExyXEtcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(content:label:background:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:7ToastUI0A4ViewV7content5label10backgroundACyxq_q0_Gq0_yXE_q_yXExyXEtcfc">init(content:<wbr>label:<wbr>background:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a <code>ToastView</code> with custom <code>content</code>, <code>label</code> and <code>background</code> views.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span>
+  <span class="kd">@ViewBuilder</span> <span class="nv">content</span><span class="p">:</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Content</span><span class="p">,</span>
+  <span class="kd">@ViewBuilder</span> <span class="nv">label</span><span class="p">:</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Label</span><span class="p">,</span>
+  <span class="kd">@ViewBuilder</span> <span class="nv">background</span><span class="p">:</span> <span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Background</span>
+<span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>content</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A view builder that creates a view for the content of <code>ToastView</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>label</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A view builder that creates a view for the label of <code>ToastView</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>background</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A view builder that creates a view for the background of <code>ToastView</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div class="slightly-smaller">
+                        <a href="https://github.com/quanshousio/ToastUI/tree/1.2.0/Sources/ToastUI/ToastView.swift#L218-L228">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -511,7 +938,7 @@ rectangle shape with an opaque background.</p>
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2020 <a class="link" href="https://github.com/quanshousio" target="_blank" rel="external">Quan Tran</a>. All rights reserved. (Last updated: 2020-10-06)</p>
+      <p>&copy; 2020 <a class="link" href="https://github.com/quanshousio" target="_blank" rel="external">Quan Tran</a>. All rights reserved. (Last updated: 2020-10-09)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
