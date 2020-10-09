@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name        = 'ToastUI'
-  s.version     = '1.2.0'
+  s.version     = '1.2.1'
   s.summary     = 'A simple way to show toast in SwiftUI.'
   s.description = 'ToastUI provides you a simple way to show toast, heads-up display (HUD), custom alert or any SwiftUI views on top of everything in SwiftUI.'
 
@@ -13,5 +13,5 @@ Pod::Spec.new do |s|
   s.ios.deployment_target  = '13.0'
   s.tvos.deployment_target = '13.0'
   s.source_files           = 'Sources/**/*.swift'
-  s.swift_version          = '5.1'
+  s.swift_version          = '5.3'
 end
