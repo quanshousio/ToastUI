@@ -55,12 +55,19 @@ internal struct ToastViewIsPresentedModifier<QTContent>: ViewModifier where QTCo
     }
   }
 
-  internal func body(content: Content) -> some View {
-    content
-      .preference(key: ToastViewPreferenceKey.self, value: isPresented)
-      .onPreferenceChange(ToastViewPreferenceKey.self) {
-        present($0)
-      }
+  @ViewBuilder internal func body(content: Content) -> some View {
+    if #available(iOS 14.0, tvOS 14.0, *) {
+      content
+        .onChange(of: isPresented) {
+          present($0)
+        }
+    } else {
+      content
+        .onAppear()
+        .onChange(value: isPresented) {
+          present($0)
+        }
+    }
   }
 }
 
@@ -109,12 +116,19 @@ where Item: Identifiable, QTContent: View
     }
   }
 
-  internal func body(content: Content) -> some View {
-    content
-      .preference(key: ToastViewPreferenceKey.self, value: item != nil)
-      .onPreferenceChange(ToastViewPreferenceKey.self) {
-        present($0)
-      }
+  @ViewBuilder internal func body(content: Content) -> some View {
+    if #available(iOS 14.0, tvOS 14.0, *) {
+      content
+        .onChange(of: item != nil) {
+          present($0)
+        }
+    } else {
+      content
+        .onAppear()
+        .onChange(value: item != nil) {
+          present($0)
+        }
+    }
   }
 }
 
