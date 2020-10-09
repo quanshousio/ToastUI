@@ -121,6 +121,7 @@ struct ContentView: View {
         }
       }
       .navigationBarTitle("ToastUI")
+      .navigationBarItems(trailing: Image("ToastUI").resizable().frame(width: 52.45, height: 28))
     }
   }
 }
