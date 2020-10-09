@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="ToastUI.svg" alt="ToastUI logo" style="width: 50%">
+  <img src="https://raw.githubusercontent.com/quanshousio/ToastUI/master/ToastUI.svg" alt="ToastUI logo" width="50%">
 </h1>
 
 <h3 align="center">
@@ -30,7 +30,7 @@
 </p>
 
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/29722055/89260921-d4f74c00-d5f2-11ea-8a5d-31be17671139.gif" alt="demo" style="width: 42%">
+  <img src="https://user-images.githubusercontent.com/29722055/89260921-d4f74c00-d5f2-11ea-8a5d-31be17671139.gif" alt="demo" width="42%">
 </p>
 
 ## Overview

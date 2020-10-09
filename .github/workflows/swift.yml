@@ -7,7 +7,7 @@ on:
     branches: [master]
 
 jobs:
-  build:
+  swift-build:
     runs-on: macos-latest
     steps:
     - uses: actions/checkout@v2
