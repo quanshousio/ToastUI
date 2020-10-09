@@ -4,8 +4,42 @@ All notable changes to this project will be documented in this file. `ToastUI` a
 
 #### 1.x Releases
 
+* `1.2.x` Releases - [1.2.0](#120)
 * `1.1.x` Releases - [1.1.0](#110) | [1.1.1](#111)
 * `1.0.x` Releases - [1.0.0](#100) | [1.0.1](#101) | [1.0.2](#102)
+
+---
+
+## [1.2.0](https://github.com/quanshousio/ToastUI/releases/tag/1.2.0)
+
+Released on 2020-10-09.
+
+#### Added
+
+* New logo for `ToastUI` .
+  + Added by [Quan Tran](https://github.com/quanshousio) in Pull Request [#11](https://github.com/quanshousio/ToastUI/pull/11).
+* Support for custom background in `ToastView` .
+  + Added by [Quan Tran](https://github.com/quanshousio) in Pull Request [#11](https://github.com/quanshousio/ToastUI/pull/11).
+
+#### Updated
+
+* `ToastViewPreferenceKey` has been removed. Presenting toast is now handled by using `onChange` modifier.
+  + Updated by [Quan Tran](https://github.com/quanshousio) in Pull Request [#11](https://github.com/quanshousio/ToastUI/pull/11).
+* `cocoaBlur` modifier adds `VisualEffectView` as a background instead of using `ZStack` .
+  + Updated by [Quan Tran](https://github.com/quanshousio) in Pull Request [#11](https://github.com/quanshousio/ToastUI/pull/11).
+* Default `UIBlurEffectStyle` for blurred background of `ToastView` is `.prominent` for both iOS and tvOS.
+  + Updated by [Quan Tran](https://github.com/quanshousio) in Pull Request [#11](https://github.com/quanshousio/ToastUI/pull/11).
+* Utilize Swift 5.3 functionalities.
+  + Updated by [Quan Tran](https://github.com/quanshousio) in Pull Request [#11](https://github.com/quanshousio/ToastUI/pull/11).
+* Documentation for `ToastView` and README.
+  + Updated by [Quan Tran](https://github.com/quanshousio) in Pull Request [#11](https://github.com/quanshousio/ToastUI/pull/11).
+
+#### Fixed
+
+* Incorrect `keyWindow` is used in callbacks when there are multiple foreground active scenes.
+  + Fixed by [Quan Tran](https://github.com/quanshousio) in Pull Request [#11](https://github.com/quanshousio/ToastUI/pull/11).
+* `ToastViewPreferenceKey` tried to update multiple times per frame is thrown in some cases.
+  + Fixed by [Quan Tran](https://github.com/quanshousio) in Pull Request [#11](https://github.com/quanshousio/ToastUI/pull/11).
 
 ---
 
@@ -20,7 +54,7 @@ Released on 2020-10-05.
 
 #### Fixed
 
-* Use Xcode 12 explicitly on GitHub virtual environement.
+* Use Xcode 12 explicitly on GitHub virtual environment.
   + Fixed by [Quan Tran](https://github.com/quanshousio) in Pull Request [#10](https://github.com/quanshousio/ToastUI/pull/10).
 
 ## [1.1.0](https://github.com/quanshousio/ToastUI/releases/tag/1.1.0)
@@ -82,7 +116,7 @@ Released on 2020-08-13.
 
 #### Fixed
 
-* Content view is not properly laid out when boolean binding is triggered in `onAppear()` .
+* Content view is not properly laid out when boolean binding is triggered in `onAppear` .
   + Fixed by [Quan Tran](https://github.com/quanshousio) in Pull Request [#3](https://github.com/quanshousio/ToastUI/pull/3).
 
 ## [1.0.0](https://github.com/quanshousio/ToastUI/releases/tag/1.0.0)

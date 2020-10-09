@@ -1,42 +1,79 @@
-# ToastUI
+<h1 align="center">
+  <img src="ToastUI.svg" alt="ToastUI logo" style="width: 50%">
+</h1>
 
-[![SwiftPM compatible](https://img.shields.io/badge/SwiftPM-compatible-informational)](#swift-package-manager)
-[![CocoaPods compatible](https://img.shields.io/cocoapods/v/ToastUI)](#cocoapods)
-[![Platform](https://img.shields.io/cocoapods/p/ToastUI)](#requirements)
-[![License](https://img.shields.io/cocoapods/l/ToastUI)](#license)
+<h3 align="center">
+  A simple way to show toast in SwiftUI
+</h3>
+
+<p align="center">
+  <strong><a href="https://quanshousio.github.io/ToastUI/">Documentation</a></strong>
+  •
+  <strong><a href="#getting-started">Example</a></strong>
+  •
+  <strong><a href="CHANGELOG.md">Change Log</a></strong>
+</p>
+
+<p align="center">
+  <a href="#swift-package-manager">
+    <img src="https://img.shields.io/badge/SwiftPM-compatible-informational" alt="Swift Package Manager">
+  </a>
+  <a href="#cocoapods">
+    <img src="https://img.shields.io/cocoapods/v/ToastUI" alt="CocoaPods">
+  </a>
+  <a href="#requirements">
+    <img src="https://img.shields.io/cocoapods/p/ToastUI" alt="Platform">
+  </a>
+  <a href="#license">
+    <img src="https://img.shields.io/cocoapods/l/ToastUI" alt="License">
+  </a>
+</p>
+
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/29722055/89260921-d4f74c00-d5f2-11ea-8a5d-31be17671139.gif" alt="demo" style="width: 42%">
+</p>
+
+## Overview
 
 `ToastUI` provides you a simple way to present toast, head-up display (HUD), custom alert, or any SwiftUI views on top of everything in SwiftUI.
 
-<img src="https://user-images.githubusercontent.com/29722055/89260921-d4f74c00-d5f2-11ea-8a5d-31be17671139.gif"/>
+* [Getting started](#getting-started)
+* [Requirements](#requirements)
+* [Installation](#installation)
+* [Documentation](#documentation)
+* [Contributing](#contributing)
+* [Author](#author)
+* [Acknowledgements](#acknowledgements)
+* [License](#license)
 
 ## Getting started
 
-Here is a example to present an indefinite progress indicator HUD and dismiss it after 2 seconds.
+Here is an example to present an indefinite progress indicator HUD and dismiss it after 2 seconds.
 
 <img src="https://user-images.githubusercontent.com/29722055/89260980-e4769500-d5f2-11ea-9f1f-7368ce738fd4.gif"/>
 
 ``` swift
 struct ContentView: View {
-    @State private var presentingToast: Bool = false
+  @State private var presentingToast: Bool = false
 
-    var body: some View {
-        Button(action: {
-            self.presentingToast = true
-        }) {
-            Text("Tap me")
-                .bold()
-                .foregroundColor(.white)
-                .padding()
-                .background(Color.accentColor)
-                .cornerRadius(8.0)
-        }
-        .toast(isPresented: $presentingToast, dismissAfter: 2.0, onDismiss: {
-            print("Toast dismissed")
-        }) {
-            ToastView("Loading...")
-                .toastViewStyle(IndefiniteProgressToastViewStyle())
-        }
+  var body: some View {
+    Button {
+      presentingToast = true
+    } label: {
+      Text("Tap me")
+        .bold()
+        .foregroundColor(.white)
+        .padding()
+        .background(Color.accentColor)
+        .cornerRadius(8.0)
     }
+    .toast(isPresented: $presentingToast, dismissAfter: 2.0) {
+      print("Toast dismissed")
+    } content: {
+      ToastView("Loading...")
+        .toastViewStyle(IndefiniteProgressToastViewStyle())
+    }
+  }
 }
 ```
 
@@ -46,50 +83,50 @@ You can also present custom alerts or any SwiftUI views of your choice.
 
 ``` swift
 struct ContentView: View {
-    @State private var presentingToast: Bool = false
+  @State private var presentingToast: Bool = false
 
-    var body: some View {
-        Button(action: {
-            self.presentingToast = true
-        }) {
-            Text("Tap me")
-                .bold()
-                .foregroundColor(.white)
-                .padding()
-                .background(Color.accentColor)
-                .cornerRadius(8.0)
-        }
-        .toast(isPresented: $presentingToast) {
-            ToastView {
-                VStack {
-                    Text("Hello from ToastUI")
-                        .padding(.bottom)
-                        .multilineTextAlignment(.center)
-                    
-                    Button(action: {
-                        self.presentingToast = false
-                    }) {
-                        Text("OK")
-                            .bold()
-                            .foregroundColor(.white)
-                            .padding(.horizontal)
-                            .padding(.vertical, 12)
-                            .background(Color.accentColor)
-                            .cornerRadius(8.0)
-                    }
-                }
-            }
-        }
+  var body: some View {
+    Button {
+      presentingToast = true
+    } label: {
+      Text("Tap me")
+        .bold()
+        .foregroundColor(.white)
+        .padding()
+        .background(Color.accentColor)
+        .cornerRadius(8.0)
     }
+    .toast(isPresented: $presentingToast) {
+      ToastView {
+        VStack {
+          Text("Hello from ToastUI")
+            .padding(.bottom)
+            .multilineTextAlignment(.center)
+
+          Button {
+            presentingToast = false
+          } label: {
+            Text("OK")
+              .bold()
+              .foregroundColor(.white)
+              .padding(.horizontal)
+              .padding(.vertical, 12.0)
+              .background(Color.accentColor)
+              .cornerRadius(8.0)
+          }
+        }
+      }
+    }
+  }
 }
 ```
 
-Have a look at the `ToastUISample` project for more examples and also check out the [Documentation](#documentation) below.
+Have a look at the [ `ToastUISample` ](ToastUISample) project for more examples and also check out the [Documentation](#documentation) below.
 
 ## Requirements
 
 * iOS 13.0+ | tvOS 13.0+
-* Xcode 11.0+ | Swift 5.1+
+* Xcode 12.0+ | Swift 5.3+
 
 ## Installation
 
@@ -121,36 +158,92 @@ pod 'ToastUI'
 
 ## Documentation
 
-*For more detailed documentation, please see [here](https://quanshousio.github.io/ToastUI/).*
+For more detailed documentation, please see **[here](https://quanshousio.github.io/ToastUI/)**.
 
-#### Toasting
+#### Presenting
 
-`ToastUI` supports presenting any SwiftUI views from anywhere. You just need to add `toast()` view modifier and provide your views to the `content` closure, much like using `alert()` or `sheet()` .
-
-``` swift
-.toast(isPresented: $presentingToast) {
-    ToastView {
-        // your SwiftUI views here
-    }
-}
-```
-
-`ToastView` is just a rounded rectangle shape that represents the background of your provided views and blurs underneath views. You can remove it and provide your views directly.
+`ToastUI` supports presenting any SwiftUI views from anywhere. You just need to add `toast()` view modifier and provide your views, much like using `alert()` or `sheet()` .
 
 ``` swift
 .toast(isPresented: $presentingToast) {
-    // your SwiftUI views here
+  // your SwiftUI views here
 }
 ```
 
-There are two types of `toast()` view modifier:
+There are two types of `toast()` view modifier. For more usage information, check out the [examples](ToastUISample).
 
 * `toast(isPresented:dismissAfter:onDismiss:content:)` – presents a toast when the given boolean binding is true.
 * `toast(item:onDismiss:content:)` – presents a toast using the given item as a data source for the toast's content.
 
+#### ToastView
+
+`ToastUI` comes with `ToastView` , which visually represented as a rounded rectangle shape that contains your provided views and has a default thin blurred background.
+
+``` swift
+.toast(isPresented: $presentingToast) {
+  ToastView("Hello from ToastUI")
+}
+```
+
+Layout of `ToastView` is demonstrated in this figure below.
+
+``` swift
++-----------------------------+
+|                             |
+|  <Background>               |
+|                             |
+|        +-----------+        |
+|        |           |        |
+|        | <Content> |        |
+|        |           |        |
+|        |           |        |
+|        |  <Label>  |        |
+|        +-----------+        |
+|                             |
+|                             |
+|                             |
++-----------------------------+
+
+ToastView(<Label>) {
+  <Content>
+} background: {
+  <Background>
+}
+```
+
+`ToastView` with custom content views and custom background views.
+
+``` swift
+.toast(isPresented: $presentingToast) {
+  ToastView("Saved!") {
+    // custom content views
+    Image(systemName: "arrow.down.doc.fill")
+      .font(.system(size: 48))
+      .foregroundColor(.green)
+      .padding()
+  } background: {
+    // custom background views
+    Color.green.opacity(0.1)
+  }
+}
+```
+
+`ToastView` using [built-in styles](#styling) and without background.
+
+``` swift
+.toast(isPresented: $presentingToast) {
+  ToastView("Loading...") {
+    // EmptyView()
+  } background: {
+    // EmptyView()
+  }
+  .toastViewStyle(IndefiniteProgressToastViewStyle())
+}
+```
+
 #### Styling
 
-`ToastUI` supports seven different `ToastView` styles out-of-the-box. You have to use `ToastView` and set the style accordingly by using `toastViewStyle(_:)` modifier.
+`ToastUI` supports seven different `ToastViewStyle` s out-of-the-box. You have to use `ToastView` and set the style accordingly by using `toastViewStyle(_:)` modifier. All styles have native support for dynamic type for accessbility.
 
 * `DefaultProgressToastViewStyle()` – shows an empty toast if user does not provide anything. `ToastView` uses this style by default.
 * `IndefiniteProgressToastViewStyle()` – shows an indefinite circular progress indicator.
@@ -160,25 +253,10 @@ There are two types of `toast()` view modifier:
 * `WarningToastViewStyle()` - shows a warning toast.
 * `InfoToastViewStyle()` – shows an information toast.
 
-`ToastUI` also includes a `UIVisualEffectView` wrapper through `cocoaBlur()` view modifier, which is more flexible than [ `blur(radius:opaque:)` ](https://developer.apple.com/documentation/swiftui/view/blur(radius:opaque:)) included in SwiftUI.
+`ToastUI` includes a `UIVisualEffectView` wrapper through `cocoaBlur()` view modifier, which is more flexible than existing [ `blur(radius:opaque:)` ](https://developer.apple.com/documentation/swiftui/view/blur(radius:opaque:)) in SwiftUI.
 
-#### Swift 5.3+
-
-If you are using Xcode 12.0+/Swift 5.3+, the syntax will be much cleaner thanks to support of [multiple trailing closures](https://github.com/apple/swift-evolution/blob/master/proposals/0279-multiple-trailing-closures.md) and [implicit `self` in `@escaping` closures](https://github.com/apple/swift-evolution/blob/master/proposals/0269-implicit-self-explicit-capture.md).
-
-``` swift
-Button {
-    presentingToast = true
-} label: {
-    Text("Tap me")
-}
-.toast(isPresented: $presentingToast, dismissAfter: 2.0) {
-    print("Toast dismissed")
-} content: {
-    ToastView("Loading...")
-        .toastViewStyle(IndefiniteProgressToastViewStyle())
-}
-```
+* `cocoaBlur(blurStyle:vibrancyStyle:blurIntensity:)` - for iOS.
+* `cocoaBlur(blurStyle:blurIntensity:)` - for tvOS.
 
 ## Contributing
 
@@ -190,9 +268,11 @@ Quan Tran ([@quanshousio](https://quanshousio.com))
 
 ## Acknowledgements
 
-* [SVProgressHUD](https://github.com/SVProgressHUD/SVProgressHUD) - original design of the circular progress HUD.
-* [ScaledMetricOniOS13](https://gist.github.com/apptekstudios/e5f282a67beaa85dc725d1d98ec74191) - `@ScaledMetric` property wrapper for iOS 13.
 * [Fruta](https://developer.apple.com/documentation/app_clips/fruta_building_a_feature-rich_app_with_swiftui) - `UIVisualEffectView` wrapper for SwiftUI written by Apple.
+* [OnChangeOniOS13](https://stackoverflow.com/a/62523475) - `onChange` view modifier for iOS 13.
+* [ScaledMetricOniOS13](https://gist.github.com/apptekstudios/e5f282a67beaa85dc725d1d98ec74191) - `ScaledMetric` property wrapper for iOS 13.
+* [SVProgressHUD](https://github.com/SVProgressHUD/SVProgressHUD) - original design of the circular progress HUD.
+* [SwiftUI Custom Styling](https://swiftui-lab.com/custom-styling) - an informative article about SwiftUI custom styling.
 
 ## License
 

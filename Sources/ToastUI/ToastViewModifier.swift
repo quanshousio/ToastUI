@@ -13,9 +13,12 @@ internal struct ToastViewIsPresentedModifier<QTContent>: ViewModifier where QTCo
   let onDismiss: (() -> Void)?
   let content: () -> QTContent
 
+  @State private var keyWindow: UIWindow?
+
   private func present(_ shouldPresent: Bool) {
-    // TODO: Find the correct active window when there are multiple foreground active scenes
-    let keyWindow = UIApplication.shared.windows.first { $0.isKeyWindow }
+    if keyWindow == nil {
+      keyWindow = UIApplication.shared.windows.first(where: \.isKeyWindow)
+    }
     var rootViewController = keyWindow?.rootViewController
     while true {
       if let presented = rootViewController?.presentedViewController {
@@ -41,7 +44,7 @@ internal struct ToastViewIsPresentedModifier<QTContent>: ViewModifier where QTCo
 
         if let dismissAfter = dismissAfter {
           DispatchQueue.main.asyncAfter(deadline: .now() + dismissAfter) {
-            self.isPresented = false
+            isPresented = false
           }
         }
       }
@@ -52,12 +55,19 @@ internal struct ToastViewIsPresentedModifier<QTContent>: ViewModifier where QTCo
     }
   }
 
-  internal func body(content: Content) -> some View {
-    content
-      .preference(key: ToastViewPreferenceKey.self, value: isPresented)
-      .onPreferenceChange(ToastViewPreferenceKey.self) {
-        self.present($0)
-      }
+  @ViewBuilder internal func body(content: Content) -> some View {
+    if #available(iOS 14.0, tvOS 14.0, *) {
+      content
+        .onChange(of: isPresented) {
+          present($0)
+        }
+    } else {
+      content
+        .onAppear()
+        .onChange(value: isPresented) {
+          present($0)
+        }
+    }
   }
 }
 
@@ -68,9 +78,12 @@ where Item: Identifiable, QTContent: View
   let onDismiss: (() -> Void)?
   let content: (Item) -> QTContent
 
+  @State private var keyWindow: UIWindow?
+
   private func present(_ shouldPresent: Bool) {
-    // TODO: Find the correct active window when there are multiple foreground active scenes
-    let keyWindow = UIApplication.shared.windows.first { $0.isKeyWindow }
+    if keyWindow == nil {
+      keyWindow = UIApplication.shared.windows.first(where: \.isKeyWindow)
+    }
     var rootViewController = keyWindow?.rootViewController
     while true {
       if let presented = rootViewController?.presentedViewController {
@@ -103,12 +116,19 @@ where Item: Identifiable, QTContent: View
     }
   }
 
-  internal func body(content: Content) -> some View {
-    content
-      .preference(key: ToastViewPreferenceKey.self, value: item != nil)
-      .onPreferenceChange(ToastViewPreferenceKey.self) {
-        self.present($0)
-      }
+  @ViewBuilder internal func body(content: Content) -> some View {
+    if #available(iOS 14.0, tvOS 14.0, *) {
+      content
+        .onChange(of: item != nil) {
+          present($0)
+        }
+    } else {
+      content
+        .onAppear()
+        .onChange(value: item != nil) {
+          present($0)
+        }
+    }
   }
 }
 
@@ -118,12 +138,17 @@ internal struct VisualEffectViewModifier: ViewModifier {
   var vibrancyStyle: UIVibrancyEffectStyle?
   var blurIntensity: CGFloat?
 
-  func body(content: Content) -> some View {
-    VisualEffectView(blurStyle: blurStyle, vibrancyStyle: vibrancyStyle, blurIntensity: blurIntensity) {
-      content
-    }
-    .edgesIgnoringSafeArea(.all)
-    .frame(maxWidth: .infinity, maxHeight: .infinity)
+  internal func body(content: Content) -> some View {
+    content
+      .frame(maxWidth: .infinity, maxHeight: .infinity)
+      .background(
+        VisualEffectView(
+          blurStyle: blurStyle,
+          vibrancyStyle: vibrancyStyle,
+          blurIntensity: blurIntensity
+        )
+        .edgesIgnoringSafeArea(.all)
+      )
   }
 }
 #endif
@@ -133,12 +158,16 @@ internal struct VisualEffectViewModifier: ViewModifier {
   var blurStyle: UIBlurEffect.Style
   var blurIntensity: CGFloat?
 
-  func body(content: Content) -> some View {
-    VisualEffectView(blurStyle: blurStyle, blurIntensity: blurIntensity) {
-      content
-    }
-    .edgesIgnoringSafeArea(.all)
-    .frame(maxWidth: .infinity, maxHeight: .infinity)
+  internal func body(content: Content) -> some View {
+    content
+      .frame(maxWidth: .infinity, maxHeight: .infinity)
+      .background(
+        VisualEffectView(
+          blurStyle: blurStyle,
+          blurIntensity: blurIntensity
+        )
+        .edgesIgnoringSafeArea(.all)
+      )
   }
 }
 #endif

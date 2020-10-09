@@ -10,14 +10,12 @@ import ToastUI
 
 struct ExampleItem<Destination>: View where Destination: View {
   var destination: Destination
-  var description: String?
+  var description: String
 
   var body: some View {
     NavigationLink(destination: destination) {
       VStack(alignment: .leading) {
-        if description != nil { // let description = description
-          Text(description!).lineLimit(20)
-        }
+        Text(description).lineLimit(20)
       }
     }
   }
@@ -98,6 +96,10 @@ struct ContentView: View {
             description: "Customized alert"
           )
           ExampleItem(
+            destination: ToastViewWithCustomBackgroundExample(),
+            description: "ToastView with custom background"
+          )
+          ExampleItem(
             destination: CocoaBlurModifierExample(),
             description: "cocoaBlur() view modifier"
           )
@@ -119,6 +121,7 @@ struct ContentView: View {
         }
       }
       .navigationBarTitle("ToastUI")
+      .navigationBarItems(trailing: Image("ToastUI").resizable().frame(width: 52.45, height: 28))
     }
   }
 }

@@ -26,35 +26,31 @@ public struct DefaultToastViewStyle: ToastViewStyle {
   ///
   /// - Parameter configuration: The properties of the `ToastView` being created.
   public func makeBody(configuration: Configuration) -> some View {
-    DefaultToastView(content: configuration.content, label: configuration.label)
+    DefaultToastView(
+      background: configuration.background,
+      label: configuration.label,
+      content: configuration.content
+    )
   }
 
   internal struct DefaultToastView: View {
+    @ScaledMetricProperty(relativeTo: .headline) private var paddingSize: CGFloat = 16
     @ScaledMetricProperty(relativeTo: .headline) private var cornerSize: CGFloat = 9
 
+    let background: AnyView?
+    let label: AnyView?
     let content: AnyView?
-    let label: Text?
 
     var body: some View {
       VStack {
-        if label != nil { // let label = label
-          label!
-            .font(.headline)
-            .foregroundColor(.secondary)
-        }
-
-        if content != nil { // let content = content
-          content!
-        }
+        content
+        label
       }
-      .padding()
-      .background(
-        RoundedRectangle(cornerRadius: cornerSize, style: .continuous)
-          .fill(backgroundColor)
-          .shadow(radius: 4)
-      )
-      .padding()
-      .cocoaBlur()
+      .padding(paddingSize)
+      .background(backgroundColor)
+      .cornerRadius(cornerSize)
+      .frame(maxWidth: .infinity, maxHeight: .infinity)
+      .background(background.edgesIgnoringSafeArea(.all))
     }
   }
 }
@@ -69,7 +65,7 @@ public struct IndefiniteProgressToastViewStyle: ToastViewStyle {
   ///
   /// - Parameter configuration: The properties of the `ToastView` being created.
   public func makeBody(configuration: Configuration) -> some View {
-    IndefiniteProgressToastView(label: configuration.label)
+    IndefiniteProgressToastView(background: configuration.background, label: configuration.label)
   }
 
   internal struct IndefiniteProgressToastView: View {
@@ -80,7 +76,8 @@ public struct IndefiniteProgressToastViewStyle: ToastViewStyle {
 
     @State private var isAnimating: Bool = false
 
-    let label: Text?
+    let background: AnyView?
+    let label: AnyView?
 
     var body: some View {
       VStack {
@@ -98,23 +95,23 @@ public struct IndefiniteProgressToastViewStyle: ToastViewStyle {
           .frame(width: iconSize, height: iconSize)
           .rotationEffect(.degrees(-90))
           .rotationEffect(isAnimating ? .degrees(360) : .degrees(0))
-          .animation(isAnimating ? Animation.linear(duration: 1.0).repeatForever(autoreverses: false) : nil)
-          .onAppear { self.isAnimating = true }
-          .onDisappear { self.isAnimating = false }
+          .animation(
+            isAnimating
+              ? Animation.linear(duration: 1.0).repeatForever(autoreverses: false)
+              : nil
+          )
+          .onAppear { isAnimating = true }
+          .onDisappear { isAnimating = false }
 
-        if label != nil { // let label = label
-          label!
-            .font(.headline)
-            .foregroundColor(.secondary)
-        }
+        label
+          .font(.headline)
+          .foregroundColor(.secondary)
       }
       .padding(paddingSize)
-      .background(
-        RoundedRectangle(cornerRadius: cornerSize, style: .continuous)
-          .fill(backgroundColor)
-          .shadow(radius: 4)
-      )
-      .cocoaBlur()
+      .background(backgroundColor)
+      .cornerRadius(cornerSize)
+      .frame(maxWidth: .infinity, maxHeight: .infinity)
+      .background(background.edgesIgnoringSafeArea(.all))
     }
   }
 }
@@ -143,7 +140,12 @@ where Value: BinaryFloatingPoint
   ///
   /// - Parameter configuration: The properties of the `ToastView` being created.
   public func makeBody(configuration: Configuration) -> some View {
-    DefiniteProgressToastView(label: configuration.label, value: $value, total: $total)
+    DefiniteProgressToastView(
+      background: configuration.background,
+      label: configuration.label,
+      value: $value,
+      total: $total
+    )
   }
 
   internal struct DefiniteProgressToastView: View {
@@ -154,7 +156,9 @@ where Value: BinaryFloatingPoint
 
     @State private var isAnimating: Bool = false
 
-    let label: Text?
+    let background: AnyView?
+    let label: AnyView?
+
     @Binding var value: Value
     @Binding var total: Value
 
@@ -175,19 +179,15 @@ where Value: BinaryFloatingPoint
           .rotationEffect(.degrees(-90))
           .animation(.linear)
 
-        if label != nil { // let label = label
-          label!
-            .font(.headline)
-            .foregroundColor(.secondary)
-        }
+        label
+          .font(.headline)
+          .foregroundColor(.secondary)
       }
       .padding(paddingSize)
-      .background(
-        RoundedRectangle(cornerRadius: cornerSize, style: .continuous)
-          .fill(backgroundColor)
-          .shadow(radius: 4)
-      )
-      .cocoaBlur()
+      .background(backgroundColor)
+      .cornerRadius(cornerSize)
+      .frame(maxWidth: .infinity, maxHeight: .infinity)
+      .background(background.edgesIgnoringSafeArea(.all))
     }
   }
 }
@@ -201,7 +201,7 @@ public struct SuccessToastViewStyle: ToastViewStyle {
   ///
   /// - Parameter configuration: The properties of the `ToastView` being created.
   public func makeBody(configuration: Configuration) -> some View {
-    SuccessToastView(label: configuration.label)
+    SuccessToastView(background: configuration.background, label: configuration.label)
   }
 
   internal struct SuccessToastView: View {
@@ -209,7 +209,8 @@ public struct SuccessToastViewStyle: ToastViewStyle {
     @ScaledMetricProperty(relativeTo: .headline) private var paddingSize: CGFloat = 20
     @ScaledMetricProperty(relativeTo: .headline) private var cornerSize: CGFloat = 9
 
-    let label: Text?
+    let background: AnyView?
+    let label: AnyView?
 
     var body: some View {
       VStack {
@@ -218,19 +219,15 @@ public struct SuccessToastViewStyle: ToastViewStyle {
           .frame(width: iconSize, height: iconSize)
           .foregroundColor(.green)
 
-        if label != nil { // let label = label
-          label!
-            .font(.headline)
-            .foregroundColor(.secondary)
-        }
+        label
+          .font(.headline)
+          .foregroundColor(.secondary)
       }
       .padding(paddingSize)
-      .background(
-        RoundedRectangle(cornerRadius: cornerSize, style: .continuous)
-          .fill(backgroundColor)
-          .shadow(radius: 4)
-      )
-      .cocoaBlur()
+      .background(backgroundColor)
+      .cornerRadius(cornerSize)
+      .frame(maxWidth: .infinity, maxHeight: .infinity)
+      .background(background.edgesIgnoringSafeArea(.all))
     }
   }
 }
@@ -244,7 +241,7 @@ public struct ErrorToastViewStyle: ToastViewStyle {
   ///
   /// - Parameter configuration: The properties of the `ToastView` being created.
   public func makeBody(configuration: Configuration) -> some View {
-    FailureToastView(label: configuration.label)
+    FailureToastView(background: configuration.background, label: configuration.label)
   }
 
   internal struct FailureToastView: View {
@@ -252,7 +249,8 @@ public struct ErrorToastViewStyle: ToastViewStyle {
     @ScaledMetricProperty(relativeTo: .headline) private var paddingSize: CGFloat = 20
     @ScaledMetricProperty(relativeTo: .headline) private var cornerSize: CGFloat = 9
 
-    let label: Text?
+    let background: AnyView?
+    let label: AnyView?
 
     var body: some View {
       VStack {
@@ -261,20 +259,15 @@ public struct ErrorToastViewStyle: ToastViewStyle {
           .frame(width: iconSize, height: iconSize)
           .foregroundColor(.red)
 
-        if label != nil { // let label = label
-          label!
-            .font(.headline)
-            .fontWeight(.semibold)
-            .foregroundColor(.secondary)
-        }
+        label
+          .font(.headline)
+          .foregroundColor(.secondary)
       }
       .padding(paddingSize)
-      .background(
-        RoundedRectangle(cornerRadius: cornerSize, style: .continuous)
-          .fill(backgroundColor)
-          .shadow(radius: 4)
-      )
-      .cocoaBlur()
+      .background(backgroundColor)
+      .cornerRadius(cornerSize)
+      .frame(maxWidth: .infinity, maxHeight: .infinity)
+      .background(background.edgesIgnoringSafeArea(.all))
     }
   }
 }
@@ -288,7 +281,7 @@ public struct WarningToastViewStyle: ToastViewStyle {
   ///
   /// - Parameter configuration: The properties of the `ToastView` being created.
   public func makeBody(configuration: Configuration) -> some View {
-    WarningToastView(label: configuration.label)
+    WarningToastView(background: configuration.background, label: configuration.label)
   }
 
   internal struct WarningToastView: View {
@@ -296,7 +289,8 @@ public struct WarningToastViewStyle: ToastViewStyle {
     @ScaledMetricProperty(relativeTo: .headline) private var paddingSize: CGFloat = 20
     @ScaledMetricProperty(relativeTo: .headline) private var cornerSize: CGFloat = 9
 
-    let label: Text?
+    let background: AnyView?
+    let label: AnyView?
 
     var body: some View {
       VStack {
@@ -305,20 +299,15 @@ public struct WarningToastViewStyle: ToastViewStyle {
           .frame(width: iconSize, height: iconSize)
           .foregroundColor(.yellow)
 
-        if label != nil { // let label = label
-          label!
-            .font(.headline)
-            .fontWeight(.semibold)
-            .foregroundColor(.secondary)
-        }
+        label
+          .font(.headline)
+          .foregroundColor(.secondary)
       }
       .padding(paddingSize)
-      .background(
-        RoundedRectangle(cornerRadius: cornerSize, style: .continuous)
-          .fill(backgroundColor)
-          .shadow(radius: 4)
-      )
-      .cocoaBlur()
+      .background(backgroundColor)
+      .cornerRadius(cornerSize)
+      .frame(maxWidth: .infinity, maxHeight: .infinity)
+      .background(background.edgesIgnoringSafeArea(.all))
     }
   }
 }
@@ -332,7 +321,7 @@ public struct InfoToastViewStyle: ToastViewStyle {
   ///
   /// - Parameter configuration: The properties of the `ToastView` being created.
   public func makeBody(configuration: Configuration) -> some View {
-    InfoToastView(label: configuration.label)
+    InfoToastView(background: configuration.background, label: configuration.label)
   }
 
   internal struct InfoToastView: View {
@@ -340,7 +329,8 @@ public struct InfoToastViewStyle: ToastViewStyle {
     @ScaledMetricProperty(relativeTo: .headline) private var paddingSize: CGFloat = 20
     @ScaledMetricProperty(relativeTo: .headline) private var cornerSize: CGFloat = 9
 
-    let label: Text?
+    let background: AnyView?
+    let label: AnyView?
 
     var body: some View {
       VStack {
@@ -349,20 +339,15 @@ public struct InfoToastViewStyle: ToastViewStyle {
           .frame(width: iconSize, height: iconSize)
           .foregroundColor(.blue)
 
-        if label != nil { // let label = label
-          label!
-            .font(.headline)
-            .fontWeight(.semibold)
-            .foregroundColor(.secondary)
-        }
+        label
+          .font(.headline)
+          .foregroundColor(.secondary)
       }
       .padding(paddingSize)
-      .background(
-        RoundedRectangle(cornerRadius: cornerSize, style: .continuous)
-          .fill(backgroundColor)
-          .shadow(radius: 4)
-      )
-      .cocoaBlur()
+      .background(backgroundColor)
+      .cornerRadius(cornerSize)
+      .frame(maxWidth: .infinity, maxHeight: .infinity)
+      .background(background.edgesIgnoringSafeArea(.all))
     }
   }
 }

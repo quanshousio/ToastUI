@@ -8,71 +8,222 @@
 import SwiftUI
 
 /// A view that represents a toast, which is visually represented by a shadowed, rounded
-/// rectangle shape with an opaque background.
-public struct ToastView<Content>: View where Content: View {
+/// rectangle shape with a thin blurred background fit to screen by default.
+///
+/// This view supports styling by using `toastViewStyle(_:)`. Layout of this view is demonstrated
+/// in the figure below.
+///
+/// ```
+/// +-----------------------------+
+/// |                             |
+/// |  <Background>               |
+/// |                             |
+/// |        +-----------+        |
+/// |        |           |        |
+/// |        | <Content> |        |
+/// |        |           |        |
+/// |        |           |        |
+/// |        |  <Label>  |        |
+/// |        +-----------+        |
+/// |                             |
+/// |                             |
+/// |                             |
+/// +-----------------------------+
+/// ```
+public struct ToastView<Background, Label, Content>: View
+where Background: View, Label: View, Content: View {
   // MARK: Properties
 
-  @Environment(\.toastViewStyle) private var style: AnyToastViewStyle
+  @Environment(\.toastViewStyle) private var style
 
-  private var content: Content?
-  private var label: Text?
+  private var configuration: ToastViewStyleConfiguration
+
+  private let backgroundView = VisualEffectView(
+    blurStyle: .prominent,
+    blurIntensity: 0.13
+  )
 
   /// The content and behavior of the view.
   public var body: some View {
-    style.makeBody(configuration: ToastViewStyleConfiguration(content: AnyView(content), label: label))
+    style.makeBody(configuration: configuration)
   }
 }
 
 // MARK: Initializers
 
-extension ToastView where Content == EmptyView {
+extension ToastView {
   /// Creates an empty `ToastView`.
-  public init() {}
-}
-
-extension ToastView {
-  /// Creates a `ToastView` with provided `content`.
-  ///
-  /// - Parameter content: A view builder that creates a view for the content of `ToastView`.
-  public init(@ViewBuilder content: () -> Content) {
-    self.content = content()
+  public init()
+  where Background == EmptyView, Label == EmptyView, Content == EmptyView {
+    self.configuration = ToastViewStyleConfiguration(
+      background: AnyView(backgroundView)
+    )
   }
-}
 
-extension ToastView {
-  /// Creates an empty `ToastView` with title from a localized string.
+  /// Creates a `ToastView` based on a style configuration.
+  ///
+  /// - Parameter configuration: A `ToastView` style configuration.
+  public init(_ configuration: ToastViewStyleConfiguration)
+  where Background == EmptyView, Label == EmptyView, Content == EmptyView {
+    self.configuration = configuration
+  }
+
+  /// Creates an empty `ToastView` with text label from a localized string.
   ///
   /// - Parameter titleKey: The key for the `ToastView`'s localized title.
-  public init(_ titleKey: LocalizedStringKey) {
-    self.label = Text(titleKey)
+  public init(_ titleKey: LocalizedStringKey)
+  where Background == EmptyView, Label == Text, Content == EmptyView {
+    self.configuration = ToastViewStyleConfiguration(
+      background: AnyView(backgroundView),
+      label: AnyView(Text(titleKey))
+    )
   }
 
-  /// Creates a `ToastView` with custom `content` and title from a localized string.
+  /// Creates an empty `ToastView` with text label from a string.
   ///
-  /// - Parameters:
-  ///   - titleKey: The key for the `ToastView`'s localized title.
-  ///   - content: A view builder that creates a view for the content of `ToastView`.
-  public init(_ titleKey: LocalizedStringKey, @ViewBuilder content: () -> Content) {
-    self.label = Text(titleKey)
-    self.content = content()
+  /// - Parameter title: A string that describes the `ToastView`.
+  @_disfavoredOverload
+  public init<S>(_ title: S)
+  where S: StringProtocol, Background == EmptyView, Label == Text, Content == EmptyView {
+    self.configuration = ToastViewStyleConfiguration(
+      background: AnyView(backgroundView),
+      label: AnyView(Text(title))
+    )
   }
 }
 
 extension ToastView {
-  /// Creates an empty `ToastView` with title from a string.
-  ///
-  /// - Parameter title: A string that describes the `ToastView`.
-  public init<S>(_ title: S) where Content == EmptyView, S: StringProtocol {
-    self.label = !title.isEmpty ? Text(title) : nil
-  }
-
-  /// Creates a `ToastView` with provided `content` and title from a string.
+  /// Creates a `ToastView` with custom `content` view and text label from a localized string.
   ///
   /// - Parameters:
-  ///   - title: A string that describes the `ToastView`.
+  ///   - titleKey: The key used to look up the localized title for the label.
   ///   - content: A view builder that creates a view for the content of `ToastView`.
-  public init<S>(_ title: S, @ViewBuilder content: () -> Content) where S: StringProtocol {
-    self.label = !title.isEmpty ? Text(title) : nil
-    self.content = content()
+  public init(_ titleKey: LocalizedStringKey, @ViewBuilder content: () -> Content)
+  where Background == EmptyView, Label == Text {
+    self.configuration = ToastViewStyleConfiguration(
+      background: AnyView(backgroundView),
+      label: AnyView(Text(titleKey)),
+      content: AnyView(content())
+    )
+  }
+
+  /// Creates a `ToastView` with custom `content` view and text label from a string.
+  ///
+  /// - Parameters:
+  ///   - title: A string that describes the text label.
+  ///   - content: A view builder that creates a view for the content of `ToastView`.
+  @_disfavoredOverload
+  public init<S>(_ title: S, @ViewBuilder content: () -> Content)
+  where S: StringProtocol, Background == EmptyView, Label == Text {
+    self.configuration = ToastViewStyleConfiguration(
+      background: AnyView(backgroundView),
+      label: AnyView(Text(title)),
+      content: AnyView(content())
+    )
+  }
+}
+
+extension ToastView {
+  /// Creates a `ToastView` with custom `content` and `background` views,
+  /// and text label from a localized string.
+  ///
+  /// - Parameters:
+  ///   - titleKey: The key used to look up the localized title for the label.
+  ///   - content: A view builder that creates a view for the content of `ToastView`.
+  ///   - background: A view builder that creates a view for the background of `ToastView`.
+  public init(
+    _ titleKey: LocalizedStringKey,
+    @ViewBuilder content: () -> Content,
+    @ViewBuilder background: () -> Background
+  ) where Label == Text {
+    self.configuration = ToastViewStyleConfiguration(
+      background: AnyView(background()),
+      label: AnyView(Text(titleKey)),
+      content: AnyView(content())
+    )
+  }
+
+  /// Creates a `ToastView` with custom `content` and `background` views,
+  /// and text label from a string.
+  ///
+  /// - Parameters:
+  ///   - title: A string that describes the text label.
+  ///   - content: A view builder that creates a view for the content of `ToastView`.
+  ///   - background: A view builder that creates a view for the background of `ToastView`.
+  @_disfavoredOverload
+  public init<S>(
+    _ title: S,
+    @ViewBuilder content: () -> Content,
+    @ViewBuilder background: () -> Background
+  ) where S: StringProtocol, Label == Text {
+    self.configuration = ToastViewStyleConfiguration(
+      background: AnyView(background()),
+      label: AnyView(Text(title)),
+      content: AnyView(content())
+    )
+  }
+}
+
+extension ToastView {
+  /// Creates a `ToastView` with custom `content` view.
+  ///
+  /// - Parameter content: A view builder that creates a view for the content of `ToastView`.
+  public init(@ViewBuilder content: () -> Content)
+  where Background == EmptyView, Label == EmptyView {
+    self.configuration = ToastViewStyleConfiguration(
+      background: AnyView(backgroundView),
+      content: AnyView(content())
+    )
+  }
+}
+
+extension ToastView {
+  /// Creates a `ToastView` with custom `content` and `label` views.
+  ///
+  /// - Parameters:
+  ///   - content: A view builder that creates a view for the content of `ToastView`.
+  ///   - label: A view builder that creates a view for the label of `ToastView`.
+  public init(
+    @ViewBuilder content: () -> Content,
+    @ViewBuilder label: () -> Label
+  ) where Background == EmptyView {
+    self.configuration = ToastViewStyleConfiguration(
+      background: AnyView(backgroundView),
+      label: AnyView(label()),
+      content: AnyView(content())
+    )
+  }
+
+  /// Creates a `ToastView` with custom `content` and `background` views.
+  ///
+  /// - Parameters:
+  ///   - content: A view builder that creates a view for the content of `ToastView`.
+  ///   - background: A view builder that creates a view for the background of `ToastView`.
+  public init(
+    @ViewBuilder content: () -> Content,
+    @ViewBuilder background: () -> Background
+  ) where Label == EmptyView {
+    self.configuration = ToastViewStyleConfiguration(
+      background: AnyView(background()),
+      content: AnyView(content())
+    )
+  }
+
+  /// Creates a `ToastView` with custom `content`, `label` and `background` views.
+  ///
+  /// - Parameters:
+  ///   - content: A view builder that creates a view for the content of `ToastView`.
+  ///   - label: A view builder that creates a view for the label of `ToastView`.
+  ///   - background: A view builder that creates a view for the background of `ToastView`.
+  public init(
+    @ViewBuilder content: () -> Content,
+    @ViewBuilder label: () -> Label,
+    @ViewBuilder background: () -> Background
+  ) {
+    self.configuration = ToastViewStyleConfiguration(
+      background: AnyView(background()),
+      label: AnyView(label()),
+      content: AnyView(content())
+    )
   }
 }
