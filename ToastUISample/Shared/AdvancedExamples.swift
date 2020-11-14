@@ -200,3 +200,58 @@ struct ShowSuccessToastAfterCompletedExample: View {
     }
   }
 }
+
+struct CustomToastViewStyle: ToastViewStyle {
+  var color: UIColor
+
+  func makeBody(configuration: Configuration) -> some View {
+    CustomToastView(configuration: configuration, color: color)
+  }
+
+  struct CustomToastView: View {
+    let configuration: Configuration
+    let color: UIColor
+
+    var body: some View {
+      VStack {
+        // we skipped the background view of the ToastView
+        // configuration.background
+        configuration.content
+        configuration.label
+      }
+      .padding()
+      .background(
+        RoundedRectangle(cornerRadius: 8.0)
+          .foregroundColor(.init(color))
+          .frame(maxWidth: .infinity, maxHeight: .infinity)
+      )
+    }
+  }
+}
+
+// swiftlint:disable:next type_name
+struct CustomizedToastUsingToastViewStyleExample: View {
+  @State private var presentingToast: Bool = false
+  @State private var brightness: CGFloat = 0.5
+
+  var body: some View {
+    VStack {
+      HStack {
+        Text("Brightness")
+        Slider(value: $brightness, in: 0 ... 1)
+      }
+      CustomButton("Tap me") {
+        presentingToast = true
+      }
+    }
+    .padding()
+    .toast(isPresented: $presentingToast, dismissAfter: 2.0) {
+      ToastView("This is the logo of ToastUI") { // label
+        ToastUIImage(width: 67.43) // content
+      } background: {
+        // background view will be ignored by CustomToastViewStyle
+      }
+      .toastViewStyle(CustomToastViewStyle(color: .init(white: brightness, alpha: 1)))
+    }
+  }
+}

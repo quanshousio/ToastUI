@@ -107,6 +107,10 @@ struct ContentView: View {
 
         Section(header: Text("Advanced examples")) {
           ExampleItem(
+            destination: CustomizedToastUsingToastViewStyleExample(),
+            description: "Customized toast using custom ToastViewStyle"
+          )
+          ExampleItem(
             destination: CustomizedToastWithoutToastViewExample(),
             description: "Customized toast without using ToastView"
           )
