@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name        = 'ToastUI'
-  s.version     = '1.2.1'
+  s.version     = '1.3.0'
   s.summary     = 'A simple way to show toast in SwiftUI.'
   s.description = 'ToastUI provides you a simple way to show toast, heads-up display (HUD), custom alert or any SwiftUI views on top of everything in SwiftUI.'
 

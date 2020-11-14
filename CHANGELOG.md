@@ -4,9 +4,35 @@ All notable changes to this project will be documented in this file. `ToastUI` a
 
 #### 1.x Releases
 
+* `1.3.0` Releases - [1.3.0](#130)
 * `1.2.x` Releases - [1.2.0](#120) | [1.2.1](#121)
 * `1.1.x` Releases - [1.1.0](#110) | [1.1.1](#111)
 * `1.0.x` Releases - [1.0.0](#100) | [1.0.1](#101) | [1.0.2](#102)
+
+---
+
+## [1.3.0](https://github.com/quanshousio/ToastUI/releases/tag/1.3.0)
+
+Released on 2020-11-14.
+
+#### Added
+
+* `dismissAfter` handle for `ToastViewItemModifier`.
+  + Added by [Quan Tran](https://github.com/quanshousio) in Pull Request [#13](https://github.com/quanshousio/ToastUI/pull/13).
+
+#### Updated
+
+* New example of `ToastViewStyle` and minor refactoring on `ToastUISample`.
+  + Updated by [Quan Tran](https://github.com/quanshousio) in Pull Request [#13](https://github.com/quanshousio/ToastUI/pull/13).
+* Multi-line text alignment for label of built-in `ToastViewStyle` is center by default.
+  + Updated by [Quan Tran](https://github.com/quanshousio) in Pull Request [#13](https://github.com/quanshousio/ToastUI/pull/13).
+* GitHub actions for pushing to CocoaPods trunk and minor changes to GitHub actions.
+  + Updated by [Quan Tran](https://github.com/quanshousio) in Pull Request [#13](https://github.com/quanshousio/ToastUI/pull/13).
+
+#### Removed
+
+* `ToastView` intializer with `ToastViewStyleConfiguration`.
+  + Removed by [Quan Tran](https://github.com/quanshousio) in Pull Request [#13](https://github.com/quanshousio/ToastUI/pull/13).
 
 ---
 
@@ -15,6 +41,7 @@ All notable changes to this project will be documented in this file. `ToastUI` a
 Released on 2020-10-09.
 
 #### Updated
+
 * Minor changes to GitHub actions.
   + Updated by [Quan Tran](https://github.com/quanshousio) in Pull Request [#12](https://github.com/quanshousio/ToastUI/pull/12).
 
