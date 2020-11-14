@@ -21,7 +21,7 @@
     <header class="header">
       <p class="header-col header-col--primary">
         <a class="header-link" href="../index.html">
-          ToastUI 1.2.1 Docs
+          ToastUI 1.3.0 Docs
         </a>
          (100% documented)
       </p>
@@ -232,7 +232,7 @@
                         <p>A modified representation of this view.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/quanshousio/ToastUI/tree/1.2.1/Sources/ToastUI/ToastUI.swift#L22-L36">Show on GitHub</a>
+                        <a href="https://github.com/quanshousio/ToastUI/tree/1.3.0/Sources/ToastUI/ToastUI.swift#L22-L36">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -240,9 +240,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:7SwiftUI4ViewP05ToastB0E5toast4item9onDismiss7contentQrAA7BindingVyqd__SgG_yycSgqd_0_qd__cts12IdentifiableRd__AaBRd_0_r0_lF"></a>
-                    <a name="//apple_ref/swift/Method/toast(item:onDismiss:content:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:7SwiftUI4ViewP05ToastB0E5toast4item9onDismiss7contentQrAA7BindingVyqd__SgG_yycSgqd_0_qd__cts12IdentifiableRd__AaBRd_0_r0_lF">toast(item:<wbr>onDismiss:<wbr>content:<wbr>)</a>
+                    <a name="/s:7SwiftUI4ViewP05ToastB0E5toast4item12dismissAfter9onDismiss7contentQrAA7BindingVyqd__SgG_SdSgyycSgqd_0_qd__ctSQRd__s12IdentifiableRd__AaBRd_0_r0_lF"></a>
+                    <a name="//apple_ref/swift/Method/toast(item:dismissAfter:onDismiss:content:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:7SwiftUI4ViewP05ToastB0E5toast4item12dismissAfter9onDismiss7contentQrAA7BindingVyqd__SgG_SdSgyycSgqd_0_qd__ctSQRd__s12IdentifiableRd__AaBRd_0_r0_lF">toast(item:<wbr>dismissAfter:<wbr>onDismiss:<wbr>content:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -260,9 +260,10 @@ for toast&rsquo;s content.</p>
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">toast</span><span class="o">&lt;</span><span class="kt">Item</span><span class="p">,</span> <span class="kt">Content</span><span class="o">&gt;</span><span class="p">(</span>
   <span class="nv">item</span><span class="p">:</span> <span class="kt">Binding</span><span class="o">&lt;</span><span class="kt">Item</span><span class="p">?</span><span class="o">&gt;</span><span class="p">,</span>
+  <span class="nv">dismissAfter</span><span class="p">:</span> <span class="kt">Double</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
   <span class="nv">onDismiss</span><span class="p">:</span> <span class="p">(()</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
   <span class="kd">@ViewBuilder</span> <span class="nv">content</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Item</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Content</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">some</span> <span class="kt">View</span> <span class="k">where</span> <span class="kt">Item</span><span class="p">:</span> <span class="kt">Identifiable</span><span class="p">,</span> <span class="kt">Content</span><span class="p">:</span> <span class="kt">View</span></code></pre>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">some</span> <span class="kt">View</span> <span class="k">where</span> <span class="kt">Item</span><span class="p">:</span> <span class="kt">Identifiable</span> <span class="o">&amp;</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Content</span><span class="p">:</span> <span class="kt">View</span></code></pre>
 
                         </div>
                       </div>
@@ -283,6 +284,18 @@ When representing a non-<code>nil</code> item, the function uses <code>content</
 create a toast representation of the item.
 If the identity changes, the function ignores the new item unless the
 old item is dismissed. This behavior might changes in the future.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>dismissAfter</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>An amount of time (in seconds) to dismiss the toast.</p>
                                 </div>
                               </td>
                             </tr>
@@ -318,7 +331,7 @@ old item is dismissed. This behavior might changes in the future.</p>
                         <p>A modified representation of this view.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/quanshousio/ToastUI/tree/1.2.1/Sources/ToastUI/ToastUI.swift#L51-L63">Show on GitHub</a>
+                        <a href="https://github.com/quanshousio/ToastUI/tree/1.3.0/Sources/ToastUI/ToastUI.swift#L52-L66">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -384,7 +397,7 @@ old item is dismissed. This behavior might changes in the future.</p>
                         <p>A modified representation of this view.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/quanshousio/ToastUI/tree/1.2.1/Sources/ToastUI/ToastUI.swift#L74-L76">Show on GitHub</a>
+                        <a href="https://github.com/quanshousio/ToastUI/tree/1.3.0/Sources/ToastUI/ToastUI.swift#L77-L79">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -478,7 +491,7 @@ old item is dismissed. This behavior might changes in the future.</p>
                         <p>A modified representation of this view.</p>
                       </div>
                       <div class="slightly-smaller">
-                        <a href="https://github.com/quanshousio/ToastUI/tree/1.2.1/Sources/ToastUI/ToastUI.swift#L91-L103">Show on GitHub</a>
+                        <a href="https://github.com/quanshousio/ToastUI/tree/1.3.0/Sources/ToastUI/ToastUI.swift#L94-L106">Show on GitHub</a>
                       </div>
                     </section>
                   </div>
@@ -510,8 +523,8 @@ old item is dismissed. This behavior might changes in the future.</p>
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2020 <a class="link" href="https://github.com/quanshousio" target="_blank" rel="external">Quan Tran</a>. All rights reserved. (Last updated: 2020-10-09)</p>
-      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+      <p>&copy; 2020 <a class="link" href="https://github.com/quanshousio" target="_blank" rel="external">Quan Tran</a>. All rights reserved. (Last updated: 2020-11-14)</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
 </div>
