@@ -127,10 +127,7 @@ struct ToastViewWithCustomBackgroundExample: View {
       }
       .toast(isPresented: $presentingToast, dismissAfter: 2.0) {
         ToastView {
-          Image(systemName: "timelapse")
-            .resizable()
-            .frame(width: 36, height: 36)
-            .foregroundColor(.accentColor)
+          ToastUIImage(width: 67.43)
         } label: {
           Text("Hello from ToastUI")
         } background: {
@@ -158,7 +155,7 @@ struct CustomizedAlertExample: View {
     .toast(isPresented: $presentingToast) {
       ToastView {
         VStack {
-          Text("You can create custom alert with ToastView")
+          Text("You can create a customized alert with ToastView")
             .padding(.bottom)
             .multilineTextAlignment(.center)
 

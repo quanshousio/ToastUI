@@ -106,6 +106,7 @@ public struct IndefiniteProgressToastViewStyle: ToastViewStyle {
         label
           .font(.headline)
           .foregroundColor(.secondary)
+          .multilineTextAlignment(.center)
       }
       .padding(paddingSize)
       .background(backgroundColor)
@@ -182,6 +183,7 @@ where Value: BinaryFloatingPoint
         label
           .font(.headline)
           .foregroundColor(.secondary)
+          .multilineTextAlignment(.center)
       }
       .padding(paddingSize)
       .background(backgroundColor)
@@ -222,6 +224,7 @@ public struct SuccessToastViewStyle: ToastViewStyle {
         label
           .font(.headline)
           .foregroundColor(.secondary)
+          .multilineTextAlignment(.center)
       }
       .padding(paddingSize)
       .background(backgroundColor)
@@ -262,6 +265,7 @@ public struct ErrorToastViewStyle: ToastViewStyle {
         label
           .font(.headline)
           .foregroundColor(.secondary)
+          .multilineTextAlignment(.center)
       }
       .padding(paddingSize)
       .background(backgroundColor)
@@ -302,6 +306,7 @@ public struct WarningToastViewStyle: ToastViewStyle {
         label
           .font(.headline)
           .foregroundColor(.secondary)
+          .multilineTextAlignment(.center)
       }
       .padding(paddingSize)
       .background(backgroundColor)
@@ -342,6 +347,7 @@ public struct InfoToastViewStyle: ToastViewStyle {
         label
           .font(.headline)
           .foregroundColor(.secondary)
+          .multilineTextAlignment(.center)
       }
       .padding(paddingSize)
       .background(backgroundColor)

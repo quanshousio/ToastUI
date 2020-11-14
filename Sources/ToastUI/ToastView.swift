@@ -60,14 +60,6 @@ extension ToastView {
     )
   }
 
-  /// Creates a `ToastView` based on a style configuration.
-  ///
-  /// - Parameter configuration: A `ToastView` style configuration.
-  public init(_ configuration: ToastViewStyleConfiguration)
-  where Background == EmptyView, Label == EmptyView, Content == EmptyView {
-    self.configuration = configuration
-  }
-
   /// Creates an empty `ToastView` with text label from a localized string.
   ///
   /// - Parameter titleKey: The key for the `ToastView`'s localized title.
