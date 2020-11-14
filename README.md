@@ -173,7 +173,7 @@ For more detailed documentation, please see **[here](https://quanshousio.github.
 There are two types of `toast()` view modifier. For more usage information, check out the [examples](ToastUISample).
 
 * `toast(isPresented:dismissAfter:onDismiss:content:)` – presents a toast when the given boolean binding is true.
-* `toast(item:onDismiss:content:)` – presents a toast using the given item as a data source for the toast's content.
+* `toast(item:dismissAfter:onDismiss:content:)` – presents a toast using the given item as a data source for the toast's content.
 
 #### ToastView
 
@@ -269,10 +269,11 @@ Quan Tran ([@quanshousio](https://quanshousio.com))
 ## Acknowledgements
 
 * [Fruta](https://developer.apple.com/documentation/app_clips/fruta_building_a_feature-rich_app_with_swiftui) - `UIVisualEffectView` wrapper for SwiftUI written by Apple.
-* [OnChangeOniOS13](https://stackoverflow.com/a/62523475) - `onChange` view modifier for iOS 13.
-* [ScaledMetricOniOS13](https://gist.github.com/apptekstudios/e5f282a67beaa85dc725d1d98ec74191) - `ScaledMetric` property wrapper for iOS 13.
-* [SVProgressHUD](https://github.com/SVProgressHUD/SVProgressHUD) - original design of the circular progress HUD.
-* [SwiftUI Custom Styling](https://swiftui-lab.com/custom-styling) - an informative article about SwiftUI custom styling.
+* [Label](https://fivestars.blog/swiftui/label.html) - an informative article about SwiftUI `Label` and style erasers by Five Stars.
+* [OnChangeOniOS13](https://stackoverflow.com/a/62523475) - `onChange` view modifier for iOS 13 by Damiaan Dufaux.
+* [ScaledMetricOniOS13](https://blog.apptekstudios.com/2020/06/scaledmetric-on-ios-13) - `ScaledMetric` property wrapper for iOS 13 by Apptek Studios.
+* [SVProgressHUD](https://github.com/SVProgressHUD/SVProgressHUD) - original design of the circular progress HUD by Sam Vermette and Tobias Tiemerding.
+* [SwiftUI Custom Styling](https://swiftui-lab.com/custom-styling) - an informative article about SwiftUI custom styling by The SwiftUI Lab.
 
 ## License
 
