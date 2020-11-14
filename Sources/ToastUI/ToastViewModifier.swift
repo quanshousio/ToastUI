@@ -15,7 +15,7 @@ internal struct ToastViewIsPresentedModifier<QTContent>: ViewModifier where QTCo
 
   @State private var keyWindow: UIWindow?
 
-  private func present(_ shouldPresent: Bool) {
+  private func present() {
     if keyWindow == nil {
       keyWindow = UIApplication.shared.windows.first(where: \.isKeyWindow)
     }
@@ -34,7 +34,7 @@ internal struct ToastViewIsPresentedModifier<QTContent>: ViewModifier where QTCo
 
     let toastAlreadyPresented = rootViewController is ToastViewHostingController<QTContent>
 
-    if shouldPresent {
+    if isPresented {
       if !toastAlreadyPresented {
         let toastViewController = ToastViewHostingController(rootView: content())
 
@@ -52,35 +52,37 @@ internal struct ToastViewIsPresentedModifier<QTContent>: ViewModifier where QTCo
       if toastAlreadyPresented {
         rootViewController?.dismiss(animated: true, completion: onDismiss)
       }
+      keyWindow = nil
     }
   }
 
   @ViewBuilder internal func body(content: Content) -> some View {
     if #available(iOS 14.0, tvOS 14.0, *) {
       content
-        .onChange(of: isPresented) {
-          present($0)
+        .onChange(of: isPresented) { _ in
+          present()
         }
     } else {
       content
         .onAppear()
-        .onChange(value: isPresented) {
-          present($0)
+        .onChange(value: isPresented) { _ in
+          present()
         }
     }
   }
 }
 
 internal struct ToastViewItemModifier<Item, QTContent>: ViewModifier
-where Item: Identifiable, QTContent: View
+where Item: Identifiable & Equatable, QTContent: View
 {
   @Binding var item: Item?
+  let dismissAfter: Double?
   let onDismiss: (() -> Void)?
   let content: (Item) -> QTContent
 
   @State private var keyWindow: UIWindow?
 
-  private func present(_ shouldPresent: Bool) {
+  private func present() {
     if keyWindow == nil {
       keyWindow = UIApplication.shared.windows.first(where: \.isKeyWindow)
     }
@@ -99,7 +101,7 @@ where Item: Identifiable, QTContent: View
 
     let toastAlreadyPresented = rootViewController is ToastViewHostingController<QTContent>
 
-    if shouldPresent {
+    if item != nil {
       if !toastAlreadyPresented {
         if let item = item {
           let toastViewController = ToastViewHostingController(rootView: content(item))
@@ -107,26 +109,40 @@ where Item: Identifiable, QTContent: View
           DispatchQueue.main.async {
             rootViewController?.present(toastViewController, animated: true)
           }
+
+          if let dismissAfter = dismissAfter {
+            DispatchQueue.main.asyncAfter(deadline: .now() + dismissAfter) {
+              self.item = nil
+            }
+          }
         }
+      } else {
+        print(
+          """
+          [ToastUI] Attempted to present toast while another toast is being presented. \
+          This is an undefined behavior and will result in view presentation failures.
+          """
+        )
       }
     } else {
       if toastAlreadyPresented {
         rootViewController?.dismiss(animated: true, completion: onDismiss)
       }
+      keyWindow = nil
     }
   }
 
   @ViewBuilder internal func body(content: Content) -> some View {
     if #available(iOS 14.0, tvOS 14.0, *) {
       content
-        .onChange(of: item != nil) {
-          present($0)
+        .onChange(of: item) { _ in
+          present()
         }
     } else {
       content
         .onAppear()
-        .onChange(value: item != nil) {
-          present($0)
+        .onChange(value: item) { _ in
+          present()
         }
     }
   }

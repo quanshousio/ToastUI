@@ -44,18 +44,21 @@ extension View {
   ///     create a toast representation of the item.
   ///     If the identity changes, the function ignores the new item unless the
   ///     old item is dismissed. This behavior might changes in the future.
+  ///   - dismissAfter: An amount of time (in seconds) to dismiss the toast.
   ///   - onDismiss: A closure executed when the toast is dismissed.
   ///   - content: A closure returning the content of the toast.
   ///
   /// - Returns: A modified representation of this view.
   public func toast<Item, Content>(
     item: Binding<Item?>,
+    dismissAfter: Double? = nil,
     onDismiss: (() -> Void)? = nil,
     @ViewBuilder content: @escaping (Item) -> Content
-  ) -> some View where Item: Identifiable, Content: View {
+  ) -> some View where Item: Identifiable & Equatable, Content: View {
     modifier(
       ToastViewItemModifier<Item, Content>(
         item: item,
+        dismissAfter: dismissAfter,
         onDismiss: onDismiss,
         content: content
       )
