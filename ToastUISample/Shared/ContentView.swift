@@ -8,60 +8,6 @@
 import SwiftUI
 import ToastUI
 
-struct ExampleItem<Destination>: View where Destination: View {
-  var destination: Destination
-  var description: String
-
-  var body: some View {
-    NavigationLink(destination: destination) {
-      VStack(alignment: .leading) {
-        Text(description).lineLimit(20)
-      }
-    }
-  }
-}
-
-struct CustomButton: View {
-  var label: String
-  var width: CGFloat
-  var height: CGFloat
-  var action: () -> Void
-
-  init(
-    _ label: String,
-    width: CGFloat = 100,
-    height: CGFloat = 12,
-    _ action: @escaping () -> Void
-  ) {
-    self.label = label
-    self.width = width
-    self.height = height
-    self.action = action
-  }
-
-  @ViewBuilder var body: some View {
-    #if os(iOS)
-    Button(action: action) {
-      Text(label)
-        .bold()
-        .foregroundColor(.white)
-        .frame(maxWidth: width, maxHeight: height)
-        .padding()
-        .background(Color.accentColor)
-        .cornerRadius(8.0)
-    }
-    #endif
-
-    #if os(tvOS)
-    Button(action: action) {
-      Text(label)
-        .bold()
-        .foregroundColor(.white)
-    }
-    #endif
-  }
-}
-
 struct ContentView: View {
   var body: some View {
     NavigationView {
@@ -101,7 +47,7 @@ struct ContentView: View {
           )
           ExampleItem(
             destination: CocoaBlurModifierExample(),
-            description: "cocoaBlur() view modifier"
+            description: "cocoaBlur view modifier"
           )
         }
 
@@ -125,7 +71,7 @@ struct ContentView: View {
         }
       }
       .navigationBarTitle("ToastUI")
-      .navigationBarItems(trailing: Image("ToastUI").resizable().frame(width: 52.45, height: 28))
+      .navigationBarItems(trailing: ToastUIImage(width: 52.45))
     }
   }
 }

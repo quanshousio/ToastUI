@@ -8,16 +8,6 @@
 import SwiftUI
 import ToastUI
 
-// swiftlint:disable identifier_name
-struct ToastItem: Identifiable, Equatable {
-  let id = UUID()
-  var content: AnyView
-
-  static func == (lhs: ToastItem, rhs: ToastItem) -> Bool {
-    lhs.id == rhs.id
-  }
-}
-
 struct CustomizedToastWithoutToastViewExample: View {
   @State private var presentingToast: Bool = false
   @State private var blurBackground: Bool = true
@@ -70,8 +60,8 @@ struct CustomizedToastWithoutToastViewExample: View {
 
 struct CustomizedToastUsingItemExample: View {
   private var toastItems = ["First Toast Item", "Second Toast Item"]
-  @State private var selectedToast = 0
 
+  @State private var selectedToast = 0
   @State private var toastItem: ToastItem?
   @State private var username: String = ""
   @State private var email: String = ""
