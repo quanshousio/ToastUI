@@ -45,10 +45,6 @@ struct ContentView: View {
             destination: ToastViewWithCustomBackgroundExample(),
             description: "ToastView with custom background"
           )
-          ExampleItem(
-            destination: CocoaBlurModifierExample(),
-            description: "cocoaBlur view modifier"
-          )
         }
 
         Section(header: Text("Advanced examples")) {
