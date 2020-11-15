@@ -91,12 +91,13 @@ struct CustomizedToastUsingItemExample: View {
         }
       }
     }
-    .frame(maxWidth: 300)
+    .frame(width: 300)
   }
 
   private var firstToastView: some View {
     VStack {
       Text("Hello from ToastUI")
+        .fixedSize()
         .padding(.bottom)
         .multilineTextAlignment(.center)
 
@@ -104,12 +105,12 @@ struct CustomizedToastUsingItemExample: View {
         toastItem = nil
       }
     }
-    .frame(maxWidth: 300)
+    .frame(width: 300)
   }
 
   private var secondToastView: some View {
     VStack {
-      Text("Create a new account").bold()
+      Text("Create a new account").bold().fixedSize()
       #if os(iOS)
       TextField("Username", text: $username)
         .frame(height: 44)
@@ -152,7 +153,7 @@ struct CustomizedToastUsingItemExample: View {
         }
       }
     }
-    .frame(maxWidth: 300)
+    .frame(width: 300)
   }
 }
 
@@ -171,6 +172,7 @@ struct ShowSuccessToastAfterCompletedExample: View {
             timer.invalidate()
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
               presentingProgressView = false
+              value = 0
             }
           } else {
             value += Double.random(in: 10 ... 25)

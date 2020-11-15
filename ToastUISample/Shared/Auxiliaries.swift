@@ -23,9 +23,7 @@ struct ExampleItem<Destination>: View where Destination: View {
 
   var body: some View {
     NavigationLink(destination: destination) {
-      VStack(alignment: .leading) {
-        Text(description).lineLimit(20)
-      }
+      Text(description)
     }
   }
 }

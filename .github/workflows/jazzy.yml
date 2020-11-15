@@ -4,8 +4,6 @@ on:
   push:
     tags:
       - '*'
-  release:
-    types: [ published ]
 
 jobs:
   jazzy:
@@ -13,7 +11,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Get version
-      run: echo ::set-env name=VERSION::${GITHUB_REF/refs\/tags\//}
+      run: echo "${GITHUB_REF/refs\/tags\//}" >> $VERSION
     - name: Install jazzy
       run: sudo gem install jazzy
     - name: Run jazzy

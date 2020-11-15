@@ -36,6 +36,7 @@ struct DefiniteProgressIndicatorExample: View {
             timer.invalidate()
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
               presentingToast = false
+              value = 0
             }
           } else {
             value += Double.random(in: 10 ... 25)
@@ -163,59 +164,8 @@ struct CustomizedAlertExample: View {
             presentingToast = false
           }
         }
-        .frame(maxWidth: 300)
+        .frame(width: 400)
       }
-    }
-  }
-}
-
-struct CocoaBlurModifierExample: View {
-  @State private var blurIntensity: CGFloat = 0.5
-
-  #if os(iOS)
-  private let blurStyle: UIBlurEffect.Style = .systemMaterial
-  #endif
-
-  #if os(tvOS)
-  private let blurStyle: UIBlurEffect.Style = .regular
-  #endif
-
-  private let gradient = AngularGradient(
-    gradient: Gradient(colors: [.red, .yellow, .green, .blue, .purple, .red]),
-    center: .center,
-    startAngle: .zero,
-    endAngle: .degrees(360)
-  )
-
-  var body: some View {
-    ZStack {
-      // background
-      Rectangle()
-        .fill(gradient)
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .edgesIgnoringSafeArea(.all)
-
-      // foreground
-      VStack {
-        Spacer()
-
-        #if os(iOS)
-        Slider(value: $blurIntensity, in: 0 ... 1) {
-          Text("Blur intensity")
-        }
-        #endif
-
-        Text("Hello from ToastUI")
-          .bold()
-          .foregroundColor(.white)
-          .padding()
-          .background(Color.accentColor)
-          .cornerRadius(8.0)
-          .shadow(radius: 4)
-          .padding()
-      }
-      .padding()
-      .cocoaBlur(blurStyle: blurStyle, blurIntensity: blurIntensity)
     }
   }
 }

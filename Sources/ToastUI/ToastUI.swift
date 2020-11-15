@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-extension View {
+public extension View {
   // MARK: Presenting Toast
 
   /// Presents a toast when the given boolean binding is true.
@@ -19,7 +19,7 @@ extension View {
   ///   - content: A closure returning the content of the toast.
   ///
   /// - Returns: A modified representation of this view.
-  public func toast<Content>(
+  func toast<Content>(
     isPresented: Binding<Bool>,
     dismissAfter: Double? = nil,
     onDismiss: (() -> Void)? = nil,
@@ -49,7 +49,7 @@ extension View {
   ///   - content: A closure returning the content of the toast.
   ///
   /// - Returns: A modified representation of this view.
-  public func toast<Item, Content>(
+  func toast<Item, Content>(
     item: Binding<Item?>,
     dismissAfter: Double? = nil,
     onDismiss: (() -> Void)? = nil,
@@ -66,7 +66,7 @@ extension View {
   }
 }
 
-extension View {
+public extension View {
   // MARK: Styling Toast
 
   /// Sets the style for `ToastView` within this view.
@@ -74,12 +74,12 @@ extension View {
   /// - Parameter style: The `ToastViewStyle` to use for this view.
   ///
   /// - Returns: A modified representation of this view.
-  public func toastViewStyle<Style>(_ style: Style) -> some View where Style: ToastViewStyle {
+  func toastViewStyle<Style>(_ style: Style) -> some View where Style: ToastViewStyle {
     environment(\.toastViewStyle, AnyToastViewStyle(style))
   }
 }
 
-extension View {
+public extension View {
   // MARK: Blur Effect
 
   #if os(iOS)
@@ -91,7 +91,7 @@ extension View {
   ///   - blurIntensity: Blur intensity ranging from `0.0` to `1.0`. Default value is `1.0`.
   ///
   /// - Returns: A modified representation of this view.
-  public func cocoaBlur(
+  func cocoaBlur(
     blurStyle: UIBlurEffect.Style = .systemMaterial,
     vibrancyStyle: UIVibrancyEffectStyle? = nil,
     blurIntensity: CGFloat? = 1.0
@@ -114,7 +114,7 @@ extension View {
   ///   - blurIntensity: Blur intensity ranging from `0.0` to `1.0`. Default value is `1.0`.
   ///
   /// - Returns: A modified representation of this view.
-  public func cocoaBlur(
+  func cocoaBlur(
     blurStyle: UIBlurEffect.Style = .regular,
     blurIntensity: CGFloat? = 1.0
   ) -> some View {
