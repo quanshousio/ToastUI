@@ -36,6 +36,7 @@ struct DefiniteProgressIndicatorExample: View {
             timer.invalidate()
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
               presentingToast = false
+              value = 0
             }
           } else {
             value += Double.random(in: 10 ... 25)
@@ -163,7 +164,7 @@ struct CustomizedAlertExample: View {
             presentingToast = false
           }
         }
-        .frame(maxWidth: 300)
+        .frame(width: 400)
       }
     }
   }

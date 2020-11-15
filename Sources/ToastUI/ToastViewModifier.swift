@@ -37,10 +37,7 @@ internal struct ToastViewIsPresentedModifier<QTContent>: ViewModifier where QTCo
     if isPresented {
       if !toastAlreadyPresented {
         let toastViewController = ToastViewHostingController(rootView: content())
-
-        DispatchQueue.main.async {
-          rootViewController?.present(toastViewController, animated: true)
-        }
+        rootViewController?.present(toastViewController, animated: true)
 
         if let dismissAfter = dismissAfter {
           DispatchQueue.main.asyncAfter(deadline: .now() + dismissAfter) {
@@ -105,10 +102,7 @@ where Item: Identifiable & Equatable, QTContent: View
       if !toastAlreadyPresented {
         if let item = item {
           let toastViewController = ToastViewHostingController(rootView: content(item))
-
-          DispatchQueue.main.async {
-            rootViewController?.present(toastViewController, animated: true)
-          }
+          rootViewController?.present(toastViewController, animated: true)
 
           if let dismissAfter = dismissAfter {
             DispatchQueue.main.asyncAfter(deadline: .now() + dismissAfter) {
