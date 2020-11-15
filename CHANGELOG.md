@@ -4,12 +4,28 @@ All notable changes to this project will be documented in this file. `ToastUI` a
 
 #### 1.x Releases
 
-* `1.3.0` Releases - [1.3.0](#130)
+* `1.3.0` Releases - [1.3.0](#130) | [1.3.1](#131)
 * `1.2.x` Releases - [1.2.0](#120) | [1.2.1](#121)
 * `1.1.x` Releases - [1.1.0](#110) | [1.1.1](#111)
 * `1.0.x` Releases - [1.0.0](#100) | [1.0.1](#101) | [1.0.2](#102)
 
 ---
+
+## [1.3.1](https://github.com/quanshousio/ToastUI/releases/tag/1.3.1)
+
+Released on 2020-11-15.
+
+#### Updated
+
+* Minor changes to GitHub actions.
+  + Updated by [Quan Tran](https://github.com/quanshousio) in Pull Request [#14](https://github.com/quanshousio/ToastUI/pull/14).
+* Minor code reformatting.
+  + Updated by [Quan Tran](https://github.com/quanshousio) in Pull Request [#14](https://github.com/quanshousio/ToastUI/pull/14).
+
+#### Removed
+
+* `CocoaBlurModifierExample` in `ToastUISample`.
+  + Removed by [Quan Tran](https://github.com/quanshousio) in Pull Request [#14](https://github.com/quanshousio/ToastUI/pull/13).
 
 ## [1.3.0](https://github.com/quanshousio/ToastUI/releases/tag/1.3.0)
 
@@ -31,7 +47,7 @@ Released on 2020-11-14.
 
 #### Removed
 
-* `ToastView` intializer with `ToastViewStyleConfiguration`.
+* `ToastView` initializer with `ToastViewStyleConfiguration`.
   + Removed by [Quan Tran](https://github.com/quanshousio) in Pull Request [#13](https://github.com/quanshousio/ToastUI/pull/13).
 
 ---
