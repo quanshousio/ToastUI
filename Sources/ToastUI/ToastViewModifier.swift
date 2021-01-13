@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-internal struct ToastViewIsPresentedModifier<QTContent>: ViewModifier where QTContent: View {
+struct ToastViewIsPresentedModifier<QTContent>: ViewModifier where QTContent: View {
   @Binding var isPresented: Bool
   let dismissAfter: Double?
   let onDismiss: (() -> Void)?
@@ -69,9 +69,8 @@ internal struct ToastViewIsPresentedModifier<QTContent>: ViewModifier where QTCo
   }
 }
 
-internal struct ToastViewItemModifier<Item, QTContent>: ViewModifier
-where Item: Identifiable & Equatable, QTContent: View
-{
+struct ToastViewItemModifier<Item, QTContent>: ViewModifier
+where Item: Identifiable & Equatable, QTContent: View {
   @Binding var item: Item?
   let dismissAfter: Double?
   let onDismiss: (() -> Void)?
@@ -143,12 +142,12 @@ where Item: Identifiable & Equatable, QTContent: View
 }
 
 #if os(iOS)
-internal struct VisualEffectViewModifier: ViewModifier {
+struct VisualEffectViewModifier: ViewModifier {
   var blurStyle: UIBlurEffect.Style
   var vibrancyStyle: UIVibrancyEffectStyle?
   var blurIntensity: CGFloat?
 
-  internal func body(content: Content) -> some View {
+  func body(content: Content) -> some View {
     content
       .frame(maxWidth: .infinity, maxHeight: .infinity)
       .background(
@@ -164,11 +163,11 @@ internal struct VisualEffectViewModifier: ViewModifier {
 #endif
 
 #if os(tvOS)
-internal struct VisualEffectViewModifier: ViewModifier {
+struct VisualEffectViewModifier: ViewModifier {
   var blurStyle: UIBlurEffect.Style
   var blurIntensity: CGFloat?
 
-  internal func body(content: Content) -> some View {
+  func body(content: Content) -> some View {
     content
       .frame(maxWidth: .infinity, maxHeight: .infinity)
       .background(

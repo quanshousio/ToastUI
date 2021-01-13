@@ -33,7 +33,7 @@ public struct DefaultToastViewStyle: ToastViewStyle {
     )
   }
 
-  internal struct DefaultToastView: View {
+  struct DefaultToastView: View {
     @ScaledMetricProperty(relativeTo: .headline) private var paddingSize: CGFloat = 16
     @ScaledMetricProperty(relativeTo: .headline) private var cornerSize: CGFloat = 9
 
@@ -68,7 +68,7 @@ public struct IndefiniteProgressToastViewStyle: ToastViewStyle {
     IndefiniteProgressToastView(background: configuration.background, label: configuration.label)
   }
 
-  internal struct IndefiniteProgressToastView: View {
+  struct IndefiniteProgressToastView: View {
     @ScaledMetricProperty(relativeTo: .headline) private var iconSize: CGFloat = 36
     @ScaledMetricProperty(relativeTo: .headline) private var strokeSize: CGFloat = 3
     @ScaledMetricProperty(relativeTo: .headline) private var paddingSize: CGFloat = 20
@@ -121,8 +121,7 @@ public struct IndefiniteProgressToastViewStyle: ToastViewStyle {
 /// indicator. This style is similar to the `IndefiniteProgressToastViewStyle`,
 /// but show determinate progress instead.
 public struct DefiniteProgressToastViewStyle<Value>: ToastViewStyle
-where Value: BinaryFloatingPoint
-{
+where Value: BinaryFloatingPoint {
   @Binding private var value: Value
   @Binding private var total: Value
 
@@ -149,7 +148,7 @@ where Value: BinaryFloatingPoint
     )
   }
 
-  internal struct DefiniteProgressToastView: View {
+  struct DefiniteProgressToastView: View {
     @ScaledMetricProperty(relativeTo: .headline) private var iconSize: CGFloat = 36
     @ScaledMetricProperty(relativeTo: .headline) private var strokeSize: CGFloat = 3
     @ScaledMetricProperty(relativeTo: .headline) private var paddingSize: CGFloat = 20
@@ -206,7 +205,7 @@ public struct SuccessToastViewStyle: ToastViewStyle {
     SuccessToastView(background: configuration.background, label: configuration.label)
   }
 
-  internal struct SuccessToastView: View {
+  struct SuccessToastView: View {
     @ScaledMetricProperty(relativeTo: .headline) private var iconSize: CGFloat = 32
     @ScaledMetricProperty(relativeTo: .headline) private var paddingSize: CGFloat = 20
     @ScaledMetricProperty(relativeTo: .headline) private var cornerSize: CGFloat = 9
@@ -247,7 +246,7 @@ public struct ErrorToastViewStyle: ToastViewStyle {
     FailureToastView(background: configuration.background, label: configuration.label)
   }
 
-  internal struct FailureToastView: View {
+  struct FailureToastView: View {
     @ScaledMetricProperty(relativeTo: .headline) private var iconSize: CGFloat = 32
     @ScaledMetricProperty(relativeTo: .headline) private var paddingSize: CGFloat = 20
     @ScaledMetricProperty(relativeTo: .headline) private var cornerSize: CGFloat = 9
@@ -288,7 +287,7 @@ public struct WarningToastViewStyle: ToastViewStyle {
     WarningToastView(background: configuration.background, label: configuration.label)
   }
 
-  internal struct WarningToastView: View {
+  struct WarningToastView: View {
     @ScaledMetricProperty(relativeTo: .headline) private var iconSize: CGFloat = 32
     @ScaledMetricProperty(relativeTo: .headline) private var paddingSize: CGFloat = 20
     @ScaledMetricProperty(relativeTo: .headline) private var cornerSize: CGFloat = 9
@@ -329,7 +328,7 @@ public struct InfoToastViewStyle: ToastViewStyle {
     InfoToastView(background: configuration.background, label: configuration.label)
   }
 
-  internal struct InfoToastView: View {
+  struct InfoToastView: View {
     @ScaledMetricProperty(relativeTo: .headline) private var iconSize: CGFloat = 32
     @ScaledMetricProperty(relativeTo: .headline) private var paddingSize: CGFloat = 20
     @ScaledMetricProperty(relativeTo: .headline) private var cornerSize: CGFloat = 9

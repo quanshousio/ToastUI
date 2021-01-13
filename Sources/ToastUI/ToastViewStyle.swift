@@ -38,7 +38,7 @@ public protocol ToastViewStyle {
 }
 
 extension ToastViewStyle {
-  internal func eraseToAnyView(configuration: Configuration) -> AnyView {
+  func eraseToAnyView(configuration: Configuration) -> AnyView {
     AnyView(makeBody(configuration: configuration))
   }
 }
