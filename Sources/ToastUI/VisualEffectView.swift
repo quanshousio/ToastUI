@@ -117,9 +117,7 @@ public extension VisualEffectView where Content == EmptyView {
   #endif
 }
 
-// MARK: Representable
-
-internal extension VisualEffectView {
+extension VisualEffectView {
   struct Representable<Content>: UIViewRepresentable where Content: View {
     var blurStyle: UIBlurEffect.Style
     #if os(iOS)
@@ -157,9 +155,7 @@ internal extension VisualEffectView {
   }
 }
 
-// MARK: Coordinator
-
-internal extension VisualEffectView.Representable {
+extension VisualEffectView.Representable {
   class Coordinator {
     let blurView = UIVisualEffectView()
     let vibrancyView = UIVisualEffectView()
