@@ -20,6 +20,7 @@ struct CustomizedToastWithoutToastViewExample: View {
         Spacer()
         Text(text)
           .bold()
+          .fixedSize()
           .foregroundColor(.white)
           .padding()
           .background(Color.green)
@@ -139,6 +140,11 @@ struct CustomizedToastUsingItemExample: View {
         .padding()
       #endif
 
+      #if os(macOS)
+      TextField("Username", text: $username)
+      TextField("Email", text: $email)
+      #endif
+
       Spacer().frame(height: 16.0)
 
       HStack {
@@ -194,7 +200,13 @@ struct ShowSuccessToastAfterCompletedExample: View {
 }
 
 struct CustomToastViewStyle: ToastViewStyle {
+  #if os(iOS) || os(tvOS)
   var color: UIColor
+  #endif
+
+  #if os(macOS)
+  var color: NSColor
+  #endif
 
   func makeBody(configuration: Configuration) -> some View {
     CustomToastView(configuration: configuration, color: color)
@@ -202,14 +214,20 @@ struct CustomToastViewStyle: ToastViewStyle {
 
   struct CustomToastView: View {
     let configuration: Configuration
+    #if os(iOS) || os(tvOS)
     let color: UIColor
+    #endif
+
+    #if os(macOS)
+    let color: NSColor
+    #endif
 
     var body: some View {
       VStack {
         // we skipped the background view of the ToastView
         // configuration.background
+        configuration.label.fixedSize()
         configuration.content
-        configuration.label
       }
       .padding()
       .background(

@@ -157,6 +157,7 @@ struct CustomizedAlertExample: View {
       ToastView {
         VStack {
           Text("You can create a customized alert with ToastView")
+            .fixedSize()
             .padding(.bottom)
             .multilineTextAlignment(.center)
 
