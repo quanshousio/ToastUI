@@ -15,6 +15,10 @@ private let backgroundColor = Color(.secondarySystemBackground)
 private let backgroundColor = Color(.darkGray)
 #endif
 
+#if os(macOS)
+private let backgroundColor = Color(.windowBackgroundColor)
+#endif
+
 /// The default `ToastViewStyle`.
 ///
 /// You have to use this style in order to make customized `ToastView`.
@@ -44,7 +48,7 @@ public struct DefaultToastViewStyle: ToastViewStyle {
     var body: some View {
       VStack {
         content
-        label
+        label.fixedSize()
       }
       .padding(paddingSize)
       .background(backgroundColor)
@@ -79,13 +83,21 @@ public struct IndefiniteProgressToastViewStyle: ToastViewStyle {
     let background: AnyView?
     let label: AnyView?
 
+    #if os(iOS) || os(tvOS)
+    private let labelColor = Color(.label)
+    #endif
+
+    #if os(macOS)
+    private let labelColor = Color(.labelColor)
+    #endif
+
     var body: some View {
       VStack {
         Circle()
           .trim(from: 0.02, to: 0.98)
           .stroke(
             AngularGradient(
-              gradient: Gradient(colors: [backgroundColor, Color(.label)]),
+              gradient: Gradient(colors: [backgroundColor, labelColor]),
               center: .center,
               startAngle: .degrees(0),
               endAngle: .degrees(360)
@@ -100,10 +112,17 @@ public struct IndefiniteProgressToastViewStyle: ToastViewStyle {
               ? Animation.linear(duration: 1.0).repeatForever(autoreverses: false)
               : nil
           )
-          .onAppear { isAnimating = true }
-          .onDisappear { isAnimating = false }
+          .onAppear {
+            DispatchQueue.main.async {
+              isAnimating = true
+            }
+          }
+          .onDisappear {
+            isAnimating = false
+          }
 
         label
+          .fixedSize()
           .font(.headline)
           .foregroundColor(.secondary)
           .multilineTextAlignment(.center)
@@ -177,9 +196,18 @@ where Value: BinaryFloatingPoint {
           )
           .frame(width: iconSize, height: iconSize)
           .rotationEffect(.degrees(-90))
-          .animation(.linear)
+          .animation(isAnimating ? .linear : nil)
+          .onAppear {
+            DispatchQueue.main.async {
+              isAnimating = true
+            }
+          }
+          .onDisappear {
+            isAnimating = false
+          }
 
         label
+          .fixedSize()
           .font(.headline)
           .foregroundColor(.secondary)
           .multilineTextAlignment(.center)
@@ -221,6 +249,7 @@ public struct SuccessToastViewStyle: ToastViewStyle {
           .foregroundColor(.green)
 
         label
+          .fixedSize()
           .font(.headline)
           .foregroundColor(.secondary)
           .multilineTextAlignment(.center)
@@ -262,6 +291,7 @@ public struct ErrorToastViewStyle: ToastViewStyle {
           .foregroundColor(.red)
 
         label
+          .fixedSize()
           .font(.headline)
           .foregroundColor(.secondary)
           .multilineTextAlignment(.center)
@@ -303,6 +333,7 @@ public struct WarningToastViewStyle: ToastViewStyle {
           .foregroundColor(.yellow)
 
         label
+          .fixedSize()
           .font(.headline)
           .foregroundColor(.secondary)
           .multilineTextAlignment(.center)
@@ -344,6 +375,7 @@ public struct InfoToastViewStyle: ToastViewStyle {
           .foregroundColor(.blue)
 
         label
+          .fixedSize()
           .font(.headline)
           .foregroundColor(.secondary)
           .multilineTextAlignment(.center)

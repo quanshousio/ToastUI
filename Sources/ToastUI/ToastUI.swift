@@ -126,4 +126,28 @@ public extension View {
     )
   }
   #endif
+
+  #if os(macOS)
+  /// Sets `NSVisualEffectView` as a background of this view.
+  ///
+  /// - Parameters:
+  ///   - material: Material of the `NSVisualEffectView`. Default value is `fullScreenUI`.
+  ///   - blendingMode: Blending mode of the `NSVisualEffectView`. Default value is `withinWindow`.
+  ///   - state: State of the `NSVisualEffectView`. Default value is `followsWindowActiveState`.
+  ///
+  /// - Returns: A modified representation of this view.
+  func cocoaBlur(
+    material: NSVisualEffectView.Material = .fullScreenUI,
+    blendingMode: NSVisualEffectView.BlendingMode = .withinWindow,
+    state: NSVisualEffectView.State = .followsWindowActiveState
+  ) -> some View {
+    modifier(
+      VisualEffectViewModifier(
+        material: material,
+        blendingMode: blendingMode,
+        state: state
+      )
+    )
+  }
+  #endif
 }
