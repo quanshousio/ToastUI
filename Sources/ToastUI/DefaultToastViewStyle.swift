@@ -34,8 +34,8 @@ public struct DefaultToastViewStyle: ToastViewStyle {
   }
 
   struct DefaultToastView: View {
-    @ScaledMetricProperty(relativeTo: .headline) private var paddingSize: CGFloat = 16
-    @ScaledMetricProperty(relativeTo: .headline) private var cornerSize: CGFloat = 9
+    @ScaledMetric(relativeTo: .headline) private var paddingSize: CGFloat = 16
+    @ScaledMetric(relativeTo: .headline) private var cornerSize: CGFloat = 9
 
     let background: AnyView?
     let label: AnyView?
@@ -69,10 +69,10 @@ public struct IndefiniteProgressToastViewStyle: ToastViewStyle {
   }
 
   struct IndefiniteProgressToastView: View {
-    @ScaledMetricProperty(relativeTo: .headline) private var iconSize: CGFloat = 36
-    @ScaledMetricProperty(relativeTo: .headline) private var strokeSize: CGFloat = 3
-    @ScaledMetricProperty(relativeTo: .headline) private var paddingSize: CGFloat = 20
-    @ScaledMetricProperty(relativeTo: .headline) private var cornerSize: CGFloat = 9
+    @ScaledMetric(relativeTo: .headline) private var iconSize: CGFloat = 36
+    @ScaledMetric(relativeTo: .headline) private var strokeSize: CGFloat = 3
+    @ScaledMetric(relativeTo: .headline) private var paddingSize: CGFloat = 20
+    @ScaledMetric(relativeTo: .headline) private var cornerSize: CGFloat = 9
 
     @State private var isAnimating: Bool = false
 
@@ -149,10 +149,10 @@ where Value: BinaryFloatingPoint {
   }
 
   struct DefiniteProgressToastView: View {
-    @ScaledMetricProperty(relativeTo: .headline) private var iconSize: CGFloat = 36
-    @ScaledMetricProperty(relativeTo: .headline) private var strokeSize: CGFloat = 3
-    @ScaledMetricProperty(relativeTo: .headline) private var paddingSize: CGFloat = 20
-    @ScaledMetricProperty(relativeTo: .headline) private var cornerSize: CGFloat = 9
+    @ScaledMetric(relativeTo: .headline) private var iconSize: CGFloat = 36
+    @ScaledMetric(relativeTo: .headline) private var strokeSize: CGFloat = 3
+    @ScaledMetric(relativeTo: .headline) private var paddingSize: CGFloat = 20
+    @ScaledMetric(relativeTo: .headline) private var cornerSize: CGFloat = 9
 
     @State private var isAnimating: Bool = false
 
@@ -206,9 +206,9 @@ public struct SuccessToastViewStyle: ToastViewStyle {
   }
 
   struct SuccessToastView: View {
-    @ScaledMetricProperty(relativeTo: .headline) private var iconSize: CGFloat = 32
-    @ScaledMetricProperty(relativeTo: .headline) private var paddingSize: CGFloat = 20
-    @ScaledMetricProperty(relativeTo: .headline) private var cornerSize: CGFloat = 9
+    @ScaledMetric(relativeTo: .headline) private var iconSize: CGFloat = 32
+    @ScaledMetric(relativeTo: .headline) private var paddingSize: CGFloat = 20
+    @ScaledMetric(relativeTo: .headline) private var cornerSize: CGFloat = 9
 
     let background: AnyView?
     let label: AnyView?
@@ -247,9 +247,9 @@ public struct ErrorToastViewStyle: ToastViewStyle {
   }
 
   struct FailureToastView: View {
-    @ScaledMetricProperty(relativeTo: .headline) private var iconSize: CGFloat = 32
-    @ScaledMetricProperty(relativeTo: .headline) private var paddingSize: CGFloat = 20
-    @ScaledMetricProperty(relativeTo: .headline) private var cornerSize: CGFloat = 9
+    @ScaledMetric(relativeTo: .headline) private var iconSize: CGFloat = 32
+    @ScaledMetric(relativeTo: .headline) private var paddingSize: CGFloat = 20
+    @ScaledMetric(relativeTo: .headline) private var cornerSize: CGFloat = 9
 
     let background: AnyView?
     let label: AnyView?
@@ -288,9 +288,9 @@ public struct WarningToastViewStyle: ToastViewStyle {
   }
 
   struct WarningToastView: View {
-    @ScaledMetricProperty(relativeTo: .headline) private var iconSize: CGFloat = 32
-    @ScaledMetricProperty(relativeTo: .headline) private var paddingSize: CGFloat = 20
-    @ScaledMetricProperty(relativeTo: .headline) private var cornerSize: CGFloat = 9
+    @ScaledMetric(relativeTo: .headline) private var iconSize: CGFloat = 32
+    @ScaledMetric(relativeTo: .headline) private var paddingSize: CGFloat = 20
+    @ScaledMetric(relativeTo: .headline) private var cornerSize: CGFloat = 9
 
     let background: AnyView?
     let label: AnyView?
@@ -329,9 +329,9 @@ public struct InfoToastViewStyle: ToastViewStyle {
   }
 
   struct InfoToastView: View {
-    @ScaledMetricProperty(relativeTo: .headline) private var iconSize: CGFloat = 32
-    @ScaledMetricProperty(relativeTo: .headline) private var paddingSize: CGFloat = 20
-    @ScaledMetricProperty(relativeTo: .headline) private var cornerSize: CGFloat = 9
+    @ScaledMetric(relativeTo: .headline) private var iconSize: CGFloat = 32
+    @ScaledMetric(relativeTo: .headline) private var paddingSize: CGFloat = 20
+    @ScaledMetric(relativeTo: .headline) private var cornerSize: CGFloat = 9
 
     let background: AnyView?
     let label: AnyView?
