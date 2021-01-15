@@ -53,19 +53,11 @@ struct ToastViewIsPresentedModifier<QTContent>: ViewModifier where QTContent: Vi
     }
   }
 
-  @ViewBuilder internal func body(content: Content) -> some View {
-    if #available(iOS 14.0, tvOS 14.0, *) {
-      content
-        .onChange(of: isPresented) { _ in
-          present()
-        }
-    } else {
-      content
-        .onAppear()
-        .onChange(value: isPresented) { _ in
-          present()
-        }
-    }
+  func body(content: Content) -> some View {
+    content
+      .onChange(of: isPresented) { _ in
+        present()
+      }
   }
 }
 
@@ -125,19 +117,11 @@ where Item: Identifiable & Equatable, QTContent: View {
     }
   }
 
-  @ViewBuilder internal func body(content: Content) -> some View {
-    if #available(iOS 14.0, tvOS 14.0, *) {
-      content
-        .onChange(of: item) { _ in
-          present()
-        }
-    } else {
-      content
-        .onAppear()
-        .onChange(value: item) { _ in
-          present()
-        }
-    }
+  func body(content: Content) -> some View {
+    content
+      .onChange(of: item) { _ in
+        present()
+      }
   }
 }
 
