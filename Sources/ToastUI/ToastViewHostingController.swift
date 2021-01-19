@@ -29,6 +29,7 @@ where Content: View {
 #endif
 
 #if os(macOS)
+// swiftlint:disable colon
 final class ToastViewHostingController<Content>:
   NSHostingController<Content>,
   NSWindowDelegate
