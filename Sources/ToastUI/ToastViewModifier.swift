@@ -94,7 +94,7 @@ struct ToastViewIsPresentedModifier<QTContent>: ViewModifier where QTContent: Vi
       }
     } else {
       if toastAlreadyPresented {
-        (presentingToastViewController as! ToastViewHostingController<QTContent>)
+        (presentingToastViewController as? ToastViewHostingController<QTContent>)?
           .dismissWithCompletion(onDismiss)
       }
       keyWindow = nil
@@ -217,7 +217,7 @@ where Item: Identifiable & Equatable, QTContent: View {
       }
     } else {
       if toastAlreadyPresented {
-        (presentingToastViewController as! ToastViewHostingController<QTContent>)
+        (presentingToastViewController as? ToastViewHostingController<QTContent>)?
           .dismissWithCompletion(onDismiss)
       }
       keyWindow = nil
