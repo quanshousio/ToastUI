@@ -66,6 +66,13 @@ struct CustomButton: View {
         .foregroundColor(.white)
     }
     #endif
+
+    #if os(macOS)
+    Button(action: action) {
+      Text(label).bold()
+    }
+    .frame(maxWidth: width, maxHeight: height)
+    #endif
   }
 }
 

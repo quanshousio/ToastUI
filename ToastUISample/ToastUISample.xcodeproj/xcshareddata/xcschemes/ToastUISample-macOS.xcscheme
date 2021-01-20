@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "337A108C24CAC99E00362CBE"
-               BuildableName = "ToastUISample-iOS.app"
-               BlueprintName = "ToastUISample-iOS"
+               BlueprintIdentifier = "337B23D92560B24000E311EE"
+               BuildableName = "ToastUISample-macOS.app"
+               BlueprintName = "ToastUISample-macOS"
                ReferencedContainer = "container:ToastUISample.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -44,9 +44,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "337A108C24CAC99E00362CBE"
-            BuildableName = "ToastUISample-iOS.app"
-            BlueprintName = "ToastUISample-iOS"
+            BlueprintIdentifier = "337B23D92560B24000E311EE"
+            BuildableName = "ToastUISample-macOS.app"
+            BlueprintName = "ToastUISample-macOS"
             ReferencedContainer = "container:ToastUISample.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -61,9 +61,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "337A108C24CAC99E00362CBE"
-            BuildableName = "ToastUISample-iOS.app"
-            BlueprintName = "ToastUISample-iOS"
+            BlueprintIdentifier = "337B23D92560B24000E311EE"
+            BuildableName = "ToastUISample-macOS.app"
+            BlueprintName = "ToastUISample-macOS"
             ReferencedContainer = "container:ToastUISample.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

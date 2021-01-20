@@ -9,14 +9,7 @@
 /* Begin PBXBuildFile section */
 		3348BB39256076B30084DBEB /* Auxiliaries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3348BB38256076B30084DBEB /* Auxiliaries.swift */; };
 		3348BB3A256076B30084DBEB /* Auxiliaries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3348BB38256076B30084DBEB /* Auxiliaries.swift */; };
-		337A107A24CAC97900362CBE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337A107924CAC97900362CBE /* AppDelegate.swift */; };
-		337A107E24CAC97A00362CBE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 337A107D24CAC97A00362CBE /* Assets.xcassets */; };
-		337A108124CAC97A00362CBE /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 337A108024CAC97A00362CBE /* Preview Assets.xcassets */; };
-		337A108424CAC97A00362CBE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 337A108224CAC97A00362CBE /* LaunchScreen.storyboard */; };
-		337A109024CAC99E00362CBE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337A108F24CAC99E00362CBE /* AppDelegate.swift */; };
-		337A109224CAC99E00362CBE /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337A109124CAC99E00362CBE /* SceneDelegate.swift */; };
 		337A109624CAC99F00362CBE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 337A109524CAC99F00362CBE /* Assets.xcassets */; };
-		337A109924CAC99F00362CBE /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 337A109824CAC99F00362CBE /* Preview Assets.xcassets */; };
 		337A109C24CAC99F00362CBE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 337A109A24CAC99F00362CBE /* LaunchScreen.storyboard */; };
 		337A10A324CACABA00362CBE /* BasicExamples.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337A104E24CAC41A00362CBE /* BasicExamples.swift */; };
 		337A10A424CACABA00362CBE /* AdvancedExamples.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337A104D24CAC41900362CBE /* AdvancedExamples.swift */; };
@@ -26,6 +19,17 @@
 		337A10A824CACABB00362CBE /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337A103A24CAC3D200362CBE /* ContentView.swift */; };
 		337A10AA24CACACF00362CBE /* ToastUI in Frameworks */ = {isa = PBXBuildFile; productRef = 337A10A924CACACF00362CBE /* ToastUI */; };
 		337A10AC24CACAD800362CBE /* ToastUI in Frameworks */ = {isa = PBXBuildFile; productRef = 337A10AB24CACAD800362CBE /* ToastUI */; };
+		337B23EE2560B29400E311EE /* ToastUISampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B23ED2560B29400E311EE /* ToastUISampleApp.swift */; };
+		337B23EF2560B29400E311EE /* ToastUISampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B23ED2560B29400E311EE /* ToastUISampleApp.swift */; };
+		337B23FB2560B29B00E311EE /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337A103A24CAC3D200362CBE /* ContentView.swift */; };
+		337B23FC2560B29B00E311EE /* Auxiliaries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3348BB38256076B30084DBEB /* Auxiliaries.swift */; };
+		337B23FD2560B29B00E311EE /* AdvancedExamples.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337A104D24CAC41900362CBE /* AdvancedExamples.swift */; };
+		337B23FE2560B29B00E311EE /* BasicExamples.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337A104E24CAC41A00362CBE /* BasicExamples.swift */; };
+		337B23FF2560B29B00E311EE /* ToastUISampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337B23ED2560B29400E311EE /* ToastUISampleApp.swift */; };
+		337B240F2560B31000E311EE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 337A109524CAC99F00362CBE /* Assets.xcassets */; };
+		337B24132560B31000E311EE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 337A109524CAC99F00362CBE /* Assets.xcassets */; };
+		337B24172560B32A00E311EE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 337A109A24CAC99F00362CBE /* LaunchScreen.storyboard */; };
+		337B243F2560B68200E311EE /* ToastUI in Frameworks */ = {isa = PBXBuildFile; productRef = 337B243E2560B68200E311EE /* ToastUI */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,19 +38,16 @@
 		337A104D24CAC41900362CBE /* AdvancedExamples.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AdvancedExamples.swift; sourceTree = "<group>"; };
 		337A104E24CAC41A00362CBE /* BasicExamples.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicExamples.swift; sourceTree = "<group>"; };
 		337A107724CAC97900362CBE /* ToastUISample-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ToastUISample-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		337A107924CAC97900362CBE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		337A107D24CAC97A00362CBE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		337A108024CAC97A00362CBE /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		337A108324CAC97A00362CBE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		337A108524CAC97A00362CBE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		337A108D24CAC99E00362CBE /* ToastUISample-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ToastUISample-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		337A108F24CAC99E00362CBE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		337A109124CAC99E00362CBE /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		337A109524CAC99F00362CBE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		337A109824CAC99F00362CBE /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		337A109B24CAC99F00362CBE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		337A109D24CAC99F00362CBE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		337A10A224CAC9E900362CBE /* ToastUISample-iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "ToastUISample-iOS.entitlements"; sourceTree = "<group>"; };
+		337B23DA2560B24000E311EE /* ToastUISample-macOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ToastUISample-macOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		337B23E52560B24100E311EE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		337B23E62560B24100E311EE /* ToastUISample-macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "ToastUISample-macOS.entitlements"; sourceTree = "<group>"; };
+		337B23ED2560B29400E311EE /* ToastUISampleApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastUISampleApp.swift; sourceTree = "<group>"; };
 		339C080524D69340004F4EF5 /* ToastUI */ = {isa = PBXFileReference; lastKnownFileType = folder; name = ToastUI; path = ..; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -67,6 +68,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		337B23D72560B24000E311EE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				337B243F2560B68200E311EE /* ToastUI in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -77,6 +86,7 @@
 				337A10A124CAC9BA00362CBE /* Shared */,
 				337A108E24CAC99E00362CBE /* ToastUISample-iOS */,
 				337A107824CAC97900362CBE /* ToastUISample-tvOS */,
+				337B23DB2560B24000E311EE /* ToastUISample-macOS */,
 				337A103424CAC3D200362CBE /* Products */,
 				337A105124CAC47F00362CBE /* Frameworks */,
 			);
@@ -87,6 +97,7 @@
 			children = (
 				337A107724CAC97900362CBE /* ToastUISample-tvOS.app */,
 				337A108D24CAC99E00362CBE /* ToastUISample-iOS.app */,
+				337B23DA2560B24000E311EE /* ToastUISample-macOS.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -101,54 +112,41 @@
 		337A107824CAC97900362CBE /* ToastUISample-tvOS */ = {
 			isa = PBXGroup;
 			children = (
-				337A107924CAC97900362CBE /* AppDelegate.swift */,
-				337A107D24CAC97A00362CBE /* Assets.xcassets */,
-				337A108224CAC97A00362CBE /* LaunchScreen.storyboard */,
 				337A108524CAC97A00362CBE /* Info.plist */,
-				337A107F24CAC97A00362CBE /* Preview Content */,
 			);
 			path = "ToastUISample-tvOS";
-			sourceTree = "<group>";
-		};
-		337A107F24CAC97A00362CBE /* Preview Content */ = {
-			isa = PBXGroup;
-			children = (
-				337A108024CAC97A00362CBE /* Preview Assets.xcassets */,
-			);
-			path = "Preview Content";
 			sourceTree = "<group>";
 		};
 		337A108E24CAC99E00362CBE /* ToastUISample-iOS */ = {
 			isa = PBXGroup;
 			children = (
 				337A10A224CAC9E900362CBE /* ToastUISample-iOS.entitlements */,
-				337A108F24CAC99E00362CBE /* AppDelegate.swift */,
-				337A109124CAC99E00362CBE /* SceneDelegate.swift */,
-				337A109524CAC99F00362CBE /* Assets.xcassets */,
-				337A109A24CAC99F00362CBE /* LaunchScreen.storyboard */,
 				337A109D24CAC99F00362CBE /* Info.plist */,
-				337A109724CAC99F00362CBE /* Preview Content */,
 			);
 			path = "ToastUISample-iOS";
-			sourceTree = "<group>";
-		};
-		337A109724CAC99F00362CBE /* Preview Content */ = {
-			isa = PBXGroup;
-			children = (
-				337A109824CAC99F00362CBE /* Preview Assets.xcassets */,
-			);
-			path = "Preview Content";
 			sourceTree = "<group>";
 		};
 		337A10A124CAC9BA00362CBE /* Shared */ = {
 			isa = PBXGroup;
 			children = (
-				3348BB38256076B30084DBEB /* Auxiliaries.swift */,
+				337B23ED2560B29400E311EE /* ToastUISampleApp.swift */,
 				337A103A24CAC3D200362CBE /* ContentView.swift */,
 				337A104E24CAC41A00362CBE /* BasicExamples.swift */,
 				337A104D24CAC41900362CBE /* AdvancedExamples.swift */,
+				3348BB38256076B30084DBEB /* Auxiliaries.swift */,
+				337A109524CAC99F00362CBE /* Assets.xcassets */,
+				337A109A24CAC99F00362CBE /* LaunchScreen.storyboard */,
 			);
 			path = Shared;
+			sourceTree = "<group>";
+		};
+		337B23DB2560B24000E311EE /* ToastUISample-macOS */ = {
+			isa = PBXGroup;
+			children = (
+				337B23E52560B24100E311EE /* Info.plist */,
+				337B23E62560B24100E311EE /* ToastUISample-macOS.entitlements */,
+			);
+			path = "ToastUISample-macOS";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -196,20 +194,43 @@
 			productReference = 337A108D24CAC99E00362CBE /* ToastUISample-iOS.app */;
 			productType = "com.apple.product-type.application";
 		};
+		337B23D92560B24000E311EE /* ToastUISample-macOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 337B23E72560B24100E311EE /* Build configuration list for PBXNativeTarget "ToastUISample-macOS" */;
+			buildPhases = (
+				337B23D62560B24000E311EE /* Sources */,
+				337B23D72560B24000E311EE /* Frameworks */,
+				337B23D82560B24000E311EE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "ToastUISample-macOS";
+			packageProductDependencies = (
+				337B243E2560B68200E311EE /* ToastUI */,
+			);
+			productName = "ToastUISample-macOS";
+			productReference = 337B23DA2560B24000E311EE /* ToastUISample-macOS.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		337A102B24CAC3D200362CBE /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1200;
-				LastUpgradeCheck = 1200;
+				LastSwiftUpdateCheck = 1220;
+				LastUpgradeCheck = 1230;
 				TargetAttributes = {
 					337A107624CAC97900362CBE = {
 						CreatedOnToolsVersion = 12.0;
 					};
 					337A108C24CAC99E00362CBE = {
 						CreatedOnToolsVersion = 12.0;
+					};
+					337B23D92560B24000E311EE = {
+						CreatedOnToolsVersion = 12.2;
 					};
 				};
 			};
@@ -228,6 +249,7 @@
 			targets = (
 				337A108C24CAC99E00362CBE /* ToastUISample-iOS */,
 				337A107624CAC97900362CBE /* ToastUISample-tvOS */,
+				337B23D92560B24000E311EE /* ToastUISample-macOS */,
 			);
 		};
 /* End PBXProject section */
@@ -237,9 +259,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				337A108424CAC97A00362CBE /* LaunchScreen.storyboard in Resources */,
-				337A108124CAC97A00362CBE /* Preview Assets.xcassets in Resources */,
-				337A107E24CAC97A00362CBE /* Assets.xcassets in Resources */,
+				337B240F2560B31000E311EE /* Assets.xcassets in Resources */,
+				337B24172560B32A00E311EE /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -248,8 +269,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				337A109C24CAC99F00362CBE /* LaunchScreen.storyboard in Resources */,
-				337A109924CAC99F00362CBE /* Preview Assets.xcassets in Resources */,
 				337A109624CAC99F00362CBE /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		337B23D82560B24000E311EE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				337B24132560B31000E311EE /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -299,9 +327,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				337A107A24CAC97900362CBE /* AppDelegate.swift in Sources */,
 				337A10A724CACABB00362CBE /* AdvancedExamples.swift in Sources */,
 				337A10A824CACABB00362CBE /* ContentView.swift in Sources */,
+				337B23EF2560B29400E311EE /* ToastUISampleApp.swift in Sources */,
 				337A10A624CACABB00362CBE /* BasicExamples.swift in Sources */,
 				3348BB3A256076B30084DBEB /* Auxiliaries.swift in Sources */,
 			);
@@ -311,26 +339,29 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				337A109024CAC99E00362CBE /* AppDelegate.swift in Sources */,
 				337A10A524CACABA00362CBE /* ContentView.swift in Sources */,
-				337A109224CAC99E00362CBE /* SceneDelegate.swift in Sources */,
+				337B23EE2560B29400E311EE /* ToastUISampleApp.swift in Sources */,
 				337A10A424CACABA00362CBE /* AdvancedExamples.swift in Sources */,
 				3348BB39256076B30084DBEB /* Auxiliaries.swift in Sources */,
 				337A10A324CACABA00362CBE /* BasicExamples.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		337B23D62560B24000E311EE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				337B23FC2560B29B00E311EE /* Auxiliaries.swift in Sources */,
+				337B23FF2560B29B00E311EE /* ToastUISampleApp.swift in Sources */,
+				337B23FB2560B29B00E311EE /* ContentView.swift in Sources */,
+				337B23FD2560B29B00E311EE /* AdvancedExamples.swift in Sources */,
+				337B23FE2560B29B00E311EE /* BasicExamples.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		337A108224CAC97A00362CBE /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				337A108324CAC97A00362CBE /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
 		337A109A24CAC99F00362CBE /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -393,7 +424,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -448,7 +479,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -461,10 +492,9 @@
 		337A108724CAC97A00362CBE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_ASSET_PATHS = "\"ToastUISample-tvOS/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = A469LS65YX;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "ToastUISample-tvOS/Info.plist";
@@ -477,17 +507,16 @@
 				SDKROOT = appletvos;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 13.0;
+				TVOS_DEPLOYMENT_TARGET = 14.0;
 			};
 			name = Debug;
 		};
 		337A108824CAC97A00362CBE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_ASSET_PATHS = "\"ToastUISample-tvOS/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = A469LS65YX;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "ToastUISample-tvOS/Info.plist";
@@ -500,7 +529,7 @@
 				SDKROOT = appletvos;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 3;
-				TVOS_DEPLOYMENT_TARGET = 13.0;
+				TVOS_DEPLOYMENT_TARGET = 14.0;
 			};
 			name = Release;
 		};
@@ -511,11 +540,12 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "ToastUISample-iOS/ToastUISample-iOS.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_ASSET_PATHS = "\"ToastUISample-iOS/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = A469LS65YX;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "ToastUISample-iOS/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 14.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -535,11 +565,12 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "ToastUISample-iOS/ToastUISample-iOS.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_ASSET_PATHS = "\"ToastUISample-iOS/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = A469LS65YX;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "ToastUISample-iOS/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 14.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -549,6 +580,58 @@
 				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		337B23E82560B24100E311EE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "ToastUISample-macOS/ToastUISample-macOS.entitlements";
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = A469LS65YX;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = "ToastUISample-macOS/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.quanshousio.ToastUISample-macOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		337B23E92560B24100E311EE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "ToastUISample-macOS/ToastUISample-macOS.entitlements";
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = A469LS65YX;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = "ToastUISample-macOS/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.quanshousio.ToastUISample-macOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -582,6 +665,15 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		337B23E72560B24100E311EE /* Build configuration list for PBXNativeTarget "ToastUISample-macOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				337B23E82560B24100E311EE /* Debug */,
+				337B23E92560B24100E311EE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -590,6 +682,10 @@
 			productName = ToastUI;
 		};
 		337A10AB24CACAD800362CBE /* ToastUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ToastUI;
+		};
+		337B243E2560B68200E311EE /* ToastUI */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = ToastUI;
 		};

@@ -38,10 +38,20 @@ where Background: View, Label: View, Content: View {
 
   private var configuration: ToastViewStyleConfiguration
 
+  #if os(iOS) || os(tvOS)
   private let backgroundView = VisualEffectView(
     blurStyle: .prominent,
     blurIntensity: 0.13
   )
+  #endif
+
+  #if os(macOS)
+  private let backgroundView = VisualEffectView(
+    material: .fullScreenUI,
+    blendingMode: .behindWindow,
+    state: .followsWindowActiveState
+  )
+  #endif
 
   /// The content and behavior of the view.
   public var body: some View {

@@ -125,7 +125,7 @@ Have a look at the [ `ToastUISample` ](ToastUISample) project for more examples 
 
 ## Requirements
 
-* iOS 13.0+ | tvOS 13.0+
+* iOS 14.0+ | tvOS 14.0+ | macOS 11.0+
 * Xcode 12.0+ | Swift 5.3+
 
 ## Installation
@@ -144,7 +144,7 @@ For package integration, add the following line to the `dependencies` parameter 
 
 ``` swift
 dependencies: [
-    .package(url: "https://github.com/quanshousio/ToastUI.git", from: "1.0.0")
+  .package(url: "https://github.com/quanshousio/ToastUI.git", from: "2.0.0")
 ]
 ```
 
@@ -253,10 +253,11 @@ ToastView(<Label>) {
 * `WarningToastViewStyle()` - shows a warning toast.
 * `InfoToastViewStyle()` – shows an information toast.
 
-`ToastUI` includes a `UIVisualEffectView` wrapper through `cocoaBlur()` view modifier, which is more flexible than existing [ `blur(radius:opaque:)` ](https://developer.apple.com/documentation/swiftui/view/blur(radius:opaque:)) in SwiftUI.
+`ToastUI` includes a `UI/NSVisualEffectView` wrapper through `cocoaBlur()` view modifier, which is more flexible than existing [ `blur(radius:opaque:)` ](https://developer.apple.com/documentation/swiftui/view/blur(radius:opaque:)) in SwiftUI.
 
 * `cocoaBlur(blurStyle:vibrancyStyle:blurIntensity:)` - for iOS.
 * `cocoaBlur(blurStyle:blurIntensity:)` - for tvOS.
+* `cocoaBlur(material:blendingMode:state:)` - for macOS.
 
 ## Contributing
 
@@ -268,10 +269,8 @@ Quan Tran ([@quanshousio](https://quanshousio.com))
 
 ## Acknowledgements
 
-* [Fruta](https://developer.apple.com/documentation/app_clips/fruta_building_a_feature-rich_app_with_swiftui) - `UIVisualEffectView` wrapper for SwiftUI written by Apple.
+* [Fruta](https://developer.apple.com/documentation/app_clips/fruta_building_a_feature-rich_app_with_swiftui) - `UI/NSVisualEffectView` wrapper for SwiftUI by Apple.
 * [Label](https://fivestars.blog/swiftui/label.html) - an informative article about SwiftUI `Label` and style erasers by Five Stars.
-* [OnChangeOniOS13](https://stackoverflow.com/a/62523475) - `onChange` view modifier for iOS 13 by Damiaan Dufaux.
-* [ScaledMetricOniOS13](https://blog.apptekstudios.com/2020/06/scaledmetric-on-ios-13) - `ScaledMetric` property wrapper for iOS 13 by Apptek Studios.
 * [SVProgressHUD](https://github.com/SVProgressHUD/SVProgressHUD) - original design of the circular progress HUD by Sam Vermette and Tobias Tiemerding.
 * [SwiftUI Custom Styling](https://swiftui-lab.com/custom-styling) - an informative article about SwiftUI custom styling by The SwiftUI Lab.
 
