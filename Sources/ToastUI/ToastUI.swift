@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+@available(iOSApplicationExtension, unavailable)
 public extension View {
   // MARK: Presenting Toast
 
