@@ -112,6 +112,7 @@ struct ToastViewIsPresentedModifier<QTContent>: ViewModifier where QTContent: Vi
 #endif
 
 #if os(iOS) || os(tvOS)
+@available(iOSApplicationExtension, unavailable)
 struct ToastViewItemModifier<Item, QTContent>: ViewModifier
 where Item: Identifiable & Equatable, QTContent: View {
   @Binding var item: Item?
