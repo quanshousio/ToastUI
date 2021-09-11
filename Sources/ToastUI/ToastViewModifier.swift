@@ -8,6 +8,7 @@
 import SwiftUI
 
 #if os(iOS) || os(tvOS)
+@available(iOSApplicationExtension, unavailable)
 struct ToastViewIsPresentedModifier<QTContent>: ViewModifier where QTContent: View {
   @Binding var isPresented: Bool
   let dismissAfter: Double?
