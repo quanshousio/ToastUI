@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="description" content="ToastUI" <link rel="icon" href="favicon.ico">
+  <link rel="mask-icon" href="favicon.svg" color="#333333">
+  <title>ToastUI</title>
+  <meta property="og:locale" content="en_US">
+  <meta property="og:site_name" content="ToastUI">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="ToastUI">
+  <meta property="og:description" content="A simple way to show toast in SwiftUI.">
+  <meta property="og:url" content="https://www.quanshousio.com/ToastUI/">
+  <meta property="og:image" content="https://www.quanshousio.com/ToastUI/developer-og.jpg">
+  <meta name="twitter:image" content="https://www.quanshousio.com/ToastUI/developer-og-twitter.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:description" content="A simple way to show toast in SwiftUI.">
+  <meta name="twitter:title" content="ToastUI">
+  <meta name="twitter:url" content="https://www.quanshousio.com/ToastUI/">
+  <style>
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100vh;
+      flex-direction: column;
+    }
+
+    #logo {
+      background-image: url(logo.svg);
+      background-repeat: no-repeat;
+      background-position: center;
+      display: block;
+      text-align: left;
+      max-width: 512px;
+      width: 100%;
+      height: 100px;
+      font-size: 0;
+      line-height: 0;
+    }
+
+    @media screen {
+      [data-color-scheme="dark"] #logo {
+        background-image: url(logo-dark.svg);
+      }
+    }
+
+    @media screen and (prefers-color-scheme: dark) {
+      [data-color-scheme="auto"] #logo {
+        background-image: url(logo-dark.svg);
+      }
+    }
+
+    @media only screen and (max-width: 600px) {
+      #logo {
+        background-image: url(logo-compact.svg);
+        height: 150px;
+      }
+
+      @media screen {
+        [data-color-scheme="dark"] #logo {
+          background-image: url(logo-compact-dark.svg);
+        }
+      }
+
+      @media screen and (prefers-color-scheme: dark) {
+        [data-color-scheme="auto"] #logo {
+          background-image: url(logo-compact-dark.svg);
+        }
+      }
+    }
+
+    .button-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: .5em;
+      padding: 1.25em;
+    }
+
+    @media only screen and (max-width: 400px) {
+      .button-container {
+        grid-template-columns: none;
+      }
+    }
+
+    .button-cta {
+      border-radius: var(--style-button-borderRadius, 6px);
+      background: var(--color-fill-quaternary);
+      color: var(--colors-button-text, var(--color-button-text));
+      cursor: pointer;
+      min-width: 1.76471rem;
+      padding: 0 1.48235rem;
+      text-align: center;
+      white-space: nowrap;
+      display: inline-block;
+      font-size: 1rem;
+      line-height: 2.87059;
+      font-weight: 400;
+      letter-spacing: -.022em;
+      font-family: SF Pro Text, system-ui, -apple-system, BlinkMacSystemFont, Helvetica Neue, Helvetica, Arial, sans-serif;
+      transition: background-color 200ms ease;
+    }
+
+    .button-cta:active {
+      background: #1d1d1f;
+      outline: none
+    }
+
+    .button-cta:hover:not([disabled]) {
+      background: #636363;
+      text-decoration: none
+    }
+
+    .button-cta:disabled {
+      opacity: .32;
+      cursor: default
+    }
+
+    .fromkeyboard .button-cta:focus {
+      box-shadow: 0 0 0 4px var(--color-focus-color);
+      outline: none
+    }
+
+    .button-cta.is-dark {
+      background: var(--color-fill-quaternary);
+    }
+
+    .button-cta.is-dark:active {
+      background: #1d1d1f;
+    }
+
+    .button-cta.is-dark:hover:not([disabled]) {
+      background: #1d1d1f;
+    }
+  </style>
+  <link href="INDEX_CSS" rel="preload" as="style">
+  <link href="INDEX_CSS" rel="stylesheet">
+</head>
+
+<body data-color-scheme="auto">
+  <div class="container"> <a aria-label="ToastUI" id="logo" role="img" title="ToastUI">ToastUI</a>
+    <div class="button-container">
+      <a href="https://www.quanshousio.com/ToastUI/documentation/toastui/" class="button-cta">Documentation</a>
+      <a href="https://github.com/quanshousio/ToastUI" class="button-cta">Repository</a>
+    </div>
+  </div>
+</body>
+
+</html>
