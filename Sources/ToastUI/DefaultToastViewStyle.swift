@@ -7,97 +7,86 @@
 
 import SwiftUI
 
-#if os(iOS)
-private let backgroundColor = Color(.secondarySystemBackground)
-#endif
+/// A concrete, type-erased ``ToastViewStyle``.
+struct AnyToastViewStyle: ToastViewStyle {
+  private let _makeBody: (Configuration) -> AnyView
 
-#if os(tvOS)
-private let backgroundColor = Color(.darkGray)
-#endif
-
-#if os(macOS)
-private let backgroundColor = Color(.windowBackgroundColor)
-#endif
-
-/// The default `ToastViewStyle`.
-///
-/// You have to use this style in order to make customized `ToastView`.
-public struct DefaultToastViewStyle: ToastViewStyle {
-  /// Creates a default `ToastViewStyle`.
-  public init() {}
-
-  /// Creates a view representing the body of a `ToastView`.
-  ///
-  /// - Parameter configuration: The properties of the `ToastView` being created.
-  public func makeBody(configuration: Configuration) -> some View {
-    DefaultToastView(
-      background: configuration.background,
-      label: configuration.label,
-      content: configuration.content
-    )
+  /// Creates a ``AnyToastViewStyle``.
+  init<Style>(_ style: Style) where Style: ToastViewStyle {
+    _makeBody = { configuration in
+      AnyView(style.makeBody(configuration: configuration))
+    }
   }
 
-  struct DefaultToastView: View {
-    @ScaledMetric(relativeTo: .headline) private var paddingSize: CGFloat = 16
-    @ScaledMetric(relativeTo: .headline) private var cornerSize: CGFloat = 9
+  /// Creates a view representing the body of a ``ToastView``.
+  ///
+  /// - Parameter configuration: The properties of the ``ToastView`` being created.
+  func makeBody(configuration: Configuration) -> some View {
+    _makeBody(configuration)
+  }
+}
 
-    let background: AnyView?
-    let label: AnyView?
-    let content: AnyView?
+/// The default style of ``ToastView``.
+///
+/// Use this style to customize ``ToastView``.
+@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
+public struct DefaultToastViewStyle: ToastViewStyle {
+  /// Creates a ``DefaultToastViewStyle``.
+  public init() {}
 
-    var body: some View {
-      VStack {
-        content
-        label.fixedSize()
-      }
-      .padding(paddingSize)
-      .background(backgroundColor)
-      .cornerRadius(cornerSize)
-      .frame(maxWidth: .infinity, maxHeight: .infinity)
-      .background(background.edgesIgnoringSafeArea(.all))
+  /// Creates a view representing the body of a ``ToastView``.
+  ///
+  /// - Parameter configuration: The properties of the ``ToastView`` being created.
+  public func makeBody(configuration: Configuration) -> some View {
+    DefaultToastView {
+      configuration.content
+    } label: {
+      configuration.label
+    } background: {
+      configuration.background
     }
   }
 }
 
-/// A `ToastView` that visually represents as an indefinite circular progress
-/// indicator, also informally known as a spinner.
-public struct IndefiniteProgressToastViewStyle: ToastViewStyle {
-  /// Creates a indefinite progress `ToastViewStyle`.
+@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
+public extension ToastViewStyle where Self == DefaultToastViewStyle {
+  /// The default style of ``ToastView``.
+  ///
+  /// Use this style to customize ``ToastView``.
+  static var `default`: Self {
+    .init()
+  }
+}
+
+/// A ``ToastView`` represents as an indeterminate circular progress indicator,
+/// also informally known as a spinner.
+@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
+public struct IndeterminateProgressToastViewStyle: ToastViewStyle {
+  /// Creates an ``IndeterminateProgressToastViewStyle``.
   public init() {}
 
-  /// Creates a view representing the body of a `ToastView`.
+  /// Creates a view representing the body of a ``ToastView``.
   ///
-  /// - Parameter configuration: The properties of the `ToastView` being created.
+  /// - Parameter configuration: The properties of the ``ToastView`` being created.
   public func makeBody(configuration: Configuration) -> some View {
-    IndefiniteProgressToastView(background: configuration.background, label: configuration.label)
+    IndeterminateProgressToastView(configuration: configuration)
   }
 
-  struct IndefiniteProgressToastView: View {
-    @ScaledMetric(relativeTo: .headline) private var iconSize: CGFloat = 36
-    @ScaledMetric(relativeTo: .headline) private var strokeSize: CGFloat = 3
-    @ScaledMetric(relativeTo: .headline) private var paddingSize: CGFloat = 20
-    @ScaledMetric(relativeTo: .headline) private var cornerSize: CGFloat = 9
+  struct IndeterminateProgressToastView: View {
+    let configuration: Configuration
 
-    @State private var isAnimating: Bool = false
+    @ScaledMetric private var iconSize: Double = 36
+    @ScaledMetric private var strokeSize: Double = 3
 
-    let background: AnyView?
-    let label: AnyView?
-
-    #if os(iOS) || os(tvOS)
-    private let labelColor = Color(.label)
-    #endif
-
-    #if os(macOS)
-    private let labelColor = Color(.labelColor)
-    #endif
+    @State private var animating: Bool = false
 
     var body: some View {
-      VStack {
+      DefaultToastView {
         Circle()
           .trim(from: 0.02, to: 0.98)
           .stroke(
             AngularGradient(
-              gradient: Gradient(colors: [backgroundColor, labelColor]),
+              gradient: Gradient(colors: [.background, .label]),
               center: .center,
               startAngle: .degrees(0),
               endAngle: .degrees(360)
@@ -106,48 +95,47 @@ public struct IndefiniteProgressToastViewStyle: ToastViewStyle {
           )
           .frame(width: iconSize, height: iconSize)
           .rotationEffect(.degrees(-90))
-          .rotationEffect(isAnimating ? .degrees(360) : .degrees(0))
-          .animation(
-            isAnimating
-              ? Animation.linear(duration: 1.0).repeatForever(autoreverses: false)
-              : nil
-          )
+          .rotationEffect(.degrees(animating ? 360 : 0))
+          .animation(.linear(duration: 1.0).repeatForever(autoreverses: false), value: animating)
           .onAppear {
+            // fix #2
             DispatchQueue.main.async {
-              isAnimating = true
+              animating = true
             }
           }
-          .onDisappear {
-            isAnimating = false
-          }
-
-        label
-          .fixedSize()
+      } label: {
+        configuration.label
           .font(.headline)
           .foregroundColor(.secondary)
-          .multilineTextAlignment(.center)
+      } background: {
+        configuration.background
       }
-      .padding(paddingSize)
-      .background(backgroundColor)
-      .cornerRadius(cornerSize)
-      .frame(maxWidth: .infinity, maxHeight: .infinity)
-      .background(background.edgesIgnoringSafeArea(.all))
     }
   }
 }
 
-/// A `ToastView` that visually represents as a definite circular progress
-/// indicator. This style is similar to the `IndefiniteProgressToastViewStyle`,
-/// but show determinate progress instead.
-public struct DefiniteProgressToastViewStyle<Value>: ToastViewStyle
+@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
+public extension ToastViewStyle where Self == IndeterminateProgressToastViewStyle {
+  /// A ``ToastView`` represents as an indeterminate circular progress indicator,
+  /// also informally known as a spinner.
+  static var indeterminate: Self {
+    .init()
+  }
+}
+
+/// A ``ToastView`` represents as a determinate circular progress indicator.
+/// This style is visually similar to the ``IndeterminateProgressToastViewStyle``,
+/// but shows determinate progress instead.
+@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
+public struct DeterminateProgressToastViewStyle<Value>: ToastViewStyle
 where Value: BinaryFloatingPoint {
   @Binding private var value: Value
   @Binding private var total: Value
 
-  /// Creates a definite progress `ToastViewStyle`.
+  /// Creates a ``DeterminateProgressToastViewStyle``.
   ///
   /// - Parameters:
-  ///   - value: The currently completed amount of the task, ranging from `0.0` to `total`.
+  ///   - value: The completed amount of the task, ranging from `0.0` to `total`.
   ///   - total: The fully completed amount of the task, meaning the task is completed if
   ///            `value` equals `total`. Default value is `1.0`.
   public init(value: Binding<Value>, total: Binding<Value> = .constant(1.0)) {
@@ -155,36 +143,27 @@ where Value: BinaryFloatingPoint {
     _total = total
   }
 
-  /// Creates a view representing the body of a `ToastView`.
+  /// Creates a view representing the body of a ``ToastView``.
   ///
-  /// - Parameter configuration: The properties of the `ToastView` being created.
+  /// - Parameter configuration: The properties of the ``ToastView`` being created.
   public func makeBody(configuration: Configuration) -> some View {
-    DefiniteProgressToastView(
-      background: configuration.background,
-      label: configuration.label,
-      value: $value,
-      total: $total
-    )
+    DeterminateProgressToastView(configuration: configuration, value: $value, total: $total)
   }
 
-  struct DefiniteProgressToastView: View {
-    @ScaledMetric(relativeTo: .headline) private var iconSize: CGFloat = 36
-    @ScaledMetric(relativeTo: .headline) private var strokeSize: CGFloat = 3
-    @ScaledMetric(relativeTo: .headline) private var paddingSize: CGFloat = 20
-    @ScaledMetric(relativeTo: .headline) private var cornerSize: CGFloat = 9
-
-    @State private var isAnimating: Bool = false
-
-    let background: AnyView?
-    let label: AnyView?
-
+  struct DeterminateProgressToastView: View {
+    let configuration: Configuration
     @Binding var value: Value
     @Binding var total: Value
 
+    @ScaledMetric private var iconSize: Double = 36
+    @ScaledMetric private var strokeSize: Double = 3
+
+    @State private var isAnimating: Bool = false
+
     var body: some View {
-      VStack {
+      DefaultToastView {
         Circle()
-          .trim(from: 0, to: CGFloat(value / total))
+          .trim(from: 0, to: Double(value / total))
           .stroke(
             AngularGradient(
               gradient: Gradient(colors: [.secondary]),
@@ -196,195 +175,189 @@ where Value: BinaryFloatingPoint {
           )
           .frame(width: iconSize, height: iconSize)
           .rotationEffect(.degrees(-90))
-          .animation(isAnimating ? .linear : nil)
-          .onAppear {
-            DispatchQueue.main.async {
-              isAnimating = true
-            }
-          }
-          .onDisappear {
-            isAnimating = false
-          }
-
-        label
-          .fixedSize()
+          .animation(.linear, value: value)
+      } label: {
+        configuration.label
           .font(.headline)
           .foregroundColor(.secondary)
-          .multilineTextAlignment(.center)
+      } background: {
+        configuration.background
       }
-      .padding(paddingSize)
-      .background(backgroundColor)
-      .cornerRadius(cornerSize)
-      .frame(maxWidth: .infinity, maxHeight: .infinity)
-      .background(background.edgesIgnoringSafeArea(.all))
     }
   }
 }
 
-/// A `ToastView` that visually represents as a success toast.
+@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
+public extension ToastViewStyle {
+  /// A ``ToastView`` represents as a determinate circular progress indicator.
+  /// This style is similar to the ``IndeterminateProgressToastViewStyle``,
+  /// but shows determinate progress instead.
+  ///
+  /// - Parameters:
+  ///   - value: The completed amount of the task, ranging from `0.0` to `total`.
+  ///   - total: The fully completed amount of the task, meaning the task is completed if
+  ///            `value` equals `total`. Default value is `1.0`.
+  static func determinate<Value>(
+    value: Binding<Value>,
+    total: Binding<Value> = .constant(1.0)
+  ) -> Self where Value: BinaryFloatingPoint, Self == DeterminateProgressToastViewStyle<Value> {
+    .init(value: value, total: total)
+  }
+}
+
+/// A ``ToastView`` represents as a toast consists of an icon and a headline text label.
+@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
+public struct IconToastViewStyle<Content>: ToastViewStyle where Content: View {
+  private var content: Content
+
+  /// Creates an ``IconToastViewStyle``.
+  ///
+  /// - Parameters:
+  ///   - content: The content of the icon.
+  public init(content: () -> Content) {
+    self.content = content()
+  }
+
+  /// Creates a view representing the body of a ``ToastView``.
+  ///
+  /// - Parameter configuration: The properties of the ``ToastView`` being created.
+  public func makeBody(configuration: Configuration) -> some View {
+    IconToastView(configuration: configuration, content: content)
+  }
+
+  struct IconToastView: View {
+    let configuration: Configuration
+    let content: Content
+
+    @ScaledMetric private var iconSize: Double = 36
+
+    var body: some View {
+      DefaultToastView {
+        content
+          .font(.largeTitle)
+      } label: {
+        configuration.label
+          .font(.headline)
+          .foregroundColor(.secondary)
+      } background: {
+        configuration.background
+      }
+    }
+  }
+}
+
+@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
+public extension ToastViewStyle {
+  /// A ``ToastView`` represents as a toast consists of an icon and a headline text label.
+  ///
+  /// - Parameters:
+  ///   - content: The content of the icon.
+  static func icon<Content>(content: () -> Content) -> Self
+  where Self == IconToastViewStyle<Content> {
+    .init(content: content)
+  }
+}
+
+/// A ``ToastView`` represents as a success toast.
+@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
 public struct SuccessToastViewStyle: ToastViewStyle {
-  /// Creates a success `ToastViewStyle`.
+  /// Creates a ``SuccessToastViewStyle``.
   public init() {}
 
-  /// Creates a view representing the body of a `ToastView`.
+  /// Creates a view representing the body of a ``ToastView``.
   ///
-  /// - Parameter configuration: The properties of the `ToastView` being created.
+  /// - Parameter configuration: The properties of the ``ToastView`` being created.
   public func makeBody(configuration: Configuration) -> some View {
-    SuccessToastView(background: configuration.background, label: configuration.label)
-  }
-
-  struct SuccessToastView: View {
-    @ScaledMetric(relativeTo: .headline) private var iconSize: CGFloat = 32
-    @ScaledMetric(relativeTo: .headline) private var paddingSize: CGFloat = 20
-    @ScaledMetric(relativeTo: .headline) private var cornerSize: CGFloat = 9
-
-    let background: AnyView?
-    let label: AnyView?
-
-    var body: some View {
-      VStack {
-        Image(systemName: "checkmark.circle.fill")
-          .resizable()
-          .frame(width: iconSize, height: iconSize)
-          .foregroundColor(.green)
-
-        label
-          .fixedSize()
-          .font(.headline)
-          .foregroundColor(.secondary)
-          .multilineTextAlignment(.center)
-      }
-      .padding(paddingSize)
-      .background(backgroundColor)
-      .cornerRadius(cornerSize)
-      .frame(maxWidth: .infinity, maxHeight: .infinity)
-      .background(background.edgesIgnoringSafeArea(.all))
+    IconToastViewStyle {
+      Image(systemName: "checkmark.circle.fill")
+        .foregroundColor(.green)
     }
+    .makeBody(configuration: configuration)
   }
 }
 
-/// A `ToastView` that visually represents as an error toast.
-public struct ErrorToastViewStyle: ToastViewStyle {
-  /// Creates an error `ToastViewStyle`.
-  public init() {}
-
-  /// Creates a view representing the body of a `ToastView`.
-  ///
-  /// - Parameter configuration: The properties of the `ToastView` being created.
-  public func makeBody(configuration: Configuration) -> some View {
-    FailureToastView(background: configuration.background, label: configuration.label)
-  }
-
-  struct FailureToastView: View {
-    @ScaledMetric(relativeTo: .headline) private var iconSize: CGFloat = 32
-    @ScaledMetric(relativeTo: .headline) private var paddingSize: CGFloat = 20
-    @ScaledMetric(relativeTo: .headline) private var cornerSize: CGFloat = 9
-
-    let background: AnyView?
-    let label: AnyView?
-
-    var body: some View {
-      VStack {
-        Image(systemName: "xmark.circle.fill")
-          .resizable()
-          .frame(width: iconSize, height: iconSize)
-          .foregroundColor(.red)
-
-        label
-          .fixedSize()
-          .font(.headline)
-          .foregroundColor(.secondary)
-          .multilineTextAlignment(.center)
-      }
-      .padding(paddingSize)
-      .background(backgroundColor)
-      .cornerRadius(cornerSize)
-      .frame(maxWidth: .infinity, maxHeight: .infinity)
-      .background(background.edgesIgnoringSafeArea(.all))
-    }
+@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
+public extension ToastViewStyle where Self == SuccessToastViewStyle {
+  /// A ``ToastView`` represents as a success toast.
+  static var success: Self {
+    .init()
   }
 }
 
-/// A `ToastView` that visually represents as a warning toast.
+/// A ``ToastView`` represents as a failure toast.
+@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
+public struct FailureToastViewStyle: ToastViewStyle {
+  /// Creates a ``FailureToastViewStyle``.
+  public init() {}
+
+  /// Creates a view representing the body of a ``ToastView``.
+  ///
+  /// - Parameter configuration: The properties of the ``ToastView`` being created.
+  public func makeBody(configuration: Configuration) -> some View {
+    IconToastViewStyle {
+      Image(systemName: "xmark.circle.fill")
+        .foregroundColor(.red)
+    }
+    .makeBody(configuration: configuration)
+  }
+}
+
+@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
+public extension ToastViewStyle where Self == FailureToastViewStyle {
+  /// A ``ToastView`` represents as a failure toast.
+  static var failure: Self {
+    .init()
+  }
+}
+
+/// A ``ToastView`` represents as a warning toast.
+@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
 public struct WarningToastViewStyle: ToastViewStyle {
-  /// Creates a warning `ToastViewStyle`.
+  /// Creates a ``WarningToastViewStyle``.
   public init() {}
 
-  /// Creates a view representing the body of a `ToastView`.
+  /// Creates a view representing the body of a ``ToastView``.
   ///
-  /// - Parameter configuration: The properties of the `ToastView` being created.
+  /// - Parameter configuration: The properties of the ``ToastView`` being created.
   public func makeBody(configuration: Configuration) -> some View {
-    WarningToastView(background: configuration.background, label: configuration.label)
-  }
-
-  struct WarningToastView: View {
-    @ScaledMetric(relativeTo: .headline) private var iconSize: CGFloat = 32
-    @ScaledMetric(relativeTo: .headline) private var paddingSize: CGFloat = 20
-    @ScaledMetric(relativeTo: .headline) private var cornerSize: CGFloat = 9
-
-    let background: AnyView?
-    let label: AnyView?
-
-    var body: some View {
-      VStack {
-        Image(systemName: "exclamationmark.triangle.fill")
-          .resizable()
-          .frame(width: iconSize, height: iconSize)
-          .foregroundColor(.yellow)
-
-        label
-          .fixedSize()
-          .font(.headline)
-          .foregroundColor(.secondary)
-          .multilineTextAlignment(.center)
-      }
-      .padding(paddingSize)
-      .background(backgroundColor)
-      .cornerRadius(cornerSize)
-      .frame(maxWidth: .infinity, maxHeight: .infinity)
-      .background(background.edgesIgnoringSafeArea(.all))
+    IconToastViewStyle {
+      Image(systemName: "exclamationmark.triangle.fill")
+        .foregroundColor(.yellow)
     }
+    .makeBody(configuration: configuration)
   }
 }
 
-/// A `ToastView` that visually represents as an information toast.
-public struct InfoToastViewStyle: ToastViewStyle {
-  /// Creates an information`ToastViewStyle`.
+@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
+public extension ToastViewStyle where Self == WarningToastViewStyle {
+  /// A ``ToastView`` represents as a warning toast.
+  static var warning: Self {
+    .init()
+  }
+}
+
+/// A ``ToastView`` represents as an information toast.
+@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
+public struct InformationToastViewStyle: ToastViewStyle {
+  /// Creates an ``InformationToastViewStyle``.
   public init() {}
 
-  /// Creates a view representing the body of a `ToastView`.
+  /// Creates a view representing the body of a ``ToastView``.
   ///
-  /// - Parameter configuration: The properties of the `ToastView` being created.
+  /// - Parameter configuration: The properties of the ``ToastView`` being created.
   public func makeBody(configuration: Configuration) -> some View {
-    InfoToastView(background: configuration.background, label: configuration.label)
-  }
-
-  struct InfoToastView: View {
-    @ScaledMetric(relativeTo: .headline) private var iconSize: CGFloat = 32
-    @ScaledMetric(relativeTo: .headline) private var paddingSize: CGFloat = 20
-    @ScaledMetric(relativeTo: .headline) private var cornerSize: CGFloat = 9
-
-    let background: AnyView?
-    let label: AnyView?
-
-    var body: some View {
-      VStack {
-        Image(systemName: "info.circle.fill")
-          .resizable()
-          .frame(width: iconSize, height: iconSize)
-          .foregroundColor(.blue)
-
-        label
-          .fixedSize()
-          .font(.headline)
-          .foregroundColor(.secondary)
-          .multilineTextAlignment(.center)
-      }
-      .padding(paddingSize)
-      .background(backgroundColor)
-      .cornerRadius(cornerSize)
-      .frame(maxWidth: .infinity, maxHeight: .infinity)
-      .background(background.edgesIgnoringSafeArea(.all))
+    IconToastViewStyle {
+      Image(systemName: "info.circle.fill")
+        .foregroundColor(.blue)
     }
+    .makeBody(configuration: configuration)
+  }
+}
+
+@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
+public extension ToastViewStyle where Self == InformationToastViewStyle {
+  /// A ``ToastView`` represents as an information toast.
+  static var information: Self {
+    .init()
   }
 }
