@@ -1,0 +1,376 @@
+#!/bin/bash
+
+if test -t 1; then
+  ncolors=$(tput colors)
+  if test -n "$ncolors" && test "$ncolors" -ge 8; then
+    BOLD="$(tput bold)"
+    NORMAL="$(tput sgr0)"
+    RED="$(tput setaf 1)"
+    YELLOW="$(tput setaf 3)"
+    BLUE="$(tput setaf 4)"
+  fi
+fi
+
+info() {
+  echo -e "${BLUE}${BOLD}INFO:${NORMAL}" "$@"
+}
+
+warn() {
+  echo -e "${YELLOW}${BOLD}WARN:${NORMAL}" "$@"
+}
+
+err() {
+  echo -e "${RED}${BOLD}ERROR:${NORMAL}" "$@"
+}
+
+if ! command -v jq &>/dev/null; then
+  err "\`jq\` is required for the script"
+  exit 1
+fi
+
+INFO_PLIST=$(find "$(pwd)" -name "Info.plist" -type f)
+export VUE_APP_VERSION=$(plutil -convert json -o - "$INFO_PLIST" | jq -r ".CFBundleVersion // empty")
+export VUE_APP_UPDATED_DATE=$(date -u +%F)
+export VUE_APP_TITLE=ToastUI
+
+if [[ -z $VUE_APP_VERSION ]]; then
+  err "CFBundleVersion in the $INFO_PLIST is not valid"
+  exit 1
+fi
+
+trap err_handler ERR
+
+err_handler() {
+  err "Task has failed, check the error messages"
+}
+
+set -e
+
+cd "$(dirname "${BASH_SOURCE[0]}")"
+
+if ! command -v swift &>/dev/null; then
+  err "\`swift\` is required for building the package"
+  exit 1
+fi
+
+DOCC_DIR=$(find . -name "ToastUI.docc" -type d)
+if [[ -z "$DOCC_DIR" ]]; then
+  err "Failed to locate ToastUI.docc documentation"
+  exit 1
+fi
+
+SWIFT_DOCC_DIR=../swift-docc
+SWIFT_DOCC_RENDER_DIR=../swift-docc-render
+BUILD_DIR=.build
+SYMBOLS_DIR=${BUILD_DIR}/symbol-graphs
+
+DOCC_ARCHIVE=ToastUI.doccarchive
+SYMBOLS_JSON=${SYMBOLS_DIR}/ToastUI.symbols.json
+
+REBUILD_PKG=0
+REBUILD_DOCC=0
+REBUILD_DOCC_RENDER=0
+
+DOCC_BUILD_RAN=0
+DOCC_RENDER_BUILD_RAN=0
+
+usage() {
+  cat <<EOF
+Package and documentation build helper for ToastUI
+
+USAGE: toastui [TASKS]
+
+TASKS:
+    build    Build the package
+    clean    Clean the build directory
+    help     Display this message
+
+SUBCOMMAND: toastui docc [TASKS] [OPTIONS]
+
+TASKS:
+    setup      Setup and build the DocC utilities
+    build      Build the documentation
+    preview    Preview the documentation
+    deploy     Deploy the documentation to remote/gh-pages
+    help       Display this message
+
+OPTIONS:
+  --rebuild-pkg            Rebuild the package
+  --rebuild-docc           Rebuild the swift-docc
+  --rebuild-docc-render    Rebuild the swift-docc-render
+
+EOF
+  exit 1
+}
+
+build_pkg() {
+  info "Building the package"
+
+  rm -rf .build
+
+  mkdir -p $SYMBOLS_DIR
+  swift build --target ToastUI \
+    -Xswiftc -emit-symbol-graph \
+    -Xswiftc -emit-symbol-graph-dir -Xswiftc $SYMBOLS_DIR
+
+  if [[ ! -f $SYMBOLS_JSON ]]; then
+    err "Failed to locate the symbol file. Run \`toastui build\` to build the package"
+    exit 1
+  fi
+
+  info "Patching the package symbols"
+
+  SYMBOLS=(
+    s:7ToastUI0A4ViewV4bodyQrvp
+    s:7ToastUI0A22ViewStyleConfigurationV10BackgroundV4body05SwiftB003AnyC0Vvp
+    s:7ToastUI0A22ViewStyleConfigurationV5LabelV4body05SwiftB003AnyC0Vvp
+    s:7ToastUI0A22ViewStyleConfigurationV7ContentV4body05SwiftB003AnyC0Vvp
+    s:7ToastUI0A9ViewStylePAAE4icon7contentAA04IconacD0Vyqd__Gqd__yXE_tAHRsz05SwiftB00C0Rd__lFZ::SYNTHESIZED::s:7ToastUI019DeterminateProgressA9ViewStyleV
+    s:7ToastUI0A9ViewStylePAAE4icon7contentAA04IconacD0Vyqd__Gqd__yXE_tAHRsz05SwiftB00C0Rd__lFZ::SYNTHESIZED::s:7ToastUI011InformationA9ViewStyleV
+    s:7ToastUI0A9ViewStylePAAE4icon7contentAA04IconacD0Vyqd__Gqd__yXE_tAHRsz05SwiftB00C0Rd__lFZ::SYNTHESIZED::s:7ToastUI07WarningA9ViewStyleV
+    s:7ToastUI0A9ViewStylePAAE4icon7contentAA04IconacD0Vyqd__Gqd__yXE_tAHRsz05SwiftB00C0Rd__lFZ::SYNTHESIZED::s:7ToastUI07SuccessA9ViewStyleV
+    s:7ToastUI0A9ViewStylePAAE4icon7contentAA04IconacD0Vyqd__Gqd__yXE_tAHRsz05SwiftB00C0Rd__lFZ::SYNTHESIZED::s:7ToastUI07FailureA9ViewStyleV
+    s:7ToastUI0A9ViewStylePAAE4icon7contentAA04IconacD0Vyqd__Gqd__yXE_tAHRsz05SwiftB00C0Rd__lFZ::SYNTHESIZED::s:7ToastUI021IndeterminateProgressA9ViewStyleV
+    s:7ToastUI0A9ViewStylePAAE4icon7contentAA04IconacD0Vyqd__Gqd__yXE_tAHRsz05SwiftB00C0Rd__lFZ::SYNTHESIZED::s:7ToastUI07DefaultA9ViewStyleV
+    s:7ToastUI0A9ViewStylePAAE11determinate5value5totalAA019DeterminateProgressacD0Vyqd__G05SwiftB07BindingVyqd__G_AMtAIRszSBRd__lFZ::SYNTHESIZED::s:7ToastUI04IconA9ViewStyleV
+    s:7ToastUI0A9ViewStylePAAE11determinate5value5totalAA019DeterminateProgressacD0Vyqd__G05SwiftB07BindingVyqd__G_AMtAIRszSBRd__lFZ::SYNTHESIZED::s:7ToastUI011InformationA9ViewStyleV
+    s:7ToastUI0A9ViewStylePAAE11determinate5value5totalAA019DeterminateProgressacD0Vyqd__G05SwiftB07BindingVyqd__G_AMtAIRszSBRd__lFZ::SYNTHESIZED::s:7ToastUI07WarningA9ViewStyleV
+    s:7ToastUI0A9ViewStylePAAE11determinate5value5totalAA019DeterminateProgressacD0Vyqd__G05SwiftB07BindingVyqd__G_AMtAIRszSBRd__lFZ::SYNTHESIZED::s:7ToastUI07SuccessA9ViewStyleV
+    s:7ToastUI0A9ViewStylePAAE11determinate5value5totalAA019DeterminateProgressacD0Vyqd__G05SwiftB07BindingVyqd__G_AMtAIRszSBRd__lFZ::SYNTHESIZED::s:7ToastUI07FailureA9ViewStyleV
+    s:7ToastUI0A9ViewStylePAAE11determinate5value5totalAA019DeterminateProgressacD0Vyqd__G05SwiftB07BindingVyqd__G_AMtAIRszSBRd__lFZ::SYNTHESIZED::s:7ToastUI021IndeterminateProgressA9ViewStyleV
+    s:7ToastUI0A9ViewStylePAAE11determinate5value5totalAA019DeterminateProgressacD0Vyqd__G05SwiftB07BindingVyqd__G_AMtAIRszSBRd__lFZ::SYNTHESIZED::s:7ToastUI07DefaultA9ViewStyleV
+    s:7SwiftUI4ViewP05ToastB0E05toastC5StyleyQrqd__AD0dcF0Rd__lF::SYNTHESIZED::s:7ToastUI0A22ViewStyleConfigurationV10BackgroundV
+    s:7SwiftUI4ViewP05ToastB0E05toastC5StyleyQrqd__AD0dcF0Rd__lF::SYNTHESIZED::s:7ToastUI0A22ViewStyleConfigurationV5LabelV
+    s:7SwiftUI4ViewP05ToastB0E05toastC5StyleyQrqd__AD0dcF0Rd__lF::SYNTHESIZED::s:7ToastUI0A22ViewStyleConfigurationV7ContentV
+    s:7SwiftUI4ViewP05ToastB0E21toastDimmedBackgroundyQrSbF::SYNTHESIZED::s:7ToastUI0A22ViewStyleConfigurationV10BackgroundV
+    s:7SwiftUI4ViewP05ToastB0E21toastDimmedBackgroundyQrSbF::SYNTHESIZED::s:7ToastUI0A22ViewStyleConfigurationV5LabelV
+    s:7SwiftUI4ViewP05ToastB0E21toastDimmedBackgroundyQrSbF::SYNTHESIZED::s:7ToastUI0A22ViewStyleConfigurationV7ContentV
+    s:7SwiftUI4ViewP05ToastB0E5toast4item12dismissAfter9onDismiss7contentQrAA7BindingVyqd__SgG_SdSgyycSgqd_0_qd__ctSQRd__s12IdentifiableRd__AaBRd_0_r0_lF::SYNTHESIZED::s:7ToastUI0A22ViewStyleConfigurationV10BackgroundV
+    s:7SwiftUI4ViewP05ToastB0E5toast4item12dismissAfter9onDismiss7contentQrAA7BindingVyqd__SgG_SdSgyycSgqd_0_qd__ctSQRd__s12IdentifiableRd__AaBRd_0_r0_lF::SYNTHESIZED::s:7ToastUI0A22ViewStyleConfigurationV5LabelV
+    s:7SwiftUI4ViewP05ToastB0E5toast4item12dismissAfter9onDismiss7contentQrAA7BindingVyqd__SgG_SdSgyycSgqd_0_qd__ctSQRd__s12IdentifiableRd__AaBRd_0_r0_lF::SYNTHESIZED::s:7ToastUI0A22ViewStyleConfigurationV7ContentV
+    s:7SwiftUI4ViewP05ToastB0E5toast11isPresented12dismissAfter9onDismiss7contentQrAA7BindingVySbG_SdSgyycSgqd__yctAaBRd__lF::SYNTHESIZED::s:7ToastUI0A22ViewStyleConfigurationV10BackgroundV
+    s:7SwiftUI4ViewP05ToastB0E5toast11isPresented12dismissAfter9onDismiss7contentQrAA7BindingVySbG_SdSgyycSgqd__yctAaBRd__lF::SYNTHESIZED::s:7ToastUI0A22ViewStyleConfigurationV5LabelV
+    s:7SwiftUI4ViewP05ToastB0E5toast11isPresented12dismissAfter9onDismiss7contentQrAA7BindingVySbG_SdSgyycSgqd__yctAaBRd__lF::SYNTHESIZED::s:7ToastUI0A22ViewStyleConfigurationV7ContentV
+  )
+
+  # delete all SwiftUI.View symbols
+  echo "$(jq 'del(.symbols[] | select(.identifier.precise | startswith("s:7SwiftUI4ViewPAAE")))' $SYMBOLS_JSON)" >$SYMBOLS_JSON
+
+  # delete redundant symbols
+  for symbol in "${SYMBOLS[@]}"; do
+    echo "$(jq "del(.symbols[] | select(.identifier.precise == \"$symbol\"))" $SYMBOLS_JSON)" >$SYMBOLS_JSON
+  done
+
+  # delete all memberOf relationships
+  echo "$(jq 'del(.relationships[] | select(.kind == "memberOf"))' $SYMBOLS_JSON)" >$SYMBOLS_JSON
+  info "Patching complete"
+}
+
+clean_pkg() {
+  info "Cleaning the build artifacts"
+  rm -rf $BUILD_DIR
+  rm -rf $DOCC_ARCHIVE
+  rm -rf "$(find . -name ".docc-build" -type d)"
+}
+
+build_swift_docc() {
+  [[ $DOCC_BUILD_RAN = 1 ]] && return
+
+  info "Building swift-docc"
+  cd $SWIFT_DOCC_DIR
+  swift build
+
+  cd - >/dev/null
+  DOCC_BUILD_RAN=1
+}
+
+build_swift_docc_render() {
+  [[ $DOCC_RENDER_BUILD_RAN = 1 ]] && return
+
+  info "Building swift-docc-render"
+  cd $SWIFT_DOCC_RENDER_DIR
+  [[ "$(git branch --show-current)" != "toastui" ]] && git checkout toastui
+  npm install
+  npx browserslist@latest --update-db
+
+  cd - >/dev/null
+  DOCC_RENDER_BUILD_RAN=1
+}
+
+setup_docc() {
+  info "Setting up the environment for documentation development"
+
+  if [[ -d $SWIFT_DOCC_DIR || -d $SWIFT_DOCC_RENDER_DIR ]]; then
+    read -p "$(warn "Found existing installation. Are you sure you want to reinstall (y/n)? ")" -n 1 -r
+    echo
+    [[ ! $REPLY =~ ^[Yy]$ ]] && return
+  fi
+
+  if ! command -v npm &>/dev/null; then
+    err "\`npm\` is required for building the swift-docc-render"
+    exit 1
+  fi
+
+  info "Cloning swift-docc and swift-docc-render"
+  rm -rf $SWIFT_DOCC_DIR
+  rm -rf $SWIFT_DOCC_RENDER_DIR
+  git clone https://github.com/apple/swift-docc $SWIFT_DOCC_DIR &
+  git clone https://github.com/quanshousio/swift-docc-render $SWIFT_DOCC_RENDER_DIR &
+  wait
+
+  build_swift_docc
+  build_swift_docc_render
+}
+
+check_prereqs() {
+  if [[ ! -d "$SYMBOLS_DIR" ]]; then
+    warn "Failed to locate the build directory"
+    build_pkg
+  else
+    [[ $REBUILD_PKG = 1 ]] && build_pkg
+  fi
+
+  if [[ ! -d $SWIFT_DOCC_DIR ]]; then
+    err "Failed to locate swift-docc. Run \`toastui docc setup\` to setup the environment"
+    exit 1
+  fi
+
+  if [[ ! -d $SWIFT_DOCC_RENDER_DIR ]]; then
+    err "Failed to locate swift-docc-render. Run \`toastui docc setup\` to setup the environment"
+    exit 1
+  fi
+
+  if [[ $REBUILD_DOCC = 1 ]]; then
+    build_swift_docc
+  fi
+
+  if [[ $REBUILD_DOCC_RENDER = 1 ]]; then
+    build_swift_docc_render
+  fi
+}
+
+build_docc() {
+  check_prereqs
+
+  info "Building the documentation archive"
+  rm -rf $DOCC_ARCHIVE
+
+  cd $SWIFT_DOCC_RENDER_DIR
+  export DOCC_HTML_DIR=${SWIFT_DOCC_RENDER_DIR}/dist
+  npm run build
+
+  cd - >/dev/null
+  swift run --package-path $SWIFT_DOCC_DIR docc convert "$DOCC_DIR" \
+    --additional-symbol-graph-dir $SYMBOLS_DIR \
+    --transform-for-static-hosting \
+    --hosting-base-path ToastUI \
+    --output-path $DOCC_ARCHIVE
+
+  info "Patching the documentation archive"
+
+  # convert the Sample Code for ToastUI article into a sampleCode article
+  TOASTUISAMPLE_JSON="$DOCC_ARCHIVE/data/documentation/toastui/toastuisample.json"
+  perl -i -pe 's/\"metadata\":\{.+?\},\"/"metadata":{"roleHeading":"Sample Code","title":"Sample code for ToastUI","role":"sampleCode","modules":[{"name":"ToastUI"}],"platforms":[{"name":"iOS","introducedAt":"14.0"},{"name":"macOS","introducedAt":"14.0"},{"name":"tvOS","introducedAt":"14.0"},{"name":"watchOS","introducedAt":"7.0"},{"name":"Xcode","introducedAt":"13.1"}]},"/g' "$TOASTUISAMPLE_JSON"
+  perl -i -pe 's/\"hierarchy\":\{.+?\},\K/"sampleCodeDownload":{"action":{"overridingTitle":"Download","type":"reference","isActive":true,"identifier":"https:\/\/github.com\/quanshousio\/ToastUI\/archive\/refs\/heads\/main.zip"}},/g' "$TOASTUISAMPLE_JSON"
+  perl -i -pe 's/\"references\":\{\K/"https:\/\/github.com\/quanshousio\/ToastUI\/archive\/refs\/heads\/main.zip":{"type":"download","identifier":"https:\/\/github.com\/quanshousio\/ToastUI\/archive\/refs\/heads\/main.zip","url":"https:\/\/github.com\/quanshousio\/ToastUI\/archive\/refs\/heads\/main.zip"},/g' "$TOASTUISAMPLE_JSON"
+  perl -i -pe 's/ToastUI\/ToastUISample\":\{\"role\":\"\Karticle/sampleCode/g' "$DOCC_ARCHIVE/data/documentation/toastui.json"
+  perl -i -pe 's/\"title\":\"Sample code for ToastUI\",\"type\":\"\Karticle/sampleCode/g' "$DOCC_ARCHIVE/index/index.json"
+
+  # replace /index.html
+  export INDEX_CSS=$(cd $DOCC_ARCHIVE && find . -name "index*.css" -type f)
+  perl -pe "s/INDEX_CSS/\$ENV{INDEX_CSS}/g" "$DOCC_DIR/homepage.html" >"$DOCC_ARCHIVE/index.html"
+
+  # add redirect for /documentation
+  cp "$DOCC_DIR/redirect.html" "$DOCC_ARCHIVE/documentation/index.html"
+
+  info "Patching complete"
+}
+
+preview_docc() {
+  check_prereqs
+
+  info "Previewing the documentation"
+  if [[ ! -d $(find "$(pwd)" -name $DOCC_ARCHIVE -type d) ]]; then
+    warn "Failed to locate the $DOCC_ARCHIVE"
+    build_docc
+  fi
+  DOCC_ARCHIVE_DIR=$(find "$(pwd)" -name $DOCC_ARCHIVE -type d)
+  info "Documentation archive: $DOCC_ARCHIVE_DIR"
+
+  cd $SWIFT_DOCC_RENDER_DIR
+  # [[ "$(git branch --show-current)" != "toastui" ]] && git checkout toastui
+  export VUE_APP_DEV_SERVER_PROXY=$DOCC_ARCHIVE_DIR
+  npm run serve
+}
+
+push_docc() {
+  info "Pushing to remote/gh-pages"
+
+  if [[ ! -d $(find "$(pwd)" -name $DOCC_ARCHIVE -type d) ]]; then
+    warn "Failed to locate the $DOCC_ARCHIVE"
+    build_docc
+  fi
+
+  # update gh-pages branch with the new archive
+  mv $DOCC_ARCHIVE ..
+  git clean -fxd
+  git checkout gh-pages
+  [ "$(ls -A | grep -v '.git')" ] && git rm -rf .
+  mv ../$DOCC_ARCHIVE/* .
+
+  # push to github
+  git config user.name "$GITHUB_ACTOR"
+  git config user.email "${GITHUB_ACTOR:0:4}@${GITHUB_ACTOR:4:7}.com"
+  git add .
+  git commit -m "Update documentation for $VUE_APP_VERSION"
+  git push
+  git checkout main
+}
+
+# main
+[[ -z $1 ]] && usage
+
+if [[ $1 = docc ]]; then
+  [[ -z $2 ]] && usage
+
+  for opt in "${@:2}"; do
+    [[ $opt = "--rebuild-pkg" ]] && REBUILD_PKG=1
+    [[ $opt = "--rebuild-docc" ]] && REBUILD_DOCC=1
+    [[ $opt = "--rebuild-docc-render" ]] && REBUILD_DOCC_RENDER=1
+    if [[ ! "$opt" =~ ^(setup|build|preview|deploy|help|--rebuild-pkg|--rebuild-docc|--rebuild-docc-render)$ ]]; then
+      err "Unknown option: $opt"
+      exit 1
+    fi
+  done
+
+  for opt in "${@:2}"; do
+    case $opt in
+    setup) setup_docc ;;
+    build) build_docc ;;
+    preview) preview_docc ;;
+    deploy)
+      build_pkg
+      setup_docc
+      build_docc
+      push_docc
+      ;;
+    --rebuild-pkg | --rebuild-docc | --rebuild-docc-render) ;;
+    help | *) usage ;;
+    esac
+  done
+else
+  for opt in "${@:1}"; do
+    if [[ ! "$opt" =~ ^(build|clean|help)$ ]]; then
+      err "Unknown option: $opt"
+      exit 1
+    fi
+  done
+
+  for opt in "${@:1}"; do
+    case $opt in
+    build) build_pkg ;;
+    clean) clean_pkg ;;
+    help | *) usage ;;
+    esac
+  done
+fi

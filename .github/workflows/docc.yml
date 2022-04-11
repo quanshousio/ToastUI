@@ -1,0 +1,17 @@
+name: docc
+
+on:
+ push:
+   tags:
+     - '*'
+
+jobs:
+  docbuild:
+    runs-on: macos-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: docc
+        run: ./toastui docc deploy
