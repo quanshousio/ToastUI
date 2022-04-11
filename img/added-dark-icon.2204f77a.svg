@@ -1,0 +1,11 @@
+<!--
+  This source file is part of the Swift.org open source project
+
+  Copyright (c) 2021 Apple Inc. and the Swift project authors
+  Licensed under Apache License v2.0 with Runtime Library Exception
+
+  See https://swift.org/LICENSE.txt for license information
+  See https://swift.org/CONTRIBUTORS.txt for Swift project authors
+-->
+
+<svg xmlns="http://www.w3.org/2000/svg" fill="rgb(3, 161, 14)" viewBox="0 0 14 14"><path d="M7.055,10.309a.639.639,0,0,0,.656-.7V7.718h2a.645.645,0,1,0,0-1.285h-2v-2a.648.648,0,1,0-1.292,0v2h-2a.645.645,0,1,0,0,1.285h2V9.6A.634.634,0,0,0,7.055,10.309Z"/></svg>
