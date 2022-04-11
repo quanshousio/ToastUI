@@ -1,0 +1,41 @@
+name: build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  swiftlint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+      - name: swiftlint
+        uses: norio-nomura/action-swiftlint@3.2.1
+  build:
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        platform: [iOS, tvOS, watchOS, macOS, mac-catalyst]
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+      - name: build
+        run: |
+          PLATFORM=${{ matrix.platform }}
+          if [[ $PLATFORM == iOS ]]; then
+            SDK="iphoneos"
+          elif [[ $PLATFORM == tvOS ]]; then
+            SDK="appletvos"
+          elif [[ $PLATFORM == watchOS ]]; then
+            SDK="watchos"
+          else
+            SDK="macosx"
+          fi
+          if [[ $PLATFORM == mac-catalyst ]]; then
+            xcodebuild build -scheme ToastUI -destination generic/platform=macOS,variant="Mac Catalyst" -sdk "$SDK"
+          else
+            xcodebuild build -scheme ToastUI -destination generic/platform="$PLATFORM" -sdk "$SDK"
+          fi

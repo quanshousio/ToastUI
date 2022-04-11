@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file. `ToastUI` adheres to [Semantic Versioning](https://semver.org/).
 
+#### 3.x Releases
+
+* `3.0.x` Releases - [3.0.0](#300)
+
 #### 2.x Releases
 
 * `2.0.x` Releases - [2.0.0](#200)
@@ -15,30 +19,71 @@ All notable changes to this project will be documented in this file. `ToastUI` a
 
 ---
 
+## [3.0.0](https://github.com/quanshousio/ToastUI/releases/tag/3.0.0)
+
+Released on 2022-04-11.
+
+#### Changed
+
+* Minimum required version for Swift is 5.5.
+* Visual changes:
+  * ToastUI shows a dimmed background when presenting a toast instead of a blurred background. This replicates the behavior of a normal `UIAlertController`.
+  * Multi-line text alignment for `Label` of `DefaultToastViewStyle` is center-aligned.
+* API changes:
+  * `IndefiniteProgressToastViewStyle` is renamed to `IndeterminateProgressToastViewStyle`.
+  * `DefiniteProgressToastViewStyle` is renamed to `DeterminateProgressToastViewStyle`.
+  * `ErrorToastViewStyle` is renamed to `FailureToastViewStyle`.
+  * `InfoToastViewStyle` is renamed to `InformationToastViewStyle`.
+  * `AnyToastViewStyle` is marked as private.
+  * `ToastViewStyleConfiguration` properties are refactored to use a generic type instead of `AnyView`.
+  * `VisualEffectView` and `cocoaBlur` modifier are removed. Use `blur` or `background` with [`Material`](https://developer.apple.com/documentation/swiftui/material) on iOS 15.0+ modifiers if possible.
+* Toast presentation and dismissal mechanisms are redesigned:
+  * On iOS and tvOS, toast is presented in a separate window instead of the view controller where it is called.
+  * On macOS, toast is presented in the same window where it is called instead of a separate sheet.
+  * On watchOS, toast is presented using the built-in `sheet` modifier due to the limitation of WatchKit APIs.
+  * The new mechanism should be more robust against failures and warns the user appropriately if a failure occurs.
+* [DocC](https://developer.apple.com/documentation/docc) replaces Jazzy as the new tool for generating documentation.
+* Support for CocoaPods dependency manager is removed. Use Swift Package Manager instead.
+* Default git branch is renamed to `main`.
+
+#### Added
+
+* Support for watchOS. Minimum required version for watchOS is 7.0
+* Static property/function for all built-in styles to leverage the new static member lookup functionality.
+* `toastDimmedBackground` modifier for enabling or disabling the dimmed background.
+* `IconToastViewStyle` style for showing a toast with an icon and a headline text label.
+
+#### Updated
+
+* `ToastUISample` is reorganized and include new examples.
+* GitHub actions are streamlined and updated ([#25](https://github.com/quanshousio/ToastUI/issues/25)).
+
+#### Fixed
+
+* ToastUI fails to present the toast when there is a presented view controller ([#21](https://github.com/quanshousio/ToastUI/issues/21) and [#24](https://github.com/quanshousio/ToastUI/issues/24)).
+* Compiler warning for missing the metatype in `EnvironmentValues.toastViewStyle` ([#26](https://github.com/quanshousio/ToastUI/issues/26)).
+
+
+---
+
 ## [2.0.0](https://github.com/quanshousio/ToastUI/releases/tag/2.0.0)
 
 Released on 2021-01-20.
 
+#### Changed
+
+* Minimum required version for iOS and tvOS is 14.0.
+
 #### Added
 
-* Support for macOS 11.0.
-  + Added by [Quan Tran](https://github.com/quanshousio) in Pull Request [#18](https://github.com/quanshousio/ToastUI/pull/18).
+* Support for macOS. Minimum required version for macOS is 11.0.
 
 #### Updated
 
-* Use SwiftUI application life cycle.
-  + Updated by [Quan Tran](https://github.com/quanshousio) in Pull Request [#18](https://github.com/quanshousio/ToastUI/pull/18).
+* Use the new SwiftUI `App` life cycle.
+* Use built-in `onChange` modifier and `@ScaledMetric` property wrapper.
+* `OnChangeModifier` and `ScaledMetricProperty` have been removed.
 * Reorganize the `ToastUISample` project.
-  + Updated by [Quan Tran](https://github.com/quanshousio) in Pull Request [#18](https://github.com/quanshousio/ToastUI/pull/18).
-* Use built-in `onChange` modifier and `@ScaledMetric` property.
-  + Updated by [Quan Tran](https://github.com/quanshousio) in Pull Request [#18](https://github.com/quanshousio/ToastUI/pull/18).
-
-#### Removed
-
-* Support for iOS 13.0 and tvOS 13.0.
-  + Removed by [Quan Tran](https://github.com/quanshousio) in Pull Request [#18](https://github.com/quanshousio/ToastUI/pull/18).
-* Custom `OnChangeModifier` and `ScaledMetricProperty`.
-  + Removed by [Quan Tran](https://github.com/quanshousio) in Pull Request [#18](https://github.com/quanshousio/ToastUI/pull/18).
 
 ---
 
@@ -49,9 +94,7 @@ Released on 2021-01-13.
 #### Updated
 
 * Minor changes to GitHub actions.
-  + Updated by [Quan Tran](https://github.com/quanshousio) in Pull Request [#17](https://github.com/quanshousio/ToastUI/pull/17).
 * Make access control level to be more concise.
-  + Updated by [Quan Tran](https://github.com/quanshousio) in Pull Request [#17](https://github.com/quanshousio/ToastUI/pull/17).
 
 ## [1.3.1](https://github.com/quanshousio/ToastUI/releases/tag/1.3.1)
 
@@ -60,37 +103,26 @@ Released on 2020-11-15.
 #### Updated
 
 * Minor changes to GitHub actions.
-  + Updated by [Quan Tran](https://github.com/quanshousio) in Pull Request [#14](https://github.com/quanshousio/ToastUI/pull/14).
 * Minor code reformatting.
-  + Updated by [Quan Tran](https://github.com/quanshousio) in Pull Request [#14](https://github.com/quanshousio/ToastUI/pull/14).
-
-#### Removed
-
-* `CocoaBlurModifierExample` in `ToastUISample`.
-  + Removed by [Quan Tran](https://github.com/quanshousio) in Pull Request [#14](https://github.com/quanshousio/ToastUI/pull/14).
+* `CocoaBlurModifierExample` in `ToastUISample` has been removed.
 
 ## [1.3.0](https://github.com/quanshousio/ToastUI/releases/tag/1.3.0)
 
 Released on 2020-11-14.
 
+#### Changed
+
+* `ToastView` initializer with `ToastViewStyleConfiguration` has been removed.
+* Multi-line text alignment for `Label` of some built-in `ToastViewStyle`s are center-aligned.
+
 #### Added
 
 * `dismissAfter` handle for `ToastViewItemModifier`.
-  + Added by [Quan Tran](https://github.com/quanshousio) in Pull Request [#13](https://github.com/quanshousio/ToastUI/pull/13).
 
 #### Updated
 
 * New example of `ToastViewStyle` and minor refactoring on `ToastUISample`.
-  + Updated by [Quan Tran](https://github.com/quanshousio) in Pull Request [#13](https://github.com/quanshousio/ToastUI/pull/13).
-* Multi-line text alignment for label of built-in `ToastViewStyle` is center by default.
-  + Updated by [Quan Tran](https://github.com/quanshousio) in Pull Request [#13](https://github.com/quanshousio/ToastUI/pull/13).
 * GitHub actions for pushing to CocoaPods trunk and minor changes to GitHub actions.
-  + Updated by [Quan Tran](https://github.com/quanshousio) in Pull Request [#13](https://github.com/quanshousio/ToastUI/pull/13).
-
-#### Removed
-
-* `ToastView` initializer with `ToastViewStyleConfiguration`.
-  + Removed by [Quan Tran](https://github.com/quanshousio) in Pull Request [#13](https://github.com/quanshousio/ToastUI/pull/13).
 
 ---
 
@@ -101,43 +133,35 @@ Released on 2020-10-09.
 #### Updated
 
 * Minor changes to GitHub actions.
-  + Updated by [Quan Tran](https://github.com/quanshousio) in Pull Request [#12](https://github.com/quanshousio/ToastUI/pull/12).
 
 #### Fixed
 
 * `ToastUI` logo failed to load on CocoaPods.
-  + Fixed by [Quan Tran](https://github.com/quanshousio) in Pull Request [#12](https://github.com/quanshousio/ToastUI/pull/12).
 
 ## [1.2.0](https://github.com/quanshousio/ToastUI/releases/tag/1.2.0)
 
 Released on 2020-10-09.
 
+#### Changed
+
+* `cocoaBlur` modifier adds `VisualEffectView` using `background` modifier instead of using `ZStack`.
+* Default `UIBlurEffectStyle` for blurred background of `ToastView` is `.prominent` for both iOS and tvOS.
+
 #### Added
 
 * New logo for `ToastUI`.
-  + Added by [Quan Tran](https://github.com/quanshousio) in Pull Request [#11](https://github.com/quanshousio/ToastUI/pull/11).
 * Support for custom background in `ToastView`.
-  + Added by [Quan Tran](https://github.com/quanshousio) in Pull Request [#11](https://github.com/quanshousio/ToastUI/pull/11).
 
 #### Updated
 
 * `ToastViewPreferenceKey` has been removed. Presenting toast is now handled by using `onChange` modifier.
-  + Updated by [Quan Tran](https://github.com/quanshousio) in Pull Request [#11](https://github.com/quanshousio/ToastUI/pull/11).
-* `cocoaBlur` modifier adds `VisualEffectView` as a background instead of using `ZStack`.
-  + Updated by [Quan Tran](https://github.com/quanshousio) in Pull Request [#11](https://github.com/quanshousio/ToastUI/pull/11).
-* Default `UIBlurEffectStyle` for blurred background of `ToastView` is `.prominent` for both iOS and tvOS.
-  + Updated by [Quan Tran](https://github.com/quanshousio) in Pull Request [#11](https://github.com/quanshousio/ToastUI/pull/11).
 * Utilize Swift 5.3 functionalities.
-  + Updated by [Quan Tran](https://github.com/quanshousio) in Pull Request [#11](https://github.com/quanshousio/ToastUI/pull/11).
-* Documentation for `ToastView` and README.
-  + Updated by [Quan Tran](https://github.com/quanshousio) in Pull Request [#11](https://github.com/quanshousio/ToastUI/pull/11).
+* Documentation and README.
 
 #### Fixed
 
 * Incorrect `keyWindow` is used in callbacks when there are multiple foreground active scenes.
-  + Fixed by [Quan Tran](https://github.com/quanshousio) in Pull Request [#11](https://github.com/quanshousio/ToastUI/pull/11).
 * `ToastViewPreferenceKey` tried to update multiple times per frame is thrown in some cases.
-  + Fixed by [Quan Tran](https://github.com/quanshousio) in Pull Request [#11](https://github.com/quanshousio/ToastUI/pull/11).
 
 ---
 
@@ -148,35 +172,31 @@ Released on 2020-10-05.
 #### Updated
 
 * Minor code formatting and SwiftLint rules.
-  + Updated by [Quan Tran](https://github.com/quanshousio) in Pull Request [#10](https://github.com/quanshousio/ToastUI/pull/10).
 
 #### Fixed
 
 * Use Xcode 12 explicitly on GitHub virtual environment.
-  + Fixed by [Quan Tran](https://github.com/quanshousio) in Pull Request [#10](https://github.com/quanshousio/ToastUI/pull/10).
 
 ## [1.1.0](https://github.com/quanshousio/ToastUI/releases/tag/1.1.0)
 
 Released on 2020-10-05.
 
+#### Changed
+
+* Minimum required version for Swift is 5.3.
+
 #### Added
 
 * SwiftLint to enforce Swift conventions.
-  + Added by [Quan Tran](https://github.com/quanshousio) in Pull Request [#9](https://github.com/quanshousio/ToastUI/pull/9).
 
 #### Updated
 
-* Minimum required version for Swift is 5.3.
-  + Updated by [Quan Tran](https://github.com/quanshousio) in Pull Request [#9](https://github.com/quanshousio/ToastUI/pull/9).
 * Minor code formatting, GitHub actions and filename changes.
-  + Updated by [Quan Tran](https://github.com/quanshousio) in Pull Request [#9](https://github.com/quanshousio/ToastUI/pull/9).
 * Remove redundant unit tests.
-  + Updated by [Quan Tran](https://github.com/quanshousio) in Pull Request [#9](https://github.com/quanshousio/ToastUI/pull/9).
 
 #### Fixed
 
 * Memory leak due to improper asynchronous usage of `UIViewPropertyAnimator` in `VisualEffectView`.
-  + Fixed by [Quan Tran](https://github.com/quanshousio) in Pull Request [#9](https://github.com/quanshousio/ToastUI/pull/9).
 
 ---
 
@@ -184,24 +204,22 @@ Released on 2020-10-05.
 
 Released on 2020-08-16.
 
+#### Changed
+
+* Rename `VisualEffectBlur` to `VisualEffectView`.
+
 #### Added
 
 * GitHub actions for building package and documentation.
-  + Added by [Quan Tran](https://github.com/quanshousio) in Pull Request [#7](https://github.com/quanshousio/ToastUI/pull/7).
 
 #### Updated
 
-* Rename `VisualEffectBlur` to `VisualEffectView`.
-  + Updated by [Quan Tran](https://github.com/quanshousio) in Pull Request [#7](https://github.com/quanshousio/ToastUI/pull/7).
 * Documentation and README.
-  + Updated by [Quan Tran](https://github.com/quanshousio) in Pull Request [#7](https://github.com/quanshousio/ToastUI/pull/7).
 
 #### Fixed
 
 * Typos and formatting in ToastUISample.
-  + Fixed by [Quan Tran](https://github.com/quanshousio) in Pull Request [#7](https://github.com/quanshousio/ToastUI/pull/7).
-* Exception when property animator is not properly released.
-  + Fixed by [Quan Tran](https://github.com/quanshousio) in Pull Request [#7](https://github.com/quanshousio/ToastUI/pull/7).
+* Exception occurred when property animator is not properly released ([#6](https://github.com/quanshousio/ToastUI/issues/6)).
 
 ## [1.0.1](https://github.com/quanshousio/ToastUI/releases/tag/1.0.1)
 
@@ -210,12 +228,10 @@ Released on 2020-08-13.
 #### Added
 
 * GitHub issue and pull request templates.
-  + Added by [Lucas Desouza](https://github.com/LucasCarioca) in Pull Request [#1](https://github.com/quanshousio/ToastUI/pull/1).
 
 #### Fixed
 
-* Content view is not properly laid out when boolean binding is triggered in `onAppear`.
-  + Fixed by [Quan Tran](https://github.com/quanshousio) in Pull Request [#3](https://github.com/quanshousio/ToastUI/pull/3).
+* Content view is not properly laid out when boolean binding is triggered in `onAppear` ([#2](https://github.com/quanshousio/ToastUI/issues/2)).
 
 ## [1.0.0](https://github.com/quanshousio/ToastUI/releases/tag/1.0.0)
 
@@ -224,4 +240,3 @@ Released on 2020-08-04.
 #### Added
 
 * Initial release of `ToastUI`.
-  + Added by [Quan Tran](https://github.com/quanshousio).

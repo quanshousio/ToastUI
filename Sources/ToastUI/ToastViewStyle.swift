@@ -7,55 +7,64 @@
 
 import SwiftUI
 
-/// The properties of a `ToastView` instance.
-public struct ToastViewStyleConfiguration {
-  /// A type-erased view describes the background of `ToastView`.
-  public var background: AnyView?
-
-  /// A type-erased view describes the label of `ToastView`.
-  public var label: AnyView?
-
-  /// A type-erased view describes the content of `ToastView`.
-  public var content: AnyView?
-}
-
-/// A type that applies standard interaction behavior to all `ToastView`s
-/// within a view hierarchy.
+/// A type that applies standard interaction behavior to all ``ToastView``
+/// views within a view hierarchy.
 ///
-/// To configure the current `ToastView` style for a view hiearchy, use the
-/// `View.toastViewStyle(_:)` modifier.
+/// To configure the current ``ToastViewStyle`` for a view hiearchy, use the
+/// ``ToastView/toastViewStyle(_:)`` modifier.
+@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
 public protocol ToastViewStyle {
-  /// A view that represents the body of a `ToastView`.
+  /// A view that represents the body of a ``ToastView``.
   associatedtype Body: View
 
-  /// Creates a view representing the body of a `ToastView`.
-  ///
-  /// - Parameter configuration: The properties of the `ToastView` being created.
-  func makeBody(configuration: Configuration) -> Body
-
-  /// A type alias for the properties of a `ToastView` instance.
+  /// A type alias for the properties of a ``ToastView`` instance.
   typealias Configuration = ToastViewStyleConfiguration
-}
 
-extension ToastViewStyle {
-  func eraseToAnyView(configuration: Configuration) -> AnyView {
-    AnyView(makeBody(configuration: configuration))
-  }
-}
-
-/// A concrete, type-erased `ToastViewStyle`.
-public struct AnyToastViewStyle: ToastViewStyle {
-  private let _makeBody: (Configuration) -> AnyView
-
-  /// Creates a concrete, type-erased `ToastViewStyle`.
-  public init<Style>(_ style: Style) where Style: ToastViewStyle {
-    self._makeBody = style.eraseToAnyView
-  }
-
-  /// Creates a view representing the body of a `ToastView`.
+  /// Creates a view representing the body of a ``ToastView``.
   ///
-  /// - Parameter configuration: The properties of the `ToastView` being created.
-  public func makeBody(configuration: Configuration) -> AnyView {
-    _makeBody(configuration)
+  /// - Parameter configuration: The properties of the ``ToastView`` being created.
+  func makeBody(configuration: Configuration) -> Body
+}
+
+/// The properties of a ``ToastView``.
+@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
+public struct ToastViewStyleConfiguration {
+  /// A type-erased background of a ``ToastView``.
+  public struct Background: View {
+    init<Content>(content: Content) where Content: View {
+      body = AnyView(content)
+    }
+
+    /// The body of this view.
+    public var body: AnyView
   }
+
+  /// A type-erased label of a ``ToastView``.
+  public struct Label: View {
+    init<Content>(content: Content) where Content: View {
+      body = AnyView(content)
+    }
+
+    /// The body of this view.
+    public var body: AnyView
+  }
+
+  /// A type-erased content of a ``ToastView``.
+  public struct Content: View {
+    init<Content>(content: Content) where Content: View {
+      body = AnyView(content)
+    }
+
+    /// The body of this view.
+    public var body: AnyView
+  }
+
+  /// A view describes the background of a ``ToastView``.
+  public var background: Background?
+
+  /// A view describes the label of a ``ToastView``.
+  public var label: Label?
+
+  /// A view describes the content of a ``ToastView``.
+  public var content: Content?
 }

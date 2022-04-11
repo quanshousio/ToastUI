@@ -5,291 +5,421 @@
 //  Created by Quan Tran on 7/17/20.
 //
 
+// swiftlint:disable file_length
+// swiftlint:disable function_body_length
+
+import os
 import SwiftUI
 
+let logger = Logger(subsystem: "com.quanshousio.ToastUI", category: "ToastUI")
+
 #if os(iOS) || os(tvOS)
-struct ToastViewIsPresentedModifier<QTContent>: ViewModifier where QTContent: View {
+struct ToastViewIsPresentedModifier<ToastContent>: ViewModifier where ToastContent: View {
   @Binding var isPresented: Bool
   let dismissAfter: Double?
   let onDismiss: (() -> Void)?
-  let content: () -> QTContent
+  let content: () -> ToastContent
 
-  @State private var keyWindow: UIWindow?
+  @State private var toastWindow: UIWindow!
+  @State private var viewController: UIViewController!
+  @State private var transitioning: Bool = false
+
+  @Environment(\.toastDimmedBackground) private var dimmedBackground
 
   private func present() {
-    if keyWindow == nil {
-      keyWindow = UIApplication.shared.windows.first(where: \.isKeyWindow)
-    }
-    var rootViewController = keyWindow?.rootViewController
-    while true {
-      if let presented = rootViewController?.presentedViewController {
-        rootViewController = presented
-      } else if let navigationController = rootViewController as? UINavigationController {
-        rootViewController = navigationController.visibleViewController
-      } else if let tabBarController = rootViewController as? UITabBarController {
-        rootViewController = tabBarController.selectedViewController
-      } else {
-        break
-      }
+    if transitioning {
+      let what = isPresented ? "present" : "dismiss"
+      logger.error("Attempted to \(what) the toast view while it is in transition")
+      return
     }
 
-    let toastAlreadyPresented = rootViewController is ToastViewHostingController<QTContent>
+    guard let windowScene = viewController?.view.window?.windowScene else {
+      logger.error("Failed to get the scene containing the window in the current view")
+      return
+    }
+
+    if toastWindow == nil {
+      let window = UIWindow()
+      window.rootViewController = UIViewController()
+      window.backgroundColor = .clear
+      window.windowLevel = .alert
+      window.windowScene = windowScene
+      toastWindow = window
+    }
+
+    let rootViewController = toastWindow.rootViewController!
+
+    let toastAlreadyPresented =
+      rootViewController.presentedViewController is ToastViewHostingController<ToastContent>
+
+    let anotherToastAlreadyPresented = windowScene
+      .windows
+      .compactMap { window in
+        String(describing: window.rootViewController?.presentedViewController)
+      }
+      .contains(where: "ToastViewHostingController".contains)
 
     if isPresented {
-      if !toastAlreadyPresented {
-        let toastViewController = ToastViewHostingController(rootView: content())
-        rootViewController?.present(toastViewController, animated: true)
+      if toastAlreadyPresented {
+        logger.error("Attempted to present the toast view while it is already presented")
+        return
+      }
 
-        if let dismissAfter = dismissAfter {
-          DispatchQueue.main.asyncAfter(deadline: .now() + dismissAfter) {
-            isPresented = false
-          }
+      if anotherToastAlreadyPresented {
+        logger.error("Attempted to present the toast view while another toast view is presenting")
+        return
+      }
+
+      transitioning = true
+      toastWindow.makeKeyAndVisible()
+      let toastViewController = ToastViewHostingController(
+        rootView: content(),
+        dimmedBackground: dimmedBackground
+      )
+      rootViewController.present(toastViewController, animated: true) {
+        transitioning = false
+      }
+
+      if let dismissAfter = dismissAfter {
+        DispatchQueue.main.asyncAfter(deadline: .now() + dismissAfter) {
+          isPresented = false
         }
       }
     } else {
-      if toastAlreadyPresented {
-        rootViewController?.dismiss(animated: true, completion: onDismiss)
+      if !toastAlreadyPresented, !anotherToastAlreadyPresented {
+        logger.error("Attempted to dismiss the toast view while it is not presenting")
+        return
       }
-      keyWindow = nil
+
+      transitioning = true
+      rootViewController.dismiss(animated: true) {
+        onDismiss?()
+        toastWindow.windowScene = nil
+        toastWindow = nil
+        transitioning = false
+      }
     }
   }
 
   func body(content: Content) -> some View {
     content
+      .introspectViewController { viewController in
+        self.viewController = viewController
+      }
       .onChange(of: isPresented) { _ in
         present()
       }
   }
 }
-#endif
 
-#if os(macOS)
-struct ToastViewIsPresentedModifier<QTContent>: ViewModifier where QTContent: View {
-  @Binding var isPresented: Bool
+struct ToastViewItemModifier<Item, ToastContent>: ViewModifier
+where Item: Identifiable & Equatable, ToastContent: View {
+  @Binding var item: Item?
   let dismissAfter: Double?
   let onDismiss: (() -> Void)?
-  let content: () -> QTContent
+  let content: (Item) -> ToastContent
 
-  @State private var keyWindow: NSWindow?
+  @State private var toastWindow: UIWindow!
+  @State private var viewController: UIViewController!
+  @State private var transitioning: Bool = false
 
-  private func present() {
-    if keyWindow == nil {
-      keyWindow = NSApplication.shared.windows.first(where: \.isKeyWindow)
+  @Environment(\.toastDimmedBackground) private var dimmedBackground
+
+  private func present(previousItem: Item?) {
+    if transitioning {
+      let what = item != nil ? "present" : "dismiss"
+      logger.error("Attempted to \(what) a toast view while it is in transition")
+      return
     }
-    let rootViewController = keyWindow?.contentViewController
-    let presentingToastViewController = rootViewController?.presentedViewControllers?
-      .first(where: { $0 is ToastViewHostingController<QTContent> })
-    let toastAlreadyPresented = presentingToastViewController != nil
 
-    if isPresented {
-      if !toastAlreadyPresented {
-        let toastViewController = ToastViewHostingController(rootView: content())
-        rootViewController?.presentAsSheet(toastViewController)
+    guard let windowScene = viewController?.view.window?.windowScene else {
+      logger.error("Failed to get the scene containing the window in the current view")
+      return
+    }
 
-        if let dismissAfter = dismissAfter {
-          DispatchQueue.main.asyncAfter(deadline: .now() + dismissAfter) {
-            isPresented = false
-          }
+    if toastWindow == nil {
+      let window = UIWindow()
+      window.rootViewController = UIViewController()
+      window.backgroundColor = .clear
+      window.windowLevel = .alert
+      window.windowScene = windowScene
+      toastWindow = window
+    }
+
+    let rootViewController = toastWindow.rootViewController!
+
+    let toastAlreadyPresented =
+      rootViewController.presentedViewController is ToastViewHostingController<ToastContent>
+
+    let anotherToastAlreadyPresented = windowScene
+      .windows
+      .compactMap { window in
+        String(describing: window.rootViewController?.presentedViewController)
+      }
+      .contains(where: "ToastViewHostingController".contains)
+
+    if let item = item {
+      if anotherToastAlreadyPresented || previousItem != nil {
+        logger.error("Attempted to present the toast view while another toast view is presenting")
+        return
+      }
+
+      if toastAlreadyPresented {
+        logger.error("Attempted to present the toast view while it is already presented")
+        return
+      }
+
+      transitioning = true
+      toastWindow.makeKeyAndVisible()
+      let toastViewController = ToastViewHostingController(
+        rootView: content(item),
+        dimmedBackground: dimmedBackground
+      )
+      rootViewController.present(toastViewController, animated: true) {
+        transitioning = false
+      }
+
+      if let dismissAfter = dismissAfter {
+        DispatchQueue.main.asyncAfter(deadline: .now() + dismissAfter) {
+          self.item = nil
         }
       }
     } else {
-      if toastAlreadyPresented {
-        (presentingToastViewController as? ToastViewHostingController<QTContent>)?
-          .dismissWithCompletion(onDismiss)
+      if !toastAlreadyPresented, !anotherToastAlreadyPresented {
+        logger.error("Attempted to dismiss the toast view while it is not presenting")
+        return
       }
-      keyWindow = nil
+
+      transitioning = true
+      rootViewController.dismiss(animated: true) {
+        onDismiss?()
+        toastWindow.windowScene = nil
+        toastWindow = nil
+        transitioning = false
+      }
     }
   }
 
   func body(content: Content) -> some View {
     content
+      .introspectViewController { viewController in
+        self.viewController = viewController
+      }
+      .onChange(of: item) { [item] _ in
+        present(previousItem: item)
+      }
+  }
+}
+#endif
+
+#if os(macOS)
+struct ToastViewIsPresentedModifier<ToastContent>: ViewModifier where ToastContent: View {
+  @Binding var isPresented: Bool
+  let dismissAfter: Double?
+  let onDismiss: (() -> Void)?
+  let content: () -> ToastContent
+
+  @State private var keyWindow: NSWindow!
+  @State private var viewController: NSViewController!
+  @State private var transitioning: Bool = false
+
+  @Environment(\.toastDimmedBackground) private var dimmedBackground
+
+  private func present() {
+    if transitioning {
+      let what = isPresented ? "present" : "dismiss"
+      logger.error("Attempted to \(what) a toast view while it is in transition")
+      return
+    }
+
+    if keyWindow == nil {
+      keyWindow = viewController?.view.window
+    }
+
+    guard let rootViewController = keyWindow?.contentViewController else {
+      logger.error("Failed to get the main content view controller of the key window: \(keyWindow)")
+      return
+    }
+
+    let presentedToastViewController = rootViewController
+      .presentedViewControllers?
+      .compactMap { viewController in
+        viewController as? ToastViewHostingController<ToastContent>
+      }
+      .first
+
+    let anotherToastAlreadyPresented = rootViewController.view is ToastContainerView
+
+    if isPresented {
+      if presentedToastViewController != nil {
+        logger.error("Attempted to present the toast view while it is already presented")
+        return
+      }
+
+      if anotherToastAlreadyPresented {
+        logger.error("Attempted to present the toast view while another toast view is presenting")
+        return
+      }
+
+      transitioning = true
+      let toastViewController = ToastViewHostingController(rootView: content())
+      toastViewController.onPresent = {
+        transitioning = false
+      }
+      let toastPresentationAnimator = ToastPresentationAnimator()
+      toastPresentationAnimator.dimmedBackground = dimmedBackground
+      rootViewController.present(toastViewController, animator: toastPresentationAnimator)
+
+      if let dismissAfter = dismissAfter {
+        DispatchQueue.main.asyncAfter(deadline: .now() + dismissAfter) {
+          isPresented = false
+        }
+      }
+    } else {
+      guard let toastViewController = presentedToastViewController,
+            anotherToastAlreadyPresented
+      else {
+        logger.error("Attempted to dismiss the toast view while it is not presenting")
+        return
+      }
+
+      transitioning = true
+      toastViewController.onDismiss = {
+        onDismiss?()
+        keyWindow = nil
+        transitioning = false
+      }
+      rootViewController.dismiss(toastViewController)
+    }
+  }
+
+  func body(content: Content) -> some View {
+    content
+      .introspectViewController { viewController in
+        self.viewController = viewController
+      }
       .onChange(of: isPresented) { _ in
         present()
       }
   }
 }
-#endif
 
-#if os(iOS) || os(tvOS)
-struct ToastViewItemModifier<Item, QTContent>: ViewModifier
-where Item: Identifiable & Equatable, QTContent: View {
+struct ToastViewItemModifier<Item, ToastContent>: ViewModifier
+where Item: Identifiable & Equatable, ToastContent: View {
   @Binding var item: Item?
   let dismissAfter: Double?
   let onDismiss: (() -> Void)?
-  let content: (Item) -> QTContent
+  let content: (Item) -> ToastContent
 
-  @State private var keyWindow: UIWindow?
+  @State private var keyWindow: NSWindow!
+  @State private var viewController: NSViewController!
+  @State private var transitioning: Bool = false
 
-  private func present() {
+  @Environment(\.toastDimmedBackground) private var dimmedBackground
+
+  private func present(previousItem: Item?) {
+    if transitioning {
+      let what = item != nil ? "present" : "dismiss"
+      logger.error("Attempted to \(what) a toast view while it is in transition")
+      return
+    }
+
     if keyWindow == nil {
-      keyWindow = UIApplication.shared.windows.first(where: \.isKeyWindow)
+      keyWindow = viewController?.view.window
     }
-    var rootViewController = keyWindow?.rootViewController
-    while true {
-      if let presented = rootViewController?.presentedViewController {
-        rootViewController = presented
-      } else if let navigationController = rootViewController as? UINavigationController {
-        rootViewController = navigationController.visibleViewController
-      } else if let tabBarController = rootViewController as? UITabBarController {
-        rootViewController = tabBarController.selectedViewController
-      } else {
-        break
+
+    guard let rootViewController = keyWindow?.contentViewController else {
+      logger.error("Failed to get the main content view controller of the key window: \(keyWindow)")
+      return
+    }
+
+    let presentedToastViewController = rootViewController
+      .presentedViewControllers?
+      .compactMap { viewController in
+        viewController as? ToastViewHostingController<ToastContent>
       }
-    }
+      .first
 
-    let toastAlreadyPresented = rootViewController is ToastViewHostingController<QTContent>
+    let anotherToastAlreadyPresented = rootViewController.view is ToastContainerView
 
-    if item != nil {
-      if !toastAlreadyPresented {
-        if let item = item {
-          let toastViewController = ToastViewHostingController(rootView: content(item))
-          rootViewController?.present(toastViewController, animated: true)
+    if let item = item {
+      if anotherToastAlreadyPresented || previousItem != nil {
+        logger.error("Attempted to present the toast view while another toast view is presenting")
+        return
+      }
 
-          if let dismissAfter = dismissAfter {
-            DispatchQueue.main.asyncAfter(deadline: .now() + dismissAfter) {
-              self.item = nil
-            }
-          }
+      if presentedToastViewController != nil {
+        logger.error("Attempted to present the toast view while it is already presented")
+        return
+      }
+
+      transitioning = true
+      let toastViewController = ToastViewHostingController(rootView: content(item))
+      toastViewController.onPresent = {
+        transitioning = false
+      }
+      let toastPresentationAnimator = ToastPresentationAnimator()
+      toastPresentationAnimator.dimmedBackground = dimmedBackground
+      rootViewController.present(toastViewController, animator: toastPresentationAnimator)
+
+      if let dismissAfter = dismissAfter {
+        DispatchQueue.main.asyncAfter(deadline: .now() + dismissAfter) {
+          self.item = nil
         }
-      } else {
-        print(
-          """
-          [ToastUI] Attempted to present toast while another toast is being presented. \
-          This is an undefined behavior and will result in view presentation failures.
-          """
-        )
       }
     } else {
-      if toastAlreadyPresented {
-        rootViewController?.dismiss(animated: true, completion: onDismiss)
+      guard let toastViewController = presentedToastViewController,
+            anotherToastAlreadyPresented
+      else {
+        logger.error("Attempted to dismiss the toast view while it is not presenting")
+        return
       }
-      keyWindow = nil
+
+      transitioning = true
+      toastViewController.onDismiss = {
+        onDismiss?()
+        keyWindow = nil
+        transitioning = false
+      }
+      rootViewController.dismiss(toastViewController)
     }
   }
 
   func body(content: Content) -> some View {
     content
-      .onChange(of: item) { _ in
-        present()
+      .introspectViewController { viewController in
+        self.viewController = viewController
+      }
+      .onChange(of: item) { [item] _ in
+        present(previousItem: item)
       }
   }
 }
 #endif
 
-#if os(macOS)
-struct ToastViewItemModifier<Item, QTContent>: ViewModifier
-where Item: Identifiable & Equatable, QTContent: View {
+#if os(watchOS)
+struct ToastViewIsPresentedModifier<ToastContent>: ViewModifier where ToastContent: View {
+  @Binding var isPresented: Bool
+  let dismissAfter: Double?
+  let onDismiss: (() -> Void)?
+  let content: () -> ToastContent
+
+  func body(content view: Content) -> some View {
+    view
+      .sheet(isPresented: $isPresented, onDismiss: onDismiss, content: content)
+  }
+}
+
+struct ToastViewItemModifier<Item, ToastContent>: ViewModifier
+where Item: Identifiable & Equatable, ToastContent: View {
   @Binding var item: Item?
   let dismissAfter: Double?
   let onDismiss: (() -> Void)?
-  let content: (Item) -> QTContent
+  let content: (Item) -> ToastContent
 
-  @State private var keyWindow: NSWindow?
-
-  private func present() {
-    if keyWindow == nil {
-      keyWindow = NSApplication.shared.windows.first(where: \.isKeyWindow)
-    }
-    let rootViewController = keyWindow?.contentViewController
-    let presentingToastViewController = rootViewController?.presentedViewControllers?
-      .first(where: { $0 is ToastViewHostingController<QTContent> })
-    let toastAlreadyPresented = presentingToastViewController != nil
-
-    if item != nil {
-      if !toastAlreadyPresented {
-        if let item = item {
-          let toastViewController = ToastViewHostingController(rootView: content(item))
-          rootViewController?.presentAsSheet(toastViewController)
-
-          if let dismissAfter = dismissAfter {
-            DispatchQueue.main.asyncAfter(deadline: .now() + dismissAfter) {
-              self.item = nil
-            }
-          }
-        }
-      } else {
-        print(
-          """
-          [ToastUI] Attempted to present toast while another toast is being presented. \
-          This is an undefined behavior and will result in view presentation failures.
-          """
-        )
-      }
-    } else {
-      if toastAlreadyPresented {
-        (presentingToastViewController as? ToastViewHostingController<QTContent>)?
-          .dismissWithCompletion(onDismiss)
-      }
-      keyWindow = nil
-    }
-  }
-
-  func body(content: Content) -> some View {
-    content
-      .onChange(of: item) { _ in
-        present()
-      }
-  }
-}
-#endif
-
-#if os(iOS)
-struct VisualEffectViewModifier: ViewModifier {
-  var blurStyle: UIBlurEffect.Style
-  var vibrancyStyle: UIVibrancyEffectStyle?
-  var blurIntensity: CGFloat?
-
-  func body(content: Content) -> some View {
-    content
-      .frame(maxWidth: .infinity, maxHeight: .infinity)
-      .background(
-        VisualEffectView(
-          blurStyle: blurStyle,
-          vibrancyStyle: vibrancyStyle,
-          blurIntensity: blurIntensity
-        )
-        .edgesIgnoringSafeArea(.all)
-      )
-  }
-}
-#endif
-
-#if os(tvOS)
-struct VisualEffectViewModifier: ViewModifier {
-  var blurStyle: UIBlurEffect.Style
-  var blurIntensity: CGFloat?
-
-  func body(content: Content) -> some View {
-    content
-      .frame(maxWidth: .infinity, maxHeight: .infinity)
-      .background(
-        VisualEffectView(
-          blurStyle: blurStyle,
-          blurIntensity: blurIntensity
-        )
-        .edgesIgnoringSafeArea(.all)
-      )
-  }
-}
-#endif
-
-#if os(macOS)
-struct VisualEffectViewModifier: ViewModifier {
-  var material: NSVisualEffectView.Material
-  var blendingMode: NSVisualEffectView.BlendingMode
-  var state: NSVisualEffectView.State
-
-  func body(content: Content) -> some View {
-    content
-      .frame(maxWidth: .infinity, maxHeight: .infinity)
-      .background(
-        VisualEffectView(
-          material: material,
-          blendingMode: blendingMode,
-          state: state
-        )
-        .edgesIgnoringSafeArea(.all)
-      )
+  func body(content view: Content) -> some View {
+    view
+      .sheet(item: $item, onDismiss: onDismiss, content: content)
   }
 }
 #endif
