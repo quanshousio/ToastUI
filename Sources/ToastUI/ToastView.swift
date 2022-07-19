@@ -205,7 +205,6 @@ where Background: View, Label: View, Content: View {
       content
 
       label
-        .fixedSize()
         .multilineTextAlignment(.center)
     }
     .padding(paddingSize)
@@ -213,6 +212,7 @@ where Background: View, Label: View, Content: View {
     .cornerRadius(cornerSize)
     .frame(maxWidth: .infinity, maxHeight: .infinity)
     .background(background)
+    .padding()
   }
 }
 
