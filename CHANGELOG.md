@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file. `ToastUI` a
 
 #### 3.x Releases
 
-* `3.0.x` Releases - [3.0.0](#300)
+* `3.0.x` Releases - [3.0.0](#300) | [3.0.1](#301)
 
 #### 2.x Releases
 
@@ -18,6 +18,15 @@ All notable changes to this project will be documented in this file. `ToastUI` a
 * `1.0.x` Releases - [1.0.0](#100) | [1.0.1](#101) | [1.0.2](#102)
 
 ---
+
+## [3.0.1](https://github.com/quanshousio/ToastUI/releases/tag/3.0.1)
+
+Released on 2022-07-19.
+
+#### Updated
+
+* Remove `fixedSize` modifier from `Label` in `DefaultToastView`.
+* Add new AppIcon.
 
 ## [3.0.0](https://github.com/quanshousio/ToastUI/releases/tag/3.0.0)
 
@@ -62,7 +71,6 @@ Released on 2022-04-11.
 
 * ToastUI fails to present the toast when there is a presented view controller ([#21](https://github.com/quanshousio/ToastUI/issues/21) and [#24](https://github.com/quanshousio/ToastUI/issues/24)).
 * Compiler warning for missing the metatype in `EnvironmentValues.toastViewStyle` ([#26](https://github.com/quanshousio/ToastUI/issues/26)).
-
 
 ---
 
