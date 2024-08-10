@@ -4,13 +4,13 @@ Present a toast in SwiftUI in no time.
 
 ### Requirements
 
-ToastUI supports iOS 14.0, tvOS 14.0, watchOS 7.0 and macOS 11.0 and later. ToastUI requires Xcode 13.1 and Swift 5.5 and later.
+ToastUI supports iOS 14.0, tvOS 14.0, watchOS 7.0 and macOS 11.0 and later. ToastUI requires Xcode 14.0 and Swift 5.7 and later.
 
 ### Installation
 
 ToastUI is available through [Swift Package Manager](https://swift.org/package-manager/).
 
-![Xcode Add Package](xcode-add-package.png)
+@Image(source: "xcode-add-package.png", alt: "Xcode Add Package")
 
 For app integration, add ToastUI to an existing Xcode project as a package dependency:
 
@@ -27,87 +27,115 @@ dependencies: [
 
 ### Presenting a toast
 
-To present an indeterminate progress indicator toast and dismiss it after 2 seconds:
+@TabNavigator {
+  @Tab("Progress Indicator") {
+    Present an indeterminate progress indicator toast and dismiss it after 2 seconds:
 
-![Indeterminate Toast View](indeterminate-style.png)
+    @Row {
+      @Column(size: 2) {
+        ```swift
+        struct ContentView: View {
+          @State private var presentingToast: Bool = false
 
-```swift
-struct ContentView: View {
-  @State private var presentingToast: Bool = false
-
-  var body: some View {
-    Button("Tap me") {
-      presentingToast = true
-    }
-    .toast(isPresented: $presentingToast, dismissAfter: 2.0) {
-      ToastView("Loading...")
-        .toastViewStyle(.indeterminate)
-    }
-  }
-}
-```
-
-You can also present custom alerts or any SwiftUI views of your choice:
-
-![Custom Toast View 1](custom-toast-1.png)
-
-```swift
-struct ContentView: View {
-  @State private var presentingToast: Bool = false
-
-  var body: some View {
-    Button("Tap me") {
-      presentingToast = true
-    }
-    .toast(isPresented: $presentingToast) {
-      ToastView {
-        VStack {
-          Text("You can create a custom alert with ToastView")
-            .multilineTextAlignment(.center)
-
-          Divider()
-
-          Button("OK") {
-            presentingToast = false
+          var body: some View {
+            Button("Tap me") {
+              presentingToast = true
+            }
+            .toast(isPresented: $presentingToast, dismissAfter: 2.0) {
+              ToastView("Loading...")
+                .toastViewStyle(.indeterminate)
+            }
           }
         }
+        ```
       }
-      .padding()
+      
+      @Column {
+        @Image(source: "indeterminate-style.png", alt: "Indeterminate Toast View")
+      }
+    }
+  }
+
+  @Tab("Alert") {
+    You can also present custom alerts:
+
+    @Row {
+      @Column(size: 2) {
+        ```swift
+        struct ContentView: View {
+          @State private var presentingToast: Bool = false
+
+          var body: some View {
+            Button("Tap me") {
+              presentingToast = true
+            }
+            .toast(isPresented: $presentingToast) {
+              ToastView {
+                VStack {
+                  Text("You can create a custom alert with ToastView")
+                    .multilineTextAlignment(.center)
+
+                  Divider()
+
+                  Button("OK") {
+                    presentingToast = false
+                  }
+                }
+              }
+              .padding()
+            }
+          }
+        }
+        ```
+      }
+
+      @Column {
+        @Image(source: "custom-toast-1.png", alt: "Custom Toast View 1")
+      }
+    }
+  }
+
+  @Tab("Banner") {
+    You can also present any custom SwiftUI views of your choice:
+
+    @Row {
+      @Column(size: 2) {
+        ```swift
+        struct ContentView: View {
+          @State private var presentingToast: Bool = false
+
+          var body: some View {
+            Button("Tap me") {
+              presentingToast = true
+            }
+            .toast(isPresented: $presentingToast, dismissAfter: 2.0) {
+              print("Toast dismissed")
+            } content: {
+              VStack {
+                Text("You can present any SwiftUI views")
+                  .bold()
+                  .foregroundColor(.white)
+                  .padding()
+                  .frame(maxWidth: .infinity)
+                  .background(Color.accentColor)
+                  .cornerRadius(8.0)
+                  .shadow(radius: 4.0)
+                Spacer()
+              }
+              .padding()
+            }
+            .toastDimmedBackground(false)
+          }
+        }
+        ```
+      }
+        
+      @Column {
+        @Image(source: "custom-toast-2.png", alt: "Custom Toast View 2")
+      }
     }
   }
 }
-```
-
-![Custom Toast View 2](custom-toast-2.png)
-
-```swift
-struct ContentView: View {
-  @State private var presentingToast: Bool = false
-
-  var body: some View {
-    Button("Tap me") {
-      presentingToast = true
-    }
-    .toast(isPresented: $presentingToast, dismissAfter: 2.0) {
-      print("Toast dismissed")
-    } content: {
-      VStack {
-        Text("You can present any SwiftUI views")
-          .bold()
-          .foregroundColor(.white)
-          .padding()
-          .frame(maxWidth: .infinity)
-          .background(Color.accentColor)
-          .cornerRadius(8.0)
-          .shadow(radius: 4.0)
-        Spacer()
-      }
-      .padding()
-    }
-    .toastDimmedBackground(false)
-  }
-}
-```
 
 ### Documentation
 
@@ -117,7 +145,7 @@ ToastUI consists a helper script `toastui` in the root directory for building th
 
 To build and preview the documentation:
 
-```bash
+```shell
 ./toastui docc setup
 ./toastui docc preview
 ```

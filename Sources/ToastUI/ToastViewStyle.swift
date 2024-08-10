@@ -12,7 +12,7 @@ import SwiftUI
 ///
 /// To configure the current ``ToastViewStyle`` for a view hiearchy, use the
 /// ``ToastView/toastViewStyle(_:)`` modifier.
-@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
+@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, visionOS 1.0, *)
 public protocol ToastViewStyle {
   /// A view that represents the body of a ``ToastView``.
   associatedtype Body: View
@@ -27,11 +27,11 @@ public protocol ToastViewStyle {
 }
 
 /// The properties of a ``ToastView``.
-@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
+@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, visionOS 1.0, *)
 public struct ToastViewStyleConfiguration {
   /// A type-erased background of a ``ToastView``.
   public struct Background: View {
-    init<Content>(content: Content) where Content: View {
+    init(content: some View) {
       body = AnyView(content)
     }
 
@@ -41,7 +41,7 @@ public struct ToastViewStyleConfiguration {
 
   /// A type-erased label of a ``ToastView``.
   public struct Label: View {
-    init<Content>(content: Content) where Content: View {
+    init(content: some View) {
       body = AnyView(content)
     }
 
@@ -51,7 +51,7 @@ public struct ToastViewStyleConfiguration {
 
   /// A type-erased content of a ``ToastView``.
   public struct Content: View {
-    init<Content>(content: Content) where Content: View {
+    init(content: some View) {
       body = AnyView(content)
     }
 

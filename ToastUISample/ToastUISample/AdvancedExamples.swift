@@ -99,7 +99,7 @@ struct CustomToastUsingToastViewStyleExample: View {
           HStack {
             Text("Brightness")
 
-            #if os(iOS) || os(macOS)
+            #if os(iOS) || os(macOS) || os(visionOS)
             Slider(value: $brightness, in: 0 ... 1)
             #elseif os(tvOS)
             Button {
@@ -165,17 +165,13 @@ struct CustomToastUsingItemExample: View {
     case second = "Second"
   }
 
-  struct ToastItem: Identifiable, Equatable {
+  struct ToastItem: Identifiable {
     let id = UUID()
 
     var content: AnyView
 
-    init<Content: View>(_ content: Content) {
+    init(_ content: some View) {
       self.content = AnyView(content)
-    }
-
-    static func == (lhs: ToastItem, rhs: ToastItem) -> Bool {
-      lhs.id == rhs.id
     }
   }
 
@@ -232,7 +228,7 @@ struct CustomToastUsingItemExample: View {
       Text("Create a new account")
         .bold()
 
-      #if os(iOS)
+      #if os(iOS) || os(visionOS)
       TextField("Username", text: $username)
         .frame(height: 44)
         .textFieldStyle(.plain)

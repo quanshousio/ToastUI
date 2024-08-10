@@ -14,7 +14,7 @@ import SwiftUI
 /// By default, it has an empty background with a fixed-size, center-aligned label and no content.
 ///
 /// This view supports styling by using ``ToastView/toastViewStyle(_:)``.
-@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
+@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, visionOS 1.0, *)
 public struct ToastView<Background, Label, Content>: View
 where Background: View, Label: View, Content: View {
   @Environment(\.toastViewStyle) private var style
@@ -27,7 +27,7 @@ where Background: View, Label: View, Content: View {
   }
 }
 
-@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
+@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, visionOS 1.0, *)
 public extension ToastView {
   /// Creates an empty ``ToastView``.
   init()
@@ -39,8 +39,8 @@ public extension ToastView {
   ///
   /// - Parameter title: A string that describes the text label.
   @_disfavoredOverload
-  init<S>(_ title: S)
-  where S: StringProtocol, Background == EmptyView, Label == Text, Content == EmptyView {
+  init(_ title: some StringProtocol)
+  where Background == EmptyView, Label == Text, Content == EmptyView {
     configuration = ToastViewStyleConfiguration(
       label: .init(content: Text(title))
     )
@@ -62,8 +62,8 @@ public extension ToastView {
   ///   - title: A string that describes the text label.
   ///   - content: A view builder that creates a view for the content.
   @_disfavoredOverload
-  init<S>(_ title: S, @ViewBuilder content: () -> Content)
-  where S: StringProtocol, Background == EmptyView, Label == Text {
+  init(_ title: some StringProtocol, @ViewBuilder content: () -> Content)
+  where Background == EmptyView, Label == Text {
     configuration = ToastViewStyleConfiguration(
       label: .init(content: Text(title)),
       content: .init(content: content())
@@ -91,11 +91,11 @@ public extension ToastView {
   ///   - content: A view builder that creates a view for the content.
   ///   - background: A view builder that creates a view for the background.
   @_disfavoredOverload
-  init<S>(
-    _ title: S,
+  init(
+    _ title: some StringProtocol,
     @ViewBuilder content: () -> Content,
     @ViewBuilder background: () -> Background
-  ) where S: StringProtocol, Label == Text {
+  ) where Label == Text {
     configuration = ToastViewStyleConfiguration(
       background: .init(content: background()),
       label: .init(content: Text(title)),
@@ -212,13 +212,12 @@ where Background: View, Label: View, Content: View {
     .cornerRadius(cornerSize)
     .frame(maxWidth: .infinity, maxHeight: .infinity)
     .background(background)
-    .padding()
   }
 }
 
 extension Color {
   static let background = {
-    #if os(iOS)
+    #if os(iOS) || os(visionOS)
     return Color(.secondarySystemBackground)
     #elseif os(tvOS)
     return Color(.darkGray)
@@ -230,7 +229,7 @@ extension Color {
   }()
 
   static let label = {
-    #if os(iOS) || os(tvOS)
+    #if os(iOS) || os(tvOS) || os(visionOS)
     return Color(.label)
     #elseif os(watchOS)
     return Color(.darkGray)

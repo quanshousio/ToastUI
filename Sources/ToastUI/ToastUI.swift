@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
+@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, visionOS 1.0, *)
 public extension View {
   /// Presents a toast when the given binding to a Boolean value is true.
   ///
@@ -22,14 +22,20 @@ public extension View {
     onDismiss: (() -> Void)? = nil,
     @ViewBuilder content: @escaping () -> Content
   ) -> some View where Content: View {
-    modifier(
-      ToastViewIsPresentedModifier<Content>(
+    #if os(iOS) || os(tvOS) || os(visionOS)
+    background(
+      ToastViewIsPresentedBridge(
         isPresented: isPresented,
         dismissAfter: dismissAfter,
         onDismiss: onDismiss,
         content: content
       )
+      .frame(width: 0, height: 0)
+      .disabled(true)
     )
+    #elseif os(macOS) || os(watchOS)
+    sheet(isPresented: isPresented, onDismiss: onDismiss, content: content)
+    #endif
   }
 
   /// Presents a toast when using the given item as a data source
@@ -49,21 +55,27 @@ public extension View {
     dismissAfter: Double? = nil,
     onDismiss: (() -> Void)? = nil,
     @ViewBuilder content: @escaping (Item) -> Content
-  ) -> some View where Item: Identifiable & Equatable, Content: View {
-    modifier(
-      ToastViewItemModifier<Item, Content>(
+  ) -> some View where Item: Identifiable, Content: View {
+    #if os(iOS) || os(tvOS) || os(visionOS)
+    background(
+      ToastViewItemBridge(
         item: item,
         dismissAfter: dismissAfter,
         onDismiss: onDismiss,
         content: content
       )
+      .frame(width: 0, height: 0)
+      .disabled(true)
     )
+    #elseif os(macOS) || os(watchOS)
+    sheet(item: item, onDismiss: onDismiss, content: content)
+    #endif
   }
 
   /// Sets the style for ``ToastView`` within this view.
   ///
   /// - Parameter style: The ``ToastViewStyle`` to use for this view.
-  func toastViewStyle<Style>(_ style: Style) -> some View where Style: ToastViewStyle {
+  func toastViewStyle(_ style: some ToastViewStyle) -> some View {
     environment(\.toastViewStyle, AnyToastViewStyle(style))
   }
 

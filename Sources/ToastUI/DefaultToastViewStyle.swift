@@ -12,7 +12,7 @@ struct AnyToastViewStyle: ToastViewStyle {
   private let _makeBody: (Configuration) -> AnyView
 
   /// Creates a ``AnyToastViewStyle``.
-  init<Style>(_ style: Style) where Style: ToastViewStyle {
+  init(_ style: some ToastViewStyle) {
     _makeBody = { configuration in
       AnyView(style.makeBody(configuration: configuration))
     }
@@ -29,7 +29,7 @@ struct AnyToastViewStyle: ToastViewStyle {
 /// The default style of ``ToastView``.
 ///
 /// Use this style to customize ``ToastView``.
-@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
+@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, visionOS 1.0, *)
 public struct DefaultToastViewStyle: ToastViewStyle {
   /// Creates a ``DefaultToastViewStyle``.
   public init() {}
@@ -48,7 +48,7 @@ public struct DefaultToastViewStyle: ToastViewStyle {
   }
 }
 
-@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
+@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, visionOS 1.0, *)
 public extension ToastViewStyle where Self == DefaultToastViewStyle {
   /// The default style of ``ToastView``.
   ///
@@ -60,7 +60,7 @@ public extension ToastViewStyle where Self == DefaultToastViewStyle {
 
 /// A ``ToastView`` represents as an indeterminate circular progress indicator,
 /// also informally known as a spinner.
-@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
+@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, visionOS 1.0, *)
 public struct IndeterminateProgressToastViewStyle: ToastViewStyle {
   /// Creates an ``IndeterminateProgressToastViewStyle``.
   public init() {}
@@ -78,7 +78,7 @@ public struct IndeterminateProgressToastViewStyle: ToastViewStyle {
     @ScaledMetric private var iconSize: Double = 36
     @ScaledMetric private var strokeSize: Double = 3
 
-    @State private var animating: Bool = false
+    @State private var animating = false
 
     var body: some View {
       DefaultToastView {
@@ -96,7 +96,10 @@ public struct IndeterminateProgressToastViewStyle: ToastViewStyle {
           .frame(width: iconSize, height: iconSize)
           .rotationEffect(.degrees(-90))
           .rotationEffect(.degrees(animating ? 360 : 0))
-          .animation(.linear(duration: 1.0).repeatForever(autoreverses: false), value: animating)
+          .animation(
+            .linear(duration: 1.0).repeatForever(autoreverses: false),
+            value: animating
+          )
           .onAppear {
             // fix #2
             DispatchQueue.main.async {
@@ -114,7 +117,7 @@ public struct IndeterminateProgressToastViewStyle: ToastViewStyle {
   }
 }
 
-@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
+@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, visionOS 1.0, *)
 public extension ToastViewStyle where Self == IndeterminateProgressToastViewStyle {
   /// A ``ToastView`` represents as an indeterminate circular progress indicator,
   /// also informally known as a spinner.
@@ -126,7 +129,7 @@ public extension ToastViewStyle where Self == IndeterminateProgressToastViewStyl
 /// A ``ToastView`` represents as a determinate circular progress indicator.
 /// This style is visually similar to the ``IndeterminateProgressToastViewStyle``,
 /// but shows determinate progress instead.
-@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
+@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, visionOS 1.0, *)
 public struct DeterminateProgressToastViewStyle<Value>: ToastViewStyle
 where Value: BinaryFloatingPoint {
   @Binding private var value: Value
@@ -187,7 +190,7 @@ where Value: BinaryFloatingPoint {
   }
 }
 
-@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
+@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, visionOS 1.0, *)
 public extension ToastViewStyle {
   /// A ``ToastView`` represents as a determinate circular progress indicator.
   /// This style is similar to the ``IndeterminateProgressToastViewStyle``,
@@ -206,7 +209,7 @@ public extension ToastViewStyle {
 }
 
 /// A ``ToastView`` represents as a toast consists of an icon and a headline text label.
-@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
+@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, visionOS 1.0, *)
 public struct IconToastViewStyle<Content>: ToastViewStyle where Content: View {
   private var content: Content
 
@@ -246,7 +249,7 @@ public struct IconToastViewStyle<Content>: ToastViewStyle where Content: View {
   }
 }
 
-@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
+@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, visionOS 1.0, *)
 public extension ToastViewStyle {
   /// A ``ToastView`` represents as a toast consists of an icon and a headline text label.
   ///
@@ -259,7 +262,7 @@ public extension ToastViewStyle {
 }
 
 /// A ``ToastView`` represents as a success toast.
-@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
+@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, visionOS 1.0, *)
 public struct SuccessToastViewStyle: ToastViewStyle {
   /// Creates a ``SuccessToastViewStyle``.
   public init() {}
@@ -276,7 +279,7 @@ public struct SuccessToastViewStyle: ToastViewStyle {
   }
 }
 
-@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
+@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, visionOS 1.0, *)
 public extension ToastViewStyle where Self == SuccessToastViewStyle {
   /// A ``ToastView`` represents as a success toast.
   static var success: Self {
@@ -285,7 +288,7 @@ public extension ToastViewStyle where Self == SuccessToastViewStyle {
 }
 
 /// A ``ToastView`` represents as a failure toast.
-@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
+@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, visionOS 1.0, *)
 public struct FailureToastViewStyle: ToastViewStyle {
   /// Creates a ``FailureToastViewStyle``.
   public init() {}
@@ -302,7 +305,7 @@ public struct FailureToastViewStyle: ToastViewStyle {
   }
 }
 
-@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
+@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, visionOS 1.0, *)
 public extension ToastViewStyle where Self == FailureToastViewStyle {
   /// A ``ToastView`` represents as a failure toast.
   static var failure: Self {
@@ -311,7 +314,7 @@ public extension ToastViewStyle where Self == FailureToastViewStyle {
 }
 
 /// A ``ToastView`` represents as a warning toast.
-@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
+@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, visionOS 1.0, *)
 public struct WarningToastViewStyle: ToastViewStyle {
   /// Creates a ``WarningToastViewStyle``.
   public init() {}
@@ -328,7 +331,7 @@ public struct WarningToastViewStyle: ToastViewStyle {
   }
 }
 
-@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
+@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, visionOS 1.0, *)
 public extension ToastViewStyle where Self == WarningToastViewStyle {
   /// A ``ToastView`` represents as a warning toast.
   static var warning: Self {
@@ -337,7 +340,7 @@ public extension ToastViewStyle where Self == WarningToastViewStyle {
 }
 
 /// A ``ToastView`` represents as an information toast.
-@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
+@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, visionOS 1.0, *)
 public struct InformationToastViewStyle: ToastViewStyle {
   /// Creates an ``InformationToastViewStyle``.
   public init() {}
@@ -354,7 +357,7 @@ public struct InformationToastViewStyle: ToastViewStyle {
   }
 }
 
-@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, *)
+@available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, visionOS 1.0, *)
 public extension ToastViewStyle where Self == InformationToastViewStyle {
   /// A ``ToastView`` represents as an information toast.
   static var information: Self {

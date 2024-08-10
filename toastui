@@ -32,6 +32,7 @@ INFO_PLIST=$(find "$(pwd)" -name "Info.plist" -type f)
 export VUE_APP_VERSION=$(plutil -convert json -o - "$INFO_PLIST" | jq -r ".CFBundleVersion // empty")
 export VUE_APP_UPDATED_DATE=$(date -u +%F)
 export VUE_APP_TITLE=ToastUI
+export VUE_APP_HLJS_LANGUAGE=shell,swift
 
 if [[ -z $VUE_APP_VERSION ]]; then
   err "CFBundleVersion in the $INFO_PLIST is not valid"
@@ -201,7 +202,7 @@ setup_docc() {
   info "Setting up the environment for documentation development"
 
   if [[ -d $SWIFT_DOCC_DIR || -d $SWIFT_DOCC_RENDER_DIR ]]; then
-    read -p "$(warn "Found existing installation. Are you sure you want to reinstall (y/n)? ")" -n 1 -r
+    read -p "$(warn "Found existing installation. Continue will delete the existing installation. Are you sure you want to reinstall (y/n)? ")" -n 1 -r
     echo
     [[ ! $REPLY =~ ^[Yy]$ ]] && return
   fi
@@ -224,7 +225,7 @@ setup_docc() {
 
 check_prereqs() {
   if [[ ! -d "$SYMBOLS_DIR" ]]; then
-    warn "Failed to locate the build directory"
+    warn "Failed to locate the package build artifact, rebuilding"
     build_pkg
   else
     [[ $REBUILD_PKG = 1 ]] && build_pkg
@@ -267,14 +268,6 @@ build_docc() {
     --output-path $DOCC_ARCHIVE
 
   info "Patching the documentation archive"
-
-  # convert the Sample Code for ToastUI article into a sampleCode article
-  TOASTUISAMPLE_JSON="$DOCC_ARCHIVE/data/documentation/toastui/toastuisample.json"
-  perl -i -pe 's/\"metadata\":\{.+?\},\"/"metadata":{"roleHeading":"Sample Code","title":"Sample code for ToastUI","role":"sampleCode","modules":[{"name":"ToastUI"}],"platforms":[{"name":"iOS","introducedAt":"14.0"},{"name":"macOS","introducedAt":"14.0"},{"name":"tvOS","introducedAt":"14.0"},{"name":"watchOS","introducedAt":"7.0"},{"name":"Xcode","introducedAt":"13.1"}]},"/g' "$TOASTUISAMPLE_JSON"
-  perl -i -pe 's/\"hierarchy\":\{.+?\},\K/"sampleCodeDownload":{"action":{"overridingTitle":"Download","type":"reference","isActive":true,"identifier":"https:\/\/github.com\/quanshousio\/ToastUI\/archive\/refs\/heads\/main.zip"}},/g' "$TOASTUISAMPLE_JSON"
-  perl -i -pe 's/\"references\":\{\K/"https:\/\/github.com\/quanshousio\/ToastUI\/archive\/refs\/heads\/main.zip":{"type":"download","identifier":"https:\/\/github.com\/quanshousio\/ToastUI\/archive\/refs\/heads\/main.zip","url":"https:\/\/github.com\/quanshousio\/ToastUI\/archive\/refs\/heads\/main.zip"},/g' "$TOASTUISAMPLE_JSON"
-  perl -i -pe 's/ToastUI\/ToastUISample\":\{\"role\":\"\Karticle/sampleCode/g' "$DOCC_ARCHIVE/data/documentation/toastui.json"
-  perl -i -pe 's/\"title\":\"Sample code for ToastUI\",\"type\":\"\Karticle/sampleCode/g' "$DOCC_ARCHIVE/index/index.json"
 
   # replace /index.html
   export INDEX_CSS=$(cd $DOCC_ARCHIVE && find . -name "index*.css" -type f)

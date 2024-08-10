@@ -34,12 +34,12 @@ struct BuiltInToastViewStyleExample: View {
             .tag(style)
         }
       }
-      #if os(iOS)
-        .pickerStyle(.wheel)
+      #if os(iOS) || os(visionOS)
+      .pickerStyle(.wheel)
       #elseif os(tvOS)
-        .pickerStyle(.segmented)
+      .pickerStyle(.segmented)
       #elseif os(macOS)
-        .pickerStyle(.radioGroup)
+      .pickerStyle(.radioGroup)
       #endif
 
       Toggle("Dimmed background", isOn: $dimmedBackground)
