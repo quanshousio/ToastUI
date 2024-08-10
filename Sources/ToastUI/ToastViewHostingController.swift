@@ -22,7 +22,8 @@ final class ToastViewHostingController<Content>: UIHostingController<Content> wh
   }
 
   @available(*, unavailable)
-  @objc dynamic required init?(coder _: NSCoder) {
+  @objc
+  dynamic required init?(coder _: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
 }

@@ -16,7 +16,7 @@ import SwiftUI
 /// This view supports styling by using ``ToastView/toastViewStyle(_:)``.
 @available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, visionOS 1.0, *)
 public struct ToastView<Background, Label, Content>: View
-where Background: View, Label: View, Content: View {
+  where Background: View, Label: View, Content: View {
   @Environment(\.toastViewStyle) private var style
 
   private var configuration: ToastViewStyleConfiguration
@@ -28,20 +28,20 @@ where Background: View, Label: View, Content: View {
 }
 
 @available(iOS 14.0, macOS 11.0, tvOS 14.0, watchOS 7.0, visionOS 1.0, *)
-public extension ToastView {
+extension ToastView {
   /// Creates an empty ``ToastView``.
-  init()
-  where Background == EmptyView, Label == EmptyView, Content == EmptyView {
-    configuration = ToastViewStyleConfiguration()
+  public init()
+    where Background == EmptyView, Label == EmptyView, Content == EmptyView {
+    self.configuration = ToastViewStyleConfiguration()
   }
 
   /// Creates an empty ``ToastView`` with text label from a string.
   ///
   /// - Parameter title: A string that describes the text label.
   @_disfavoredOverload
-  init(_ title: some StringProtocol)
-  where Background == EmptyView, Label == Text, Content == EmptyView {
-    configuration = ToastViewStyleConfiguration(
+  public init(_ title: some StringProtocol)
+    where Background == EmptyView, Label == Text, Content == EmptyView {
+    self.configuration = ToastViewStyleConfiguration(
       label: .init(content: Text(title))
     )
   }
@@ -49,9 +49,9 @@ public extension ToastView {
   /// Creates an empty ``ToastView`` with text label from a localized string.
   ///
   /// - Parameter titleKey: The key used to look up the localized title for the label.
-  init(_ titleKey: LocalizedStringKey)
-  where Background == EmptyView, Label == Text, Content == EmptyView {
-    configuration = ToastViewStyleConfiguration(
+  public init(_ titleKey: LocalizedStringKey)
+    where Background == EmptyView, Label == Text, Content == EmptyView {
+    self.configuration = ToastViewStyleConfiguration(
       label: .init(content: Text(titleKey))
     )
   }
@@ -62,9 +62,9 @@ public extension ToastView {
   ///   - title: A string that describes the text label.
   ///   - content: A view builder that creates a view for the content.
   @_disfavoredOverload
-  init(_ title: some StringProtocol, @ViewBuilder content: () -> Content)
-  where Background == EmptyView, Label == Text {
-    configuration = ToastViewStyleConfiguration(
+  public init(_ title: some StringProtocol, @ViewBuilder content: () -> Content)
+    where Background == EmptyView, Label == Text {
+    self.configuration = ToastViewStyleConfiguration(
       label: .init(content: Text(title)),
       content: .init(content: content())
     )
@@ -75,9 +75,9 @@ public extension ToastView {
   /// - Parameters:
   ///   - titleKey: The key used to look up the localized title for the label.
   ///   - content: A view builder that creates a view for the content.
-  init(_ titleKey: LocalizedStringKey, @ViewBuilder content: () -> Content)
-  where Background == EmptyView, Label == Text {
-    configuration = ToastViewStyleConfiguration(
+  public init(_ titleKey: LocalizedStringKey, @ViewBuilder content: () -> Content)
+    where Background == EmptyView, Label == Text {
+    self.configuration = ToastViewStyleConfiguration(
       label: .init(content: Text(titleKey)),
       content: .init(content: content())
     )
@@ -91,12 +91,12 @@ public extension ToastView {
   ///   - content: A view builder that creates a view for the content.
   ///   - background: A view builder that creates a view for the background.
   @_disfavoredOverload
-  init(
+  public init(
     _ title: some StringProtocol,
     @ViewBuilder content: () -> Content,
     @ViewBuilder background: () -> Background
   ) where Label == Text {
-    configuration = ToastViewStyleConfiguration(
+    self.configuration = ToastViewStyleConfiguration(
       background: .init(content: background()),
       label: .init(content: Text(title)),
       content: .init(content: content())
@@ -110,12 +110,12 @@ public extension ToastView {
   ///   - titleKey: The key used to look up the localized title for the label.
   ///   - content: A view builder that creates a view for the content.
   ///   - background: A view builder that creates a view for the background.
-  init(
+  public init(
     _ titleKey: LocalizedStringKey,
     @ViewBuilder content: () -> Content,
     @ViewBuilder background: () -> Background
   ) where Label == Text {
-    configuration = ToastViewStyleConfiguration(
+    self.configuration = ToastViewStyleConfiguration(
       background: .init(content: background()),
       label: .init(content: Text(titleKey)),
       content: .init(content: content())
@@ -125,9 +125,9 @@ public extension ToastView {
   /// Creates a ``ToastView`` with custom `content` view.
   ///
   /// - Parameter content: A view builder that creates a view for the content.
-  init(@ViewBuilder content: () -> Content)
-  where Background == EmptyView, Label == EmptyView {
-    configuration = ToastViewStyleConfiguration(
+  public init(@ViewBuilder content: () -> Content)
+    where Background == EmptyView, Label == EmptyView {
+    self.configuration = ToastViewStyleConfiguration(
       content: .init(content: content())
     )
   }
@@ -137,11 +137,11 @@ public extension ToastView {
   /// - Parameters:
   ///   - content: A view builder that creates a view for the content.
   ///   - background: A view builder that creates a view for the background.
-  init(
+  public init(
     @ViewBuilder content: () -> Content,
     @ViewBuilder background: () -> Background
   ) where Label == EmptyView {
-    configuration = ToastViewStyleConfiguration(
+    self.configuration = ToastViewStyleConfiguration(
       background: .init(content: background()),
       content: .init(content: content())
     )
@@ -152,11 +152,11 @@ public extension ToastView {
   /// - Parameters:
   ///   - content: A view builder that creates a view for the content.
   ///   - label: A view builder that creates a view for the label.
-  init(
+  public init(
     @ViewBuilder content: () -> Content,
     @ViewBuilder label: () -> Label
   ) where Background == EmptyView {
-    configuration = ToastViewStyleConfiguration(
+    self.configuration = ToastViewStyleConfiguration(
       label: .init(content: label()),
       content: .init(content: content())
     )
@@ -168,12 +168,12 @@ public extension ToastView {
   ///   - content: A view builder that creates a view for the content.
   ///   - label: A view builder that creates a view for the label.
   ///   - background: A view builder that creates a view for the background.
-  init(
+  public init(
     @ViewBuilder content: () -> Content,
     @ViewBuilder label: () -> Label,
     @ViewBuilder background: () -> Background
   ) {
-    configuration = ToastViewStyleConfiguration(
+    self.configuration = ToastViewStyleConfiguration(
       background: .init(content: background()),
       label: .init(content: label()),
       content: .init(content: content())
@@ -182,13 +182,13 @@ public extension ToastView {
 }
 
 struct DefaultToastView<Background, Label, Content>: View
-where Background: View, Label: View, Content: View {
+  where Background: View, Label: View, Content: View {
   private var background: Background
   private var label: Label
   private var content: Content
 
-  @ScaledMetric private var paddingSize: Double = 16
-  @ScaledMetric private var cornerSize: Double = 9
+  @ScaledMetric private var paddingSize = 16.0
+  @ScaledMetric private var cornerSize = 9.0
 
   init(
     @ViewBuilder content: () -> Content,

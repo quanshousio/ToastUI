@@ -14,9 +14,9 @@ struct ExampleItem<Destination>: View where Destination: View {
   var body: some View {
     NavigationLink {
       destination
-        #if !os(macOS)
-        .navigationBarTitleDisplayMode(.inline)
-        #endif
+      #if !os(macOS)
+      .navigationBarTitleDisplayMode(.inline)
+      #endif
     } label: {
       Text(description)
     }
@@ -31,8 +31,8 @@ struct CustomButton: View {
 
   init(
     _ text: String,
-    maxWidth: Double = 100,
-    maxHeight: Double = 10,
+    maxWidth: Double = 100.0,
+    maxHeight: Double = 10.0,
     _ action: @escaping () -> Void
   ) {
     self.text = text
@@ -44,14 +44,14 @@ struct CustomButton: View {
   var body: some View {
     Button(action: action) {
       Text(text)
-        #if os(iOS) || os(visionOS)
+      #if os(iOS) || os(visionOS)
         .bold()
         .foregroundColor(.white)
-        .frame(minWidth: maxWidth, minHeight: maxHeight)
+        .frame(maxWidth: maxWidth, maxHeight: maxHeight)
         .padding()
         .background(Color.accentColor)
         .cornerRadius(12.0)
-        #endif
+      #endif
     }
   }
 }

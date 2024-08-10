@@ -31,32 +31,32 @@ public protocol ToastViewStyle {
 public struct ToastViewStyleConfiguration {
   /// A type-erased background of a ``ToastView``.
   public struct Background: View {
-    init(content: some View) {
-      body = AnyView(content)
-    }
-
     /// The body of this view.
     public var body: AnyView
+
+    init(content: some View) {
+      self.body = AnyView(content)
+    }
   }
 
   /// A type-erased label of a ``ToastView``.
   public struct Label: View {
-    init(content: some View) {
-      body = AnyView(content)
-    }
-
     /// The body of this view.
     public var body: AnyView
+
+    init(content: some View) {
+      self.body = AnyView(content)
+    }
   }
 
   /// A type-erased content of a ``ToastView``.
   public struct Content: View {
-    init(content: some View) {
-      body = AnyView(content)
-    }
-
     /// The body of this view.
     public var body: AnyView
+
+    init(content: some View) {
+      self.body = AnyView(content)
+    }
   }
 
   /// A view describes the background of a ``ToastView``.

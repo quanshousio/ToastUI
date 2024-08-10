@@ -46,12 +46,6 @@ struct PresentSuccessToastAfterCompletedExample: View {
 }
 
 struct CustomToastViewStyle: ToastViewStyle {
-  @Binding var brightness: Double
-
-  func makeBody(configuration: Configuration) -> some View {
-    CustomToastView(configuration: configuration, brightness: $brightness)
-  }
-
   struct CustomToastView: View {
     let configuration: Configuration
     @Binding var brightness: Double
@@ -75,6 +69,12 @@ struct CustomToastViewStyle: ToastViewStyle {
       .frame(idealWidth: 250, maxWidth: .infinity)
       .fixedSize()
     }
+  }
+
+  @Binding var brightness: Double
+
+  func makeBody(configuration: Configuration) -> some View {
+    CustomToastView(configuration: configuration, brightness: $brightness)
   }
 }
 

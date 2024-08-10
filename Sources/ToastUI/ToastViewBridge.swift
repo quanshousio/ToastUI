@@ -34,7 +34,7 @@ struct ToastViewIsPresentedBridge<Content>: UIViewControllerRepresentable where 
 }
 
 struct ToastViewItemBridge<Item, Content>: UIViewControllerRepresentable
-where Item: Identifiable, Content: View {
+  where Item: Identifiable, Content: View {
   @Binding var item: Item?
   let dismissAfter: Double?
   let onDismiss: (() -> Void)?

@@ -78,8 +78,8 @@ where Background: View, Label: View, Content: View {
   private var label: Label
   private var content: Content
   
-  @ScaledMetric private var paddingSize: Double = 16
-  @ScaledMetric private var cornerSize: Double = 9
+  @ScaledMetric private var paddingSize = 16.0
+  @ScaledMetric private var cornerSize = 9.0
 
   /* initializer omitted */
 
@@ -193,8 +193,8 @@ extension ToastViewStyle where Self == CustomToastViewStyle {
 }
 
 struct ContentView: View {
-  @State private var presentingToast: Bool = false
-  @State private var brightness: Double = 0.5
+  @State private var presentingToast = false
+  @State private var brightness = 0.5
 
   var body: some View {
     Button("Tap me") {

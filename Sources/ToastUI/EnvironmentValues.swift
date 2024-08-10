@@ -32,5 +32,5 @@ struct ToastViewStyleEnvironmentKey: EnvironmentKey {
 }
 
 struct ToastDimmedBackgroundEnvironmentKey: EnvironmentKey {
-  static let defaultValue: Bool = true
+  static let defaultValue = true
 }

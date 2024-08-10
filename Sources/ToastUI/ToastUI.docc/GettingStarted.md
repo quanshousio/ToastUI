@@ -35,7 +35,7 @@ dependencies: [
       @Column(size: 2) {
         ```swift
         struct ContentView: View {
-          @State private var presentingToast: Bool = false
+          @State private var presentingToast = false
 
           var body: some View {
             Button("Tap me") {
@@ -63,7 +63,7 @@ dependencies: [
       @Column(size: 2) {
         ```swift
         struct ContentView: View {
-          @State private var presentingToast: Bool = false
+          @State private var presentingToast = false
 
           var body: some View {
             Button("Tap me") {
@@ -102,7 +102,7 @@ dependencies: [
       @Column(size: 2) {
         ```swift
         struct ContentView: View {
-          @State private var presentingToast: Bool = false
+          @State private var presentingToast = false
 
           var body: some View {
             Button("Tap me") {

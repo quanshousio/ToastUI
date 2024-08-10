@@ -28,12 +28,12 @@ final class ToastViewIsPresentedController<Content>: UIViewController where Cont
     if currentState == isPresented.wrappedValue {
       return
     }
-    
+
     defer {
       currentState = isPresented.wrappedValue
     }
-    
-    if transitioning && isPresented.wrappedValue {
+
+    if transitioning, isPresented.wrappedValue {
       logger.fault("Attempted to present the toast view while a presentation is in progress.")
       DispatchQueue.main.async {
         isPresented.wrappedValue = false
@@ -85,21 +85,21 @@ final class ToastViewIsPresentedController<Content>: UIViewController where Cont
       }
 
       transitioning = true
-      
+
       toastWindow.makeKeyAndVisible()
-      
+
       let toastViewController = ToastViewHostingController(
         rootView: content(),
         environment: environment
       )
-      
+
       DispatchQueue.main.async {
         rootViewController.present(toastViewController, animated: true) {
           self.transitioning = false
         }
       }
 
-      if let dismissAfter = dismissAfter {
+      if let dismissAfter {
         DispatchQueue.main.asyncAfter(deadline: .now() + dismissAfter) {
           isPresented.wrappedValue = false
         }
@@ -110,7 +110,7 @@ final class ToastViewIsPresentedController<Content>: UIViewController where Cont
       }
 
       transitioning = true
-      
+
       DispatchQueue.main.async {
         rootViewController.dismiss(animated: true) { [self] in
           onDismiss?()
@@ -126,7 +126,7 @@ final class ToastViewIsPresentedController<Content>: UIViewController where Cont
 }
 
 final class ToastViewItemController<Item, Content>: UIViewController
-where Item: Identifiable, Content: View {
+  where Item: Identifiable, Content: View {
   var toastWindow: UIWindow!
   var currentState: Item.ID?
   var transitioning = false
@@ -141,12 +141,12 @@ where Item: Identifiable, Content: View {
     if currentState == item.wrappedValue?.id {
       return
     }
-    
+
     defer {
       currentState = item.wrappedValue?.id
     }
-    
-    if transitioning && item.wrappedValue != nil {
+
+    if transitioning, item.wrappedValue != nil {
       logger.fault("Attempted to present the toast view while a presentation is in progress.")
       DispatchQueue.main.async {
         item.wrappedValue = nil
@@ -198,21 +198,21 @@ where Item: Identifiable, Content: View {
       }
 
       transitioning = true
-      
+
       toastWindow.makeKeyAndVisible()
-      
+
       let toastViewController = ToastViewHostingController(
         rootView: content(value),
         environment: environment
       )
-      
+
       DispatchQueue.main.async {
         rootViewController.present(toastViewController, animated: true) {
           self.transitioning = false
         }
       }
 
-      if let dismissAfter = dismissAfter {
+      if let dismissAfter {
         DispatchQueue.main.asyncAfter(deadline: .now() + dismissAfter) {
           item.wrappedValue = nil
         }
@@ -223,7 +223,7 @@ where Item: Identifiable, Content: View {
       }
 
       transitioning = true
-      
+
       DispatchQueue.main.async {
         rootViewController.dismiss(animated: true) { [self] in
           onDismiss?()
