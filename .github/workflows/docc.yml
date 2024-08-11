@@ -1,17 +1,19 @@
-name: docc
+name: DocC documentation
 
 on:
- push:
-   tags:
-     - '*'
+  push:
+    tags:
+      - "*"
 
 jobs:
   docbuild:
     runs-on: macos-latest
+
     steps:
-      - name: checkout
-        uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: docc
+
+      - name: Deploy documentation
         run: ./toastui docc deploy

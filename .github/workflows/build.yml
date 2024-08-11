@@ -1,4 +1,4 @@
-name: build
+name: Build
 
 on:
   push:
@@ -7,22 +7,23 @@ on:
     branches: [main]
 
 jobs:
-  swiftlint:
-    runs-on: ubuntu-latest
-    steps:
-      - name: checkout
-        uses: actions/checkout@v3
-      - name: swiftlint
-        uses: norio-nomura/action-swiftlint@3.2.1
   build:
     runs-on: macos-latest
+
     strategy:
       matrix:
         platform: [iOS, tvOS, watchOS, macOS, mac-catalyst]
+
     steps:
-      - name: checkout
-        uses: actions/checkout@v2
-      - name: build
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run swiftlint
+        uses: cirruslabs/swiftlint-action@v1
+        with:
+          version: latest
+
+      - name: Run xcodebuild
         run: |
           PLATFORM=${{ matrix.platform }}
           if [[ $PLATFORM == iOS ]]; then
