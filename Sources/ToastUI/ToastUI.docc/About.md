@@ -21,61 +21,53 @@ Function | Description
 
 ### ToastView
 
-``ToastView`` is visually represented as a rounded rectangle shape that contains your provided views.
+<doc:ToastView> is visually represented as a rounded rectangle shape that contains your provided views.
 
-![Default Toast View](toastview-default.png)
-
-```swift
-.toast(isPresented: $presentingToast, dismissAfter: 2.0) {
-  ToastView("Hello from ToastUI")
-}
-```
-
-``ToastView`` consists of three different views: `Background`, `Label` and `Content`. All three views are optional and can be empty.
-
-```swift
-╭─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─╮
-│ <Background>          │
-│                       │
-│     ╭─ ─ ─ ─ ─ ─╮     │
-│     │ <Content> │     │
-│     │           │     │
-│     │           │     │
-│     │  <Label>  │     │
-│     ╰─ ─ ─ ─ ─ ─╯     │
-╰─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─ ─╯
-
-ToastView {
-  <Content>
-} label: {
-  <Label>
-} background: {
-  <Background>
-}
-```
-
-![Toast View initialized with all three views](toastview-all.png)
-
-```swift
-.toast(isPresented: $presentingToast, dismissAfter: 2.0) {
-  ToastView {
-    Text("Content")
-  } label: {
-    Text("Label")
-  } background: {
-    ZStack {
-      Color.accentColor
-        .opacity(0.5)
-        .ignoresSafeArea()
-
-      VStack {
-        Text("Background")
-        Spacer()
-      }
+@Row {
+  @Column(size: 2) {
+    ```swift
+    .toast(isPresented: $presentingToast, dismissAfter: 2.0) {
+      ToastView("Hello from ToastUI")
     }
+    ```
+  }
+  
+  @Column {
+    @Image(source: "toastview-default.png", alt: "Default Toast View")
   }
 }
-```
+
+<doc:ToastView> consists of three different views: `Background`, `Label` and `Content`. All three views are optional and can be empty.
+
+@Row {
+  @Column(size: 2) {
+    ```swift
+    .toast(isPresented: $presentingToast, dismissAfter: 2.0) {
+      ToastView {
+        Text("Content")
+      } label: {
+        Text("Label")
+      } background: {
+        ZStack {
+          Color.accentColor
+            .opacity(0.5)
+            .ignoresSafeArea()
+
+          VStack {
+            Text("Background")
+            Spacer()
+          }
+        }
+      }
+    }
+    ```
+  }
+  
+  @Column {
+    @Image(source: "toastview-all.png", alt: "Toast View initialized with all three views")
+  }
+}
+
 
 By default, `ToastView` resolves to a `DefaultToastView` internally. `DefaultToastView` has a fixed-size, center-aligned label with content and background provided when initializing.
 
@@ -86,8 +78,8 @@ where Background: View, Label: View, Content: View {
   private var label: Label
   private var content: Content
   
-  @ScaledMetric private var paddingSize: Double = 16
-  @ScaledMetric private var cornerSize: Double = 9
+  @ScaledMetric private var paddingSize = 16.0
+  @ScaledMetric private var cornerSize = 9.0
 
   /* initializer omitted */
 
@@ -115,38 +107,56 @@ ToastUI includes various built-in ``ToastViewStyle`` for common purposes such as
 Styles | Shorthand | Description
 --- | --- | ---
 ``DefaultToastViewStyle`` | ``ToastViewStyle/default`` | An empty toast if user does not provide anything. `ToastView` uses this style by default.
-``IndeterminateProgressToastViewStyle`` | ``ToastViewStyle/indeterminate`` | An indefinite circular progress indicator.
-``DeterminateProgressToastViewStyle`` | ``ToastViewStyle/determinate(value:total:)`` | A definite circular progress indicator from `value` to `total`.
+``IndeterminateProgressToastViewStyle`` | ``ToastViewStyle/indeterminate`` | An indeterminate circular progress indicator.
+``DeterminateProgressToastViewStyle`` | ``ToastViewStyle/determinate(value:total:)`` | A determinate circular progress indicator that runs from `value` to `total`.
 ``IconToastViewStyle`` | ``ToastViewStyle/icon(content:)`` | An icon toast.
 ``SuccessToastViewStyle`` | ``ToastViewStyle/success`` | A success toast.
 ``FailureToastViewStyle`` | ``ToastViewStyle/failure`` | A failure toast.
 ``WarningToastViewStyle`` | ``ToastViewStyle/warning`` | A warning toast.
 ``InformationToastViewStyle`` | ``ToastViewStyle/information`` | An information toast.
 
-![Indeterminate Toast View](indeterminate-style.png)
-
-```swift
-.toast(isPresented: $presentingToast, dismissAfter: 2.0) {
-  ToastView("Loading...")
-    .toastViewStyle(.indefinite)
+@TabNavigator {
+  @Tab("Indeterminate") {
+    @Row {
+      @Column(size: 2) {
+        ```swift
+        .toast(isPresented: $presentingToast, dismissAfter: 2.0) {
+          ToastView("Loading...")
+            .toastViewStyle(.indeterminate)
+        }
+        ```
+      }
+      
+      @Column {
+        @Image(source: "indeterminate-style.png", alt: "Indeterminate Toast View")
+      }
+    }
+  }
+  
+  @Tab("Icon") {
+    @Row {
+      @Column(size: 2) {
+        ```swift
+        .toast(isPresented: $presentingToast, dismissAfter: 2.0) {
+          ToastView("Saved")
+            .toastViewStyle(.icon {
+              Image(systemName: "arrow.down.doc.fill")
+                .foregroundColor(.green)
+            })
+        }
+        ```
+      }
+      
+      @Column {
+        @Image(source: "icon-style.png", alt: "Icon Toast View")
+      }
+    }
+  }
 }
-```
 
-![Icon Toast View](icon-style.png)
+You can also create a custom style by conforming to the ``ToastViewStyle`` protocol.
 
-```swift
-.toast(isPresented: $presentingToast, dismissAfter: 2.0) {
-  ToastView("Saved")
-    .toastViewStyle(.icon {
-      Image(systemName: "arrow.down.doc.fill")
-        .foregroundColor(.green)
-    })
-}
-```
-
-You can also create a custom style by conforming to the `ToastViewStyle` protocol.
-
-![Custom Toast View Style](custom-style.png)
+@Image(source: "custom-style.png", alt: "Custom Toast View Style")
 
 ```swift
 struct CustomToastViewStyle: ToastViewStyle {
@@ -183,8 +193,8 @@ extension ToastViewStyle where Self == CustomToastViewStyle {
 }
 
 struct ContentView: View {
-  @State private var presentingToast: Bool = false
-  @State private var brightness: Double = 0.5
+  @State private var presentingToast = false
+  @State private var brightness = 0.5
 
   var body: some View {
     Button("Tap me") {
@@ -216,7 +226,7 @@ struct ContentView: View {
 
 ToastUI shows a dimmed background when presenting a toast by default. You can disable it by using ``ToastView/toastDimmedBackground(_:)`` modifier.
 
-![Toast Dimmed Background](dimmed-background.png)
+@Image(source: "dimmed-background.png", alt: "Toast Dimmed Background")
 
 ```swift
 .toast(isPresented: $presentingToast, dismissAfter: 2.0) {

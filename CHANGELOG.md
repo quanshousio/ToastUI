@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file. `ToastUI` adheres to [Semantic Versioning](https://semver.org/).
 
+#### 4.x Releases
+
+* `4.0.x` Releases - [4.0.0](#400)
+
 #### 3.x Releases
 
 * `3.0.x` Releases - [3.0.0](#300) | [3.0.1](#301)
@@ -19,6 +23,28 @@ All notable changes to this project will be documented in this file. `ToastUI` a
 
 ---
 
+## [4.0.0](https://github.com/quanshousio/ToastUI/releases/tag/4.0.0)
+
+Released on 2024-08-10.
+
+#### Changed
+
+* Minimum required version for Swift is 5.7.
+
+#### Added
+
+* Support for visionOS. Minimum required version for visionOS is 1.0.
+
+#### Updated
+
+* Refactor the core implementation.
+* Toasts now dismiss immediately, even during transitions.
+* Documentation to use new DocC version.
+* Remove padding from the background in DefaultToastView.
+* Update GitHub actions.
+
+---
+
 ## [3.0.1](https://github.com/quanshousio/ToastUI/releases/tag/3.0.1)
 
 Released on 2022-07-19.
@@ -26,7 +52,7 @@ Released on 2022-07-19.
 #### Updated
 
 * Remove `fixedSize` modifier from `Label` in `DefaultToastView`.
-* Add new AppIcon.
+* Add a new AppIcon.
 
 ## [3.0.0](https://github.com/quanshousio/ToastUI/releases/tag/3.0.0)
 
@@ -57,7 +83,7 @@ Released on 2022-04-11.
 
 #### Added
 
-* Support for watchOS. Minimum required version for watchOS is 7.0
+* Support for watchOS. Minimum required version for watchOS is 7.0.
 * Static property/function for all built-in styles to leverage the new static member lookup functionality.
 * `toastDimmedBackground` modifier for enabling or disabling the dimmed background.
 * `IconToastViewStyle` style for showing a toast with an icon and a headline text label.

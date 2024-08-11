@@ -21,10 +21,10 @@ struct BuiltInToastViewStyleExample: View {
 
   @State private var style: Style = .indeterminate
 
-  @State private var presentingToast: Bool = false
-  @State private var dimmedBackground: Bool = true
+  @State private var presentingToast = false
+  @State private var dimmedBackground = true
 
-  @State private var value: Double = 0 // for .definite style
+  @State private var value = 0.0 // for .definite style
 
   var body: some View {
     VStack {
@@ -34,12 +34,12 @@ struct BuiltInToastViewStyleExample: View {
             .tag(style)
         }
       }
-      #if os(iOS)
-        .pickerStyle(.wheel)
+      #if os(iOS) || os(visionOS)
+      .pickerStyle(.wheel)
       #elseif os(tvOS)
-        .pickerStyle(.segmented)
+      .pickerStyle(.segmented)
       #elseif os(macOS)
-        .pickerStyle(.radioGroup)
+      .pickerStyle(.radioGroup)
       #endif
 
       Toggle("Dimmed background", isOn: $dimmedBackground)
@@ -106,7 +106,7 @@ struct BuiltInToastViewStyleExample: View {
 }
 
 struct CustomAlertExample: View {
-  @State private var presentingToast: Bool = false
+  @State private var presentingToast = false
 
   var body: some View {
     CustomButton("Tap me") {
@@ -131,8 +131,8 @@ struct CustomAlertExample: View {
 }
 
 struct CustomBackgroundExample: View {
-  @State private var presentingToast: Bool = false
-  @State private var customBackground: Bool = false
+  @State private var presentingToast = false
+  @State private var customBackground = false
 
   private let gradient = AngularGradient(
     gradient: Gradient(colors: [.red, .yellow, .green, .blue, .purple, .red]),

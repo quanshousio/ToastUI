@@ -31,8 +31,8 @@ struct CustomButton: View {
 
   init(
     _ text: String,
-    maxWidth: Double = 100,
-    maxHeight: Double = 10,
+    maxWidth: Double = 100.0,
+    maxHeight: Double = 10.0,
     _ action: @escaping () -> Void
   ) {
     self.text = text
@@ -41,10 +41,10 @@ struct CustomButton: View {
     self.action = action
   }
 
-  @ViewBuilder var body: some View {
+  var body: some View {
     Button(action: action) {
       Text(text)
-      #if os(iOS)
+      #if os(iOS) || os(visionOS)
         .bold()
         .foregroundColor(.white)
         .frame(maxWidth: maxWidth, maxHeight: maxHeight)
