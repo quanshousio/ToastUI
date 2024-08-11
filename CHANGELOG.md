@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file. `ToastUI` a
 
 #### 4.x Releases
 
-* `4.0.x` Releases - [4.0.0](#400))
+* `4.0.x` Releases - [4.0.0](#400)
 
 #### 3.x Releases
 
@@ -25,7 +25,7 @@ All notable changes to this project will be documented in this file. `ToastUI` a
 
 ## [4.0.0](https://github.com/quanshousio/ToastUI/releases/tag/4.0.0)
 
-Released on 2024-06-01.
+Released on 2024-08-10.
 
 #### Changed
 
@@ -41,6 +41,7 @@ Released on 2024-06-01.
 * Toasts now dismiss immediately, even during transitions.
 * Documentation to use new DocC version.
 * Remove padding from the background in DefaultToastView.
+* Update GitHub actions.
 
 ---
 
@@ -58,7 +59,7 @@ Released on 2022-07-19.
 Released on 2022-04-11.
 
 #### Changed
-  
+
 * Minimum required version for Swift is 5.5.
 * Visual changes:
   * ToastUI shows a dimmed background when presenting a toast instead of a blurred background. This replicates the behavior of a normal `UIAlertController`.
