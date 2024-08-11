@@ -238,3 +238,5 @@ final class ToastViewItemController<Item, Content>: UIViewController
   }
 }
 #endif
+
+// swiftlint:enable function_body_length

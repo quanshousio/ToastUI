@@ -15,7 +15,7 @@ struct ToastViewIsPresentedBridge<Content>: UIViewControllerRepresentable where 
   let content: () -> Content
 
   func makeUIViewController(context _: Context) -> ToastViewIsPresentedController<Content> {
-    let _ = isPresented // BUG: Need this for SwiftUI to update the view appropriately.
+    _ = isPresented // BUG: Need this for SwiftUI to update the view appropriately.
     return ToastViewIsPresentedController()
   }
 
@@ -41,7 +41,7 @@ struct ToastViewItemBridge<Item, Content>: UIViewControllerRepresentable
   let content: (Item) -> Content
 
   func makeUIViewController(context _: Context) -> ToastViewItemController<Item, Content> {
-    let _ = item // BUG: Need this for SwiftUI to update the view appropriately.
+    _ = item // BUG: Need this for SwiftUI to update the view appropriately.
     return ToastViewItemController()
   }
 
